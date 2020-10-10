@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_My_book"
+            android:title="My Book" />
+        <item
+            android:id="@+id/nav_record"
+            android:title="History" />
+        <item
+            android:id="@+id/nav_download"
+            android:title="Download" />
+
+    </group>
+
+    <item android:title="Sharing">
+        <menu>
+            <item
+                android:id="@+id/nav_send"
+                android:title="Owner" />
+            <item
+                android:id="@+id/nav_share"
+                android:title="Borrower"/>
+
+        </menu>
+    </item>
+
+
+
+</menu>
