@@ -41,7 +41,7 @@ public class borrowed_fragment extends Fragment {
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(),AddEditIntent.class);
+                Intent intent = new Intent(getContext(),scan_ISBN.class);
                 startActivity(intent);
             }
         });

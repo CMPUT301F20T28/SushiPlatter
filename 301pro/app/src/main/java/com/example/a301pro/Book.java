@@ -3,7 +3,7 @@ package com.example.a301pro;
 import android.widget.ImageView;
 
 public class Book {
-
+    private int imageID;
     private String book_name;
     private String author;
     private String ISBN;
@@ -11,13 +11,22 @@ public class Book {
     private String status;
     private String Borrower_name;
 
-    public Book(String book_name, String author, String ISBN, String description, String status, String borrower_name) {
+    public Book(int imageID, String book_name, String author, String ISBN, String description, String status, String borrower_name) {
+        this.imageID = imageID;
         this.book_name = book_name;
         this.author = author;
         this.ISBN = ISBN;
         this.description = description;
         this.status = status;
         Borrower_name = borrower_name;
+    }
+
+    public int getImageID() {
+        return imageID;
+    }
+
+    public void setImageID(int imageID) {
+        this.imageID = imageID;
     }
 
     public String getDescription() {

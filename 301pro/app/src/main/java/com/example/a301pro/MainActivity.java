@@ -21,13 +21,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new mybookfragment()).commit();
-        //final Button filter_btn = findViewById(R.id.filter);
-        /*filter_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupMenu(filter_btn);
-            }
-        });*/
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -36,11 +30,11 @@ public class MainActivity extends AppCompatActivity {
             Fragment selectedFragment = null;
 
             switch (menuItem.getItemId()){
-                case R.id.nav_mine:
-                    selectedFragment = new mybookfragment();
-                    break;
                 case R.id.nav_share:
                     selectedFragment = new Sharefragment();
+                    break;
+                case R.id.nav_mine:
+                    selectedFragment = new mybookfragment();
                     break;
                 case R.id.nav_bo:
                     selectedFragment = new borrowed_fragment();

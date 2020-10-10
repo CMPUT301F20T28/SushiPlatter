@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,16 +35,14 @@ public class CustomList_mybook extends ArrayAdapter<Book> {
 
         Book book = books.get(position);
 
+        ImageView imageView = view.findViewById(R.id.book_image);
         TextView book_name = view.findViewById(R.id.name_text);
-        TextView author = view.findViewById(R.id.author_text);
-        TextView ISBN = view.findViewById(R.id.ISBN_text);
         TextView des = view.findViewById(R.id.des_text);
         TextView sta = view.findViewById(R.id.status_text);
         TextView bor = view.findViewById(R.id.borrower_text);
 
+        imageView.setImageResource(book.getImageID());
         book_name.setText(book.getBook_name());
-        author.setText(book.getAuthor());
-        ISBN.setText(book.getISBN());
         des.setText(book.getDescription());
         sta.setText(book.getStatus());
         bor.setText(book.getBorrower_name());

@@ -40,7 +40,7 @@ public class Sharefragment extends Fragment {
                 showPopupMenu(filter_btn);
             }
         });
-
+        final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
         final String []share_name = {"Edmonton", "Vancouver", "Toronto"};
         final String []des = {"1232311111111111111111111111111113asdffffffffaea1231231","4423111231eeeeeeeeeeeeeeefddddddddddddddddddddddddddd234",
                 "5511123wwwwwwwwwwwwwwww1235"};
@@ -48,7 +48,7 @@ public class Sharefragment extends Fragment {
         final String []owner = {"Shanzhi ZHang","Fan","HIHIHIHI"};
 
         for (int i = 0; i < share_name.length; i++) {
-            shareDataList.add((new Share(share_name[i],des[i],sta[i],owner[i])));
+            shareDataList.add((new Share(logo[i],share_name[i],des[i],sta[i],owner[i])));
         }
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -1,6 +1,7 @@
 package com.example.a301pro;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -9,10 +10,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,7 +43,7 @@ public class mybookfragment extends Fragment {
                 showPopupMenu(filter_btn);
             }
         });
-
+        final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
         final String []book_name = {"Edmonton", "Vancouver", "Toronto", "Hamilton", "Denver", "Los Angeles"};
         final String []autor_name = {"AB", "BC", "ON", "ON", "CO", "CA"};
         final String []ISBN = {"123","444","555","222","111","222"};
@@ -48,14 +52,31 @@ public class mybookfragment extends Fragment {
         final String []sta = {"AV","B","R","R","AC","R"};
         final String []bor = {"Shanzhi ZHang","Fan","HIHIHIHI","ZHi","Shen","UUUUUUUUUUUUUUUUUUUUU"};
         for (int i = 0; i < book_name.length; i++) {
-            bookDataList.add((new Book(book_name[i], autor_name[i],ISBN[i],des[i],sta[i],bor[i])));
+            bookDataList.add((new Book(logo[i],book_name[i], autor_name[i],ISBN[i],des[i],sta[i],bor[i])));
         }
+
+        final ImageButton mes_btn = view.findViewById(R.id.message_center);
+        mes_btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mes_btn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+            }
+        });
 
         bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(),AddEditIntent.class);
                 startActivity(intent);
+            }
+        });
+
+        bookList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                bookAdapter.remove(bookAdapter.getItem(position));
+                return false;
             }
         });
 

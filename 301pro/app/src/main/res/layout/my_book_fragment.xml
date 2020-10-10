@@ -45,7 +45,7 @@
             android:drawableLeft="@drawable/ic_search_black_24dp"
             />
 
-        <Button
+        <ImageButton
             android:id="@+id/message_center"
             android:layout_gravity="center_vertical"
             android:layout_width="25dp"
@@ -53,7 +53,7 @@
             android:layout_marginLeft="15dp"
             android:background="#4169E1"
             style="?android:attr/borderlessButtonStyle"
-            android:drawableLeft="@drawable/ic_email_black_24dp"
+            android:src="@drawable/ic_email_black_24dp"
             />
 
         <Button

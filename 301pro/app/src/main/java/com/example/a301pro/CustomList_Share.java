@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,12 +34,13 @@ public class CustomList_Share extends ArrayAdapter<Share> {
         }
 
         Share share = shares.get(position);
-
+        ImageView img = view.findViewById(R.id.book_image_share);
         TextView book_name = view.findViewById(R.id.name_text_share);
         TextView des = view.findViewById(R.id.des_text_share);
         TextView sta = view.findViewById(R.id.status_text_share);
         TextView bor = view.findViewById(R.id.borrower_text_share);
 
+        img.setImageResource(share.getImageId());
         book_name.setText(share.getBook_name());
         des.setText(share.getDes());
         sta.setText(share.getSit());
