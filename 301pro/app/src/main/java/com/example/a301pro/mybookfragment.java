@@ -1,7 +1,6 @@
 package com.example.a301pro;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,22 +10,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
-public class mybookfragment extends Fragment {
+public class mybookfragment extends Fragment implements ComfirmDialog.OnFragmentInteractionListenerComfirm {
 
     ListView bookList;
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> bookDataList;
+
+    public static final String Evaluate_DIALOG = "evaluate_dialog";
+    public static final int REQUEST_EVALUATE = 0X110;
+
     public mybookfragment() {
     }
 
@@ -64,19 +65,24 @@ public class mybookfragment extends Fragment {
             }
         });
 
+        bookList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Book book = bookAdapter.getItem(position);
+                ComfirmDialog dialog = new ComfirmDialog(book);
+                //dialog.show(getFragmentManager(),Comfirm_DIALOG);
+                //注意setTargetFragment
+
+                dialog.show(getFragmentManager(),"show mes");
+                return true;
+            }
+        });
+
         bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(),AddEditIntent.class);
                 startActivity(intent);
-            }
-        });
-
-        bookList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                bookAdapter.remove(bookAdapter.getItem(position));
-                return false;
             }
         });
 
@@ -117,5 +123,10 @@ public class mybookfragment extends Fragment {
         });
 
         popupMenu.show();
+    }
+
+    @Override
+    public void onOkPressed(Book book) {
+        bookAdapter.remove(book);
     }
 }

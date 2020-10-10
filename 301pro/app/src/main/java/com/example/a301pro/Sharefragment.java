@@ -66,6 +66,7 @@ public class Sharefragment extends Fragment {
                 mes_btn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
             }
         });
+
         shareAdapter = new CustomList_Share(getContext(),shareDataList);
         shareList.setAdapter(shareAdapter);
 

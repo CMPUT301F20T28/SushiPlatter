@@ -13,11 +13,20 @@
         android:textColor="#fff"
         android:id="@+id/title_add_edit"
         ></TextView>
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/title_add_edit"
+        android:id="@+id/add_edit_image"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_image1"
+        >
+    </ImageButton>
     <EditText
         android:id="@+id/book_name_editText"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title_add_edit"
+        android:layout_below="@id/add_edit_image"
         android:layout_marginTop="20dp"
         android:hint="Book Name"
         android:background="#FFF"
@@ -43,7 +52,7 @@
 
     <EditText
         android:layout_width="350dp"
-        android:layout_height="280dp"
+        android:layout_height="250dp"
         android:layout_centerInParent="true"
         android:layout_below="@id/ISBN_editText"
         android:layout_marginTop="10dp"
