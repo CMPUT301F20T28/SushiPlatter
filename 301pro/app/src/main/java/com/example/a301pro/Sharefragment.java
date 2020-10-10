@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -55,6 +56,14 @@ public class Sharefragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(),sentrequestintent.class);
                 startActivity(intent);
+            }
+        });
+        final ImageButton mes_btn = view.findViewById(R.id.message_center);
+        mes_btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mes_btn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
             }
         });
         shareAdapter = new CustomList_Share(getContext(),shareDataList);

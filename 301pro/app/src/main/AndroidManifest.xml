@@ -20,13 +20,21 @@
             android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".scan_ISBN"
             android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".register"
+            android:parentActivityName=".login"></activity>
+
+        <activity android:name=".MainActivity"
+            android:parentActivityName=".login"></activity>
+
+        <activity android:name=".login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
         <activity android:name=".CaptureAct"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"

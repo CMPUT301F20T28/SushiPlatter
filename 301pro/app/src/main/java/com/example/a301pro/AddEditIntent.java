@@ -24,10 +24,8 @@ public class AddEditIntent extends AppCompatActivity {
         canmera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
-                //startActivity(takePhotoIntent);
-                Intent intent = new Intent(getBaseContext(),scan_ISBN.class);
-                startActivity(intent);
+                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
+                startActivity(takePhotoIntent);
             }
         });
     }

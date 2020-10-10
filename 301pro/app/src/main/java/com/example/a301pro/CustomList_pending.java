@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,12 +33,13 @@ public class CustomList_pending extends ArrayAdapter<Borrowed> {
         }
 
         Borrowed pend = pends.get(position);
-
+        ImageView img = view.findViewById(R.id.book_image_pending);
         TextView book_name = view.findViewById(R.id.name_text_pending);
         TextView des = view.findViewById(R.id.des_text_pending);
         TextView sta = view.findViewById(R.id.status_text_pending);
         TextView own = view.findViewById(R.id.owner_text_pending);
 
+        img.setImageResource(pend.getImageId());
         book_name.setText(pend.getBook_name());
         des.setText(pend.getDes());
         sta.setText(pend.getStatus());

@@ -27,7 +27,7 @@ public class borrowed_fragment extends Fragment {
         View view = inflater.inflate(R.layout.pending_fragment, container, false);
         pendList = view.findViewById(R.id.pending_list);
         pendDataList = new ArrayList<>();
-
+        final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
         final String []book_name = {"Edmonton", "Vancouver", "Toronto", "Hamilton", "Denver", "Los Angeles"};
         final String []des = {"1232311111111111111111111111111113asdffffffffaea1231231","44231231eeeeeeeeeeeeeeefddddddddddddddddddddddddddd234","55123wwwwwwwwwwwwwwww1235",
                 "2221qqqqqqqqqqqqqqqqqqqqqqqqqqqqrrrrrrrrrrrrrrrrrrrrrrrrrrewwwwwwwwwwwwwwwww3123123","11231aaaaaaaaaaaaaaaaaaaddddddddddddffffff2311","22123123asssssssssssssssdddddddd1232"};
@@ -35,7 +35,7 @@ public class borrowed_fragment extends Fragment {
         final String []own = {"Shanzhi ZHang","Fan","HIHIHIHI","ZHi","Shen","UUUUUUUUUUUUUUUUUUUUU"};
 
         for (int i = 0; i < book_name.length; i++) {
-            pendDataList.add(new Borrowed(book_name[i], des[i], sta[i],own[i]));
+            pendDataList.add(new Borrowed(logo[i],book_name[i], des[i], sta[i],own[i]));
         }
 
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
