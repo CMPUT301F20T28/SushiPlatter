@@ -12,7 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AddEditIntent extends AppCompatActivity {
-
+    private Book add_newBook;
+    private Book edit_existedBook;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

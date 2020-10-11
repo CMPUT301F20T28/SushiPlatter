@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class login extends AppCompatActivity {
+    private User login_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

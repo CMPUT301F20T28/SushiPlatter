@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class sentrequestintent extends AppCompatActivity {
+    private User sender;
+    private Book requested_Book;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

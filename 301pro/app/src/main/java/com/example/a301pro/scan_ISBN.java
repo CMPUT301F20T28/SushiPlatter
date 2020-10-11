@@ -16,6 +16,7 @@ import com.google.zxing.integration.android.IntentResult;
 public class scan_ISBN extends AppCompatActivity implements View.OnClickListener {
 
     Button scanBtn;
+    private Book newBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class scan_ISBN extends AppCompatActivity implements View.OnClickListener
                 });
                 AlertDialog dialog=builder.create();
                 dialog.show();
+                newBook = new Book(1, "aaaa", "bbbb", "cccc","dddd", "eeee", "ffff");
             }
             else {
                 Toast.makeText(this,"No result",Toast.LENGTH_SHORT).show();
