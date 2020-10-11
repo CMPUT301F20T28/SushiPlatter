@@ -10,15 +10,19 @@ public class Book {
     private String description;
     private String status;
     private String Borrower_name;
+    private String book_id;
+    private User owner;
 
-    public Book(int imageID, String book_name, String author, String ISBN, String description, String status, String borrower_name) {
+    public Book(int imageID, String book_name, String author, String ISBN, String description, String status, String borrower_name, String book_id, User owner) {
         this.imageID = imageID;
         this.book_name = book_name;
         this.author = author;
         this.ISBN = ISBN;
         this.description = description;
         this.status = status;
-        Borrower_name = borrower_name;
+        this.Borrower_name = borrower_name;
+        this.book_id = book_id;
+        this.owner = owner;
     }
 
     public int getImageID() {
@@ -53,6 +57,12 @@ public class Book {
         return ISBN;
     }
 
+    public String getBook_id() { return book_id; }
+
+    public User getOwner() { return owner; }
+
+    public void setOwner(User owner) { this.owner = owner; }
+
     public void setBook_name(String book_name) {
         this.book_name = book_name;
     }
@@ -76,4 +86,6 @@ public class Book {
     public void setBorrower_name(String borrower_name) {
         Borrower_name = borrower_name;
     }
+
+    public void setBook_id(String book_id) { this.book_id = book_id; }
 }
