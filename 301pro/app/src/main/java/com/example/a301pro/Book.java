@@ -13,7 +13,7 @@ public class Book {
     private String book_id;
     private User owner;
 
-    public Book(int imageID, String book_name, String author, String ISBN, String description, String status, String borrower_name, String book_id, User owner) {
+    public Book(int imageID, String book_name, String author, String ISBN, String description, String status, String borrower_name) {
         this.imageID = imageID;
         this.book_name = book_name;
         this.author = author;
@@ -21,8 +21,6 @@ public class Book {
         this.description = description;
         this.status = status;
         this.Borrower_name = borrower_name;
-        this.book_id = book_id;
-        this.owner = owner;
     }
 
     public int getImageID() {

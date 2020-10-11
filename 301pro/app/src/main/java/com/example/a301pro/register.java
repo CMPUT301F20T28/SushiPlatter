@@ -6,10 +6,10 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class register extends AppCompatActivity {
     private User newUser;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

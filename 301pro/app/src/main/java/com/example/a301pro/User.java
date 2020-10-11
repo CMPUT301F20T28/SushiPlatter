@@ -11,14 +11,13 @@ class User {
     private String phoneNumber;
     private ArrayList<Book> own_book;
 
-    public User(String userName, String email, String password, String firstName, String lastName, String phoneNumber, ArrayList<Book> own_book) {
+    public User(String userName, String email, String password, String firstName, String lastName, String phoneNumber) {
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        this.own_book = own_book;
     }
 
     public String getUserName() {
