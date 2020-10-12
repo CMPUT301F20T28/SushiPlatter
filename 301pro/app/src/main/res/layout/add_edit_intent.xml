@@ -1,99 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#123">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background" >
 
     <TextView
+        android:id="@+id/title_add_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="50dp"
-        android:layout_marginTop="20dp"
+        android:textSize="30sp"
+        android:layout_marginVertical="15dp"
         android:text="Add/Edit Books"
         android:gravity="center"
-        android:textColor="#fff"
-        android:id="@+id/title_add_edit"
-        ></TextView>
+        android:textColor="#FFFFFFFF" >
+    </TextView>
+
     <ImageButton
+        android:id="@+id/add_edit_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_below="@id/title_add_edit"
-        android:id="@+id/add_edit_image"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_image1"
-        >
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_image1">
     </ImageButton>
-    <EditText
-        android:id="@+id/book_name_editText"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/add_edit_image"
-        android:layout_marginTop="20dp"
-        android:hint="Book Name"
-        android:background="#FFF"
-        android:layout_centerInParent="true"></EditText>
-    <EditText
-        android:id="@+id/author_editText"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/book_name_editText"
-        android:layout_marginTop="10dp"
-        android:hint="Author Name"
-        android:background="#FFF"
-        android:layout_centerInParent="true"></EditText>
-    <EditText
-        android:id="@+id/ISBN_editText"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/author_editText"
-        android:layout_marginTop="10dp"
-        android:hint="ISBN"
-        android:background="#FFF"
-        android:layout_centerInParent="true"></EditText>
 
     <EditText
-        android:layout_width="350dp"
-        android:layout_height="250dp"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/ISBN_editText"
+        android:id="@+id/book_name_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_edit_image"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="10dp"
         android:layout_marginTop="10dp"
+        android:hint="Book Name"
+        android:background="@color/componentBackground"
+        android:layout_centerInParent="true" >
+    </EditText>
+
+    <EditText
+        android:id="@+id/author_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/book_name_editText"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Author Name"
+        android:background="@color/componentBackground"
+        android:layout_centerInParent="true" >
+    </EditText>
+
+    <EditText
+        android:id="@+id/ISBN_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/author_editText"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="ISBN"
+        android:background="@color/componentBackground"
+        android:layout_centerInParent="true" >
+    </EditText>
+
+    <EditText
         android:id="@+id/description"
-        android:background="#FFF"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@id/ISBN_editText"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/componentBackground"
         android:hint="Description"
-        ></EditText>
+        android:textColor="@android:color/secondary_text_light"
+        android:textColorLink="#FFFFFF">
+    </EditText>
+
     <Button
+        android:id="@+id/scan_description"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:id="@+id/scan_description"
-        android:background="#FFF"
+        android:background="@color/componentBackground"
         android:layout_alignRight="@id/description"
         android:layout_alignBottom="@id/description"
-        android:drawableBottom="@drawable/ic_menu_camera"
-        ></Button>
+        android:drawableBottom="@drawable/ic_menu_camera" >
+    </Button>
+
     <Button
         android:id="@+id/book_status"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:hint="ISBN"
-        android:background="#FFF"
+        android:background="@drawable/positive_button"
         android:layout_centerInParent="true"
         android:layout_below="@id/description"
-        android:textSize="15dp"
         android:text="Status: Unborrowed"
-        >
+        android:textColor="#FFFFFF" >
     </Button>
 
     <Button
         android:id="@+id/add_edit_quit"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
-        android:hint="ISBN"
-        android:background="#FFF"
+        android:background="@drawable/negative_button"
         android:layout_centerInParent="true"
         android:layout_below="@id/book_status"
-        android:textSize="15dp"
         android:text="Back"
-        >
+        android:textColor="@color/colorAccent" >
     </Button>
+
 </RelativeLayout>

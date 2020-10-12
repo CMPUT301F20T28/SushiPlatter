@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:text="Do you really want to delet the Gear?"
         android:textSize="20sp"
-        android:gravity="center_horizontal"
-        ></TextView>
+        android:gravity="center_horizontal" >
+    </TextView>
 
 </LinearLayout>
