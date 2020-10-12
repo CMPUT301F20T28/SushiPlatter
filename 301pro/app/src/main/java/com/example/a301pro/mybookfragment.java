@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_book_fragment,container,false);
-
+        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
         bookList = view.findViewById(R.id.my_book_list);
         bookDataList = new ArrayList<>();
         final Button filter_btn = view.findViewById(R.id.filter);

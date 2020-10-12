@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.githang.statusbar.StatusBarCompat;
+
 import java.util.ArrayList;
 
 public class Sharefragment extends Fragment {
@@ -31,7 +33,7 @@ public class Sharefragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.share_fragment,container,false);
-
+        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
         shareList = view.findViewById(R.id.search_list);
         shareDataList = new ArrayList<>();
         final Button filter_btn = view.findViewById(R.id.filter);

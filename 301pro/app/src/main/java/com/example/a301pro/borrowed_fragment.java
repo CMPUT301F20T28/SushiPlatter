@@ -11,6 +11,8 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
+import com.githang.statusbar.StatusBarCompat;
+
 import java.util.ArrayList;
 
 public class borrowed_fragment extends Fragment {
@@ -25,6 +27,7 @@ public class borrowed_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.pending_fragment, container, false);
+        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.design_default_color_on_primary),false);
         pendList = view.findViewById(R.id.pending_list);
         pendDataList = new ArrayList<>();
         final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};

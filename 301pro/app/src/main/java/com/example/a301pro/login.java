@@ -3,10 +3,14 @@ package com.example.a301pro;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.githang.statusbar.StatusBarCompat;
 
 public class login extends AppCompatActivity {
     private User login_user;
@@ -18,6 +22,8 @@ public class login extends AppCompatActivity {
         // Get the Intent that started this activity and extract the string
         //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         Button log = findViewById(R.id.btn_login);
         log.setOnClickListener(new View.OnClickListener() {
             @Override

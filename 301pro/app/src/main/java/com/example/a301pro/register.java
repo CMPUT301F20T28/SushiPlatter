@@ -1,6 +1,8 @@
 package com.example.a301pro;
 
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,7 +21,8 @@ public class register extends AppCompatActivity {
         //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
 
-
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         final EditText userFirstName = findViewById(R.id.first_name);
         final EditText userLastName = findViewById(R.id.last_name);
         final EditText userPhone = findViewById(R.id.phone_num);
