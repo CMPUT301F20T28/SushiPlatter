@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/Computer_book"
+        android:title="Computer" />
+    <item
+        android:id="@+id/Education_book"
+        android:title="Eduction" />
+    <item
+        android:id="@+id/Science_fiction"
+        android:title="Science fiction" />
+    <item
+        android:id="@+id/Magazine"
+        android:title="Magazine" />
+    <item
+        android:id="@+id/Baby_book"
+        android:title="Baby" />
+    <item
+        android:id="@+id/fiction"
+        android:title="Fiction" />
+
+</menu>

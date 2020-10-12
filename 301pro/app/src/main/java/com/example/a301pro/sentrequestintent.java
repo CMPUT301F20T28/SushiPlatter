@@ -1,6 +1,8 @@
 package com.example.a301pro;
 
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +16,8 @@ public class sentrequestintent extends AppCompatActivity {
         // Get the Intent that started this activity and extract the string
         //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
 }

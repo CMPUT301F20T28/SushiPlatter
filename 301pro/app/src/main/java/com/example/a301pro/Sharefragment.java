@@ -78,7 +78,7 @@ public class Sharefragment extends Fragment {
         // View当前PopupMenu显示的相对View的位置
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         // menu布局
-        popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
+        popupMenu.getMenuInflater().inflate(R.menu.book_category, popupMenu.getMenu());
         // menu的item点击事件
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override

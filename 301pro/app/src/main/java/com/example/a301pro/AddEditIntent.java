@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,8 @@ public class AddEditIntent extends AppCompatActivity {
         //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
         Button canmera = findViewById(R.id.scan_description);
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         canmera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
