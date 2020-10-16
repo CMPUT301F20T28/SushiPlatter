@@ -13,13 +13,10 @@
         android:layout_height="wrap_content"
         android:background="#4169E1"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:weightSum="10"
-        >
+        android:weightSum="10" >
 
         <Button
             android:id="@+id/userhead"
@@ -29,8 +26,7 @@
             android:drawableLeft="@drawable/ic_account_circle_black_24dp"
             android:gravity="center"
             style="?android:attr/borderlessButtonStyle"
-            android:background="#4169E1"
-            />
+            android:background="#4169E1" />
 
         <EditText
             android:id="@+id/search_method"
@@ -41,8 +37,7 @@
             android:layout_height="25dp"
             android:hint="search"
             android:textColor="#123"
-            android:drawableLeft="@drawable/ic_search_black_24dp"
-            />
+            android:drawableLeft="@drawable/ic_search_black_24dp" />
 
         <ImageButton
             android:id="@+id/message_center"
@@ -52,8 +47,7 @@
             android:layout_marginLeft="15dp"
             android:background="#4169E1"
             style="?android:attr/borderlessButtonStyle"
-            android:src="@drawable/ic_email_black_24dp"
-            />
+            android:src="@drawable/ic_email_black_24dp" />
 
         <Button
             android:id="@+id/filter"
@@ -63,16 +57,13 @@
             android:layout_marginLeft="15dp"
             android:background="#4169E1"
             style="?android:attr/borderlessButtonStyle"
-            android:drawableLeft="@drawable/ic_baseline_filter_list_24"
-            />
-
+            android:drawableLeft="@drawable/ic_baseline_filter_list_24" />
 
     </LinearLayout>
-    <ListView
-        android:id="@+id/search_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-    </ListView>
+        <ListView
+            android:id="@+id/search_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </ListView>
 
 </LinearLayout>
