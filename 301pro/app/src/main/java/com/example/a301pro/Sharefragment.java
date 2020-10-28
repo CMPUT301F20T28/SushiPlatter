@@ -43,8 +43,8 @@ public class Sharefragment extends Fragment {
         });
         final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
         final String []share_name = {"Edmonton", "Vancouver", "Toronto"};
-        final String []des = {"1232311111111111111111111111111113asdffffffffaea1231231","4423111231eeeeeeeeeeeeeeefddddddddddddddddddddddddddd234",
-                "5511123wwwwwwwwwwwwwwww1235"};
+        final String []des = {"123231111faea1231231","4423111231eeddd234",
+                "551111235"};
         final String []sta = {"AV","AV","AV"};
         final String []owner = {"Shanzhi ZHang","Fan","HIHIHIHI"};
 
