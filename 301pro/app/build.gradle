@@ -36,11 +36,14 @@ dependencies {
     implementation 'com.karumi:dexter:6.2.1'
     testImplementation 'junit:junit:4.12'
 
-    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+//    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
     implementation 'com.android.support:multidex:1.0.3'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.githang:status-bar-compat:latest.integration'
+
 }
