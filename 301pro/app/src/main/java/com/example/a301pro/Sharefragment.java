@@ -16,6 +16,10 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
 import java.util.ArrayList;
 
 public class Sharefragment extends Fragment {
@@ -34,6 +38,11 @@ public class Sharefragment extends Fragment {
 
         shareList = view.findViewById(R.id.search_list);
         shareDataList = new ArrayList<>();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final CollectionReference collectionReference = db.collection("Library");
+        Query query = collectionReference.whereEqualTo("status", "available");
+        
+
         final Button filter_btn = view.findViewById(R.id.filter);
         filter_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +50,7 @@ public class Sharefragment extends Fragment {
                 showPopupMenu(filter_btn);
             }
         });
+
         final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
         final String []share_name = {"Edmonton", "Vancouver", "Toronto"};
         final String []des = {"12323111faea1231231","442311ddddd234",

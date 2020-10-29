@@ -5,9 +5,9 @@ public class Share {
     private String book_name;
     private String des;
     private String sit;
-    private User onwer;
+    private String onwer;
 
-    public Share(int imageId,String book_name, String des, String sit, User onwer) {
+    public Share(int imageId,String book_name, String des, String sit, String onwer) {
         this.imageId =imageId;
         this.book_name = book_name;
         this.des = des;
@@ -35,7 +35,7 @@ public class Share {
         return sit;
     }
 
-    public User getOnwer() {
+    public String getOnwer() {
         return onwer;
     }
 
@@ -51,7 +51,7 @@ public class Share {
         this.sit = sit;
     }
 
-    public void setOnwer(User onwer) {
+    public void setOnwer(String onwer) {
         this.onwer = onwer;
     }
 }
