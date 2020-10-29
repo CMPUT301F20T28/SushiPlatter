@@ -2,6 +2,7 @@ package com.example.a301pro;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -41,23 +44,64 @@ public class register extends AppCompatActivity {
         final EditText userEmail = findViewById(R.id.Email);
         final EditText userUserName = findViewById(R.id.text_username);
         final EditText userPassword = findViewById(R.id.text_password);
+        final EditText userPasswordRepeat = findViewById(R.id.text_password_check);
+
         registerButton = findViewById(R.id.btn_register);
-
-        String firstName = userFirstName.getText().toString();
-        String lastName = userLastName.getText().toString();
-        String phoneNumber = userPhone.getText().toString();
-        String email = userEmail.getText().toString();
-        String userName = userUserName.getText().toString();
-        String password = userPassword.getText().toString();
         mAuth = FirebaseAuth.getInstance();
-
-        newUser = new User(userName,email,password,firstName,lastName,phoneNumber);
 
         registerButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                String email = userEmail.getText().toString();
-                String password = userPassword.getText().toString();
+                final String firstName = userFirstName.getText().toString();
+                final String lastName = userLastName.getText().toString();
+                final String phoneNumber = userPhone.getText().toString();
+                final String email = userEmail.getText().toString();
+                final String userName = userUserName.getText().toString();
+                final String password = userPassword.getText().toString();
+                final String passwordCheck = userPasswordRepeat.getText().toString();
+
+
+
+                if (TextUtils.isEmpty(firstName)){
+                    userFirstName.setError("First name is required!");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(lastName)){
+                    userLastName.setError("Last name is required!");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(phoneNumber)){
+                    userPhone.setError("Phone number is required!");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(userName)){
+                    userUserName.setError("User name is required!");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(email)){
+                    userEmail.setError("Email address is required!");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password)){
+                    userPassword.setError("Password is required!");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(passwordCheck)){
+                    userPasswordRepeat.setError("Please repeat your password!");
+                    return;
+                }
+
+                if (!password.equals(passwordCheck)){
+                    Toast.makeText(register.this, "Passwords are not the same, please try again!", Toast.LENGTH_SHORT).show();
+                }
+
+
 
 
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -71,6 +115,7 @@ public class register extends AppCompatActivity {
                             Intent intent = new Intent(getBaseContext(),MainActivity.class);
                             startActivity(intent);
                             finish();
+                            newUser = new User(userName,email,password,firstName,lastName,phoneNumber);
 
                         } else{
                             // If sign in fails, display a message to the user.
