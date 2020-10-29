@@ -41,7 +41,7 @@ public class Sharefragment extends Fragment {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Library");
         Query query = collectionReference.whereEqualTo("status", "available");
-        
+        query.get();
 
         final Button filter_btn = view.findViewById(R.id.filter);
         filter_btn.setOnClickListener(new View.OnClickListener() {
