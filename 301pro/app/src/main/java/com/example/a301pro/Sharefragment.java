@@ -1,5 +1,6 @@
 package com.example.a301pro;
 
+import android.app.MediaRouteActionProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
@@ -55,15 +57,21 @@ public class Sharefragment extends Fragment {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-        db.collection("cities")
-                .whereEqualTo("capital", true)
+        db.collection("Libray")
+                .whereEqualTo("status", "available")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                //Map<String, String> book = document.getData();
+                                Toast toast = Toast.makeText(getContext(),
+                                        document.getId() + " 594865881=> " + document.getData(),
+                                        Toast.LENGTH_SHORT);
+
+                                toast.show();
+                                Log.d(TAG, document.getId() + " 594865881=> " + document.getData());
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
