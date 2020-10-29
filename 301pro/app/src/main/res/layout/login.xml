@@ -95,6 +95,8 @@
         android:layout_below="@id/text_username"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/text_password" />
+        android:layout_toRightOf="@id/text_password"
+        app:passwordToggleEnabled="true"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 </RelativeLayout>

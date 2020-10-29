@@ -1,12 +1,16 @@
 package com.example.a301pro;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,14 +25,15 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.login);
         // Get the Intent that started this activity and extract the string
         //隐藏title
-        AppCompatAcitiviy:getSupportActionBar().hide();
+        AppCompatAcitiviy:
+        getSupportActionBar().hide();
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         Button log = findViewById(R.id.btn_login);
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(),MainActivity.class);
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -38,11 +43,19 @@ public class login extends AppCompatActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(),register.class);
+                Intent intent = new Intent(getBaseContext(), register.class);
                 startActivity(intent);
             }
         });
-        }
 
-
+        // hide and view password
+        @SuppressLint("UseSwitchCompatOrMaterialCode")
+        Switch hide_view = findViewById(R.id.show_password);
+        hide_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Item removed", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }
