@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,6 +49,7 @@ public class register extends AppCompatActivity {
         String email = userEmail.getText().toString();
         String userName = userUserName.getText().toString();
         String password = userPassword.getText().toString();
+        mAuth = FirebaseAuth.getInstance();
 
         newUser = new User(userName,email,password,firstName,lastName,phoneNumber);
 
@@ -56,6 +58,7 @@ public class register extends AppCompatActivity {
             public void onClick(View v){
                 String email = userEmail.getText().toString();
                 String password = userPassword.getText().toString();
+
 
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
