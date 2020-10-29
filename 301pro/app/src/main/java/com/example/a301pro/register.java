@@ -1,15 +1,15 @@
 package com.example.a301pro;
 
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class register extends AppCompatActivity {
     private User newUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
