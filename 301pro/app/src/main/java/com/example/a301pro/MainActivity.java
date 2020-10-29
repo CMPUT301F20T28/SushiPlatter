@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 
 import com.githang.statusbar.StatusBarCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import static com.githang.statusbar.StatusBarTools.getStatusBarHeight;
 
@@ -26,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final FirebaseFirestore db;
+
+        db = FirebaseFirestore.getInstance();
+
         //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
 

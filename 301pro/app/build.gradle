@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -8,6 +10,8 @@ android {
         applicationId "com.example.a301pro"
         minSdkVersion 16
         targetSdkVersion 30
+        multiDexEnabled true
+
         versionCode 1
         versionName "1.0"
 
@@ -31,6 +35,11 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
     implementation 'com.karumi:dexter:6.2.1'
     testImplementation 'junit:junit:4.12'
+
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation 'com.google.firebase:firebase-firestore:21.2.1'
+    implementation 'com.android.support:multidex:1.0.3'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.githang:status-bar-compat:latest.integration'

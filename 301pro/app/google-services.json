@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "253895930054",
+    "firebase_url": "https://cmput301project-fceb9.firebaseio.com",
+    "project_id": "cmput301project-fceb9",
+    "storage_bucket": "cmput301project-fceb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253895930054:android:8b4c66a0d9eeac3b8867c7",
+        "android_client_info": {
+          "package_name": "com.example.a301pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253895930054-83d95oqj7c0074oftfcgnmvf9mmgl94c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTy8bWGdlPzm-cFF5pEV8RpLc0hQr-eUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253895930054-83d95oqj7c0074oftfcgnmvf9mmgl94c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
