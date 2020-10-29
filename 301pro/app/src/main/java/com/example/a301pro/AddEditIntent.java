@@ -22,6 +22,7 @@ public class AddEditIntent extends AppCompatActivity {
         setContentView(R.layout.add_edit_intent);
         // Get the Intent that started this activity and extract the string
         //隐藏title
+        //
         AppCompatAcitiviy:getSupportActionBar().hide();
         Button canmera = findViewById(R.id.scan_description);
         Window window = this.getWindow();
