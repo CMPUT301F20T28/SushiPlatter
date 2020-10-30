@@ -17,9 +17,15 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 import java.util.ArrayList;
@@ -31,6 +37,7 @@ public class register extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     public String TAG = "Register";
+    public Boolean userExist = false;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Button registerButton;
 
@@ -40,6 +47,7 @@ public class register extends AppCompatActivity {
      *
      * reference: https://firebase.google.com/docs/auth/android/start
      */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +65,8 @@ public class register extends AppCompatActivity {
         final EditText userUserName = findViewById(R.id.text_username);
         final EditText userPassword = findViewById(R.id.text_password);
         final EditText userPasswordRepeat = findViewById(R.id.text_password_check);
-
         registerButton = findViewById(R.id.btn_register);
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
         registerButton.setOnClickListener(new View.OnClickListener(){
@@ -111,8 +117,15 @@ public class register extends AppCompatActivity {
 
                 if (!password.equals(passwordCheck)){
                     Toast.makeText(register.this, "Passwords are not the same, please try again!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
+
+                checkUserNameExist(userName);
+                if (userExist){
+                    userUserName.setError("Username already exists!");
+                    return;
+                }
 
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -123,7 +136,7 @@ public class register extends AppCompatActivity {
                             Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
                             newUser = new User(userName,email,password,firstName,lastName,phoneNumber);
                             createAccount(newUser);
-                            Intent intent = new Intent(getBaseContext(),MainActivity.class);
+                            Intent intent = new Intent(getBaseContext(),login.class);
                             startActivity(intent);
                             finish();
 
@@ -141,7 +154,17 @@ public class register extends AppCompatActivity {
         });
     }
 
+
     private void checkUserNameExist(String userName){
+        db.collection("Users").document(userName).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.getResult().exists()){
+                            userExist = true;
+                        }
+                    }
+                });
 
     }
 
