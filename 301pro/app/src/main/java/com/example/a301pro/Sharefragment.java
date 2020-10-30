@@ -64,6 +64,7 @@ public class Sharefragment extends Fragment {
         });
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Library");
+
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -73,28 +74,36 @@ public class Sharefragment extends Fragment {
                 sta.clear();
                 owners.clear();
                 bookIDs.clear();
+                int i = 0;
+                final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
+
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String bookid = doc.getId();
-                    bookIDs.add(bookid);
+                    bookIDs.add(i, bookid);
+                    //bookIDs.add(bookid);
                     String bookName= (String) doc.getData().get("book_name");
-                    share_name.add(bookName);
+                    share_name.add(i,bookName);
+                    //share_name.add(bookName);
                     String description = (String) doc.getData().get("description");
-                    des.add(description);
+                    des.add(i,description);
+                    //des.add(description);
                     String status = (String) doc.getData().get("status");
-                    sta.add(status);
+                    sta.add(i,status);
+                    //sta.add(status);
                     String owner = (String) doc.getData().get("owner");
-                    owners.add(owner);
+                    owners.add(i,owner);
+                    //owners.add(owner);
+
+                    shareDataList.add((new Share(logo[i],share_name.get(i),des.get(i),sta.get(i),owners.get(i))));
+                    i+=1;
                 }
 
             }
         });
 
-        final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
 
 
-        for (int i = 0; i < share_name.size(); i++) {
-            shareDataList.add((new Share(logo[i],share_name.get(i),des.get(i),sta.get(i),owners.get(i))));
-        }
+
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
