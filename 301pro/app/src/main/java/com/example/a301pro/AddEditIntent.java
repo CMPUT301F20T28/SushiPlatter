@@ -31,6 +31,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 
+/**
+ * This class provides functionality of adding a new book to the collection of the user,
+ * and editing the data of a selected own book.
+ *
+ * current process:
+ * 目前可以连上数据库,在mybook添加数据
+ * userID是对应login的账户,但目前还没实现从login那边获取登录的id
+ * add 的拍照功能, 和图片上传功能还没弄
+ * edit 还没弄
+ * 目前不知道用户选择的是edit mode 还是 add mode
+ * 需要一个 OK 按钮让确认数据更新,目前代码用着 status按钮当 OK用
+ */
 public class AddEditIntent extends AppCompatActivity {
 //    private Book add_newBook;
 //    private Book edit_existedBook;
@@ -40,7 +52,6 @@ public class AddEditIntent extends AppCompatActivity {
     final static String TAG = "AddEdit";
     private String userID;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    /** may need a confirm button instead of the status button**/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +71,6 @@ public class AddEditIntent extends AppCompatActivity {
 
         final CollectionReference ColRef = db.collection("Mybook");
 
-
         // open camera to take photo of the book, NOT DONE YET*********
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -72,7 +82,8 @@ public class AddEditIntent extends AppCompatActivity {
             }
         });
 
-        // change btn status -> ok? need extra field for selecting status*********
+        // Confirm data and process to the database
+        // change btn status -> ok? need an extra field for selecting status feature*********
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,10 +94,10 @@ public class AddEditIntent extends AppCompatActivity {
                 HashMap<String, String> data = new HashMap<>();
 
                 // validation of book data, book name, author name, and ISBN are required.
+                // send data to update if valid, otherwise to display error message
                 if(!(TextUtils.isEmpty(myBookName)) &&
                         !(TextUtils.isEmpty(myBookAuthor)) &&
                         !(TextUtils.isEmpty(myISBN))) {
-
                     data.put("Book Name", myBookName);
                     data.put("Author Name", myBookAuthor);
                     data.put("ISBN", myISBN);
@@ -108,13 +119,27 @@ public class AddEditIntent extends AppCompatActivity {
             }
         });
 
+        // Cancel action, no change will be made
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
+            }
+        });
 
     }
 
 
+    /**
+     * Update data of the owned book to the database
+     * @param data pairs of data that need to be updated to the database
+     */
     public void sendData(HashMap<String, String> data) {
         final CollectionReference CollectRef = db.collection("Mybook");
-        userID = CollectRef.document().getId();
+        // userID = CollectRef.document().getId();
+        userID = "Somebody's book"; // set init user to Somebody's book for testing purpose
         CollectRef
                 .document(userID)
                 .set(data)
@@ -132,5 +157,12 @@ public class AddEditIntent extends AppCompatActivity {
                         Log.d(TAG, "Book could not be updated!" + e.toString());
                     }
                 });
+    }
+
+    /**
+     * Get data of corresponding user from the database
+     */
+    public void getData() {
+
     }
 }
