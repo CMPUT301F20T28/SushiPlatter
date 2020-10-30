@@ -16,9 +16,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -34,7 +38,8 @@ public class AddEditIntent extends AppCompatActivity {
     private EditText bookName, authorName, ISBN, description;
     private ImageButton img;
     final static String TAG = "AddEdit";
-    final String USER = "Somebody's book";
+    private String userID;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     /** may need a confirm button instead of the status button**/
 
     @Override
@@ -52,8 +57,9 @@ public class AddEditIntent extends AppCompatActivity {
         Button okBtn = findViewById(R.id.book_status);
         Button backBtn = findViewById(R.id.add_edit_quit);
         Button camera = findViewById(R.id.scan_description);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Mybook");
+
+        final CollectionReference ColRef = db.collection("Mybook");
+
 
         // open camera to take photo of the book, NOT DONE YET*********
         Window window = this.getWindow();
@@ -85,23 +91,7 @@ public class AddEditIntent extends AppCompatActivity {
                     data.put("Author Name", myBookAuthor);
                     data.put("ISBN", myISBN);
                     data.put("Description", myDes);
-                    collectionReference
-                            .document(USER)
-                            .set(data)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // These are a method which gets executed when the task is succeeded
-                                    Log.d(TAG, "Book has been updated successfully!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // These are a method which gets executed if there’s any problem
-                                    Log.d(TAG, "Book could not be updated!" + e.toString());
-                                }
-                            });
+                    sendData(data);
                 } else {
                     if (TextUtils.isEmpty(myBookName)){
                         bookName.setError("Book name is required!");
@@ -118,23 +108,29 @@ public class AddEditIntent extends AppCompatActivity {
             }
         });
 
-//        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
-//                    FirebaseFirestoreException error) {
-//                // Clear the old list
-//                cityDataList.clear();
-//                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
-//                {
-//                    Log.d(TAG, String.valueOf(doc.getData().get("Province Name")));
-//                    String city = doc.getId();
-//                    String province = (String) doc.getData().get("Province Name");
-//                    // Adding the cities and provinces from FireStore
-//                    cityDataList.add(new City(city, province));
-//                }
-//                // Notifying the adapter to render any new data fetched from the cloud
-//                booAdapter.notifyDataSetChanged();
-//            }
-//        });
+
+    }
+
+
+    public void sendData(HashMap<String, String> data) {
+        final CollectionReference CollectRef = db.collection("Mybook");
+        userID = CollectRef.document().getId();
+        CollectRef
+                .document(userID)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // These are a method which gets executed when the task is succeeded
+                        Log.d(TAG, "Book has been updated successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // These are a method which gets executed if there’s any problem
+                        Log.d(TAG, "Book could not be updated!" + e.toString());
+                    }
+                });
     }
 }
