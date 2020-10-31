@@ -1,57 +1,57 @@
 package com.example.a301pro;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
+
 
 /**
  * This class provides functionality of adding a new book to the collection of the user,
  * and editing the data of a selected own book.
  *
- * current process:
- * 目前可以连上数据库,在mybook添加数据
+ * current process
+ * success:
+ * 可以add/edit, 可以同步到数据库
+ *
+ * fail:
  * userID是对应login的账户,但目前还没实现从login那边获取登录的id
  * add 的拍照功能, 和图片上传功能还没弄
- * edit 还没弄
- * 目前不知道用户选择的是edit mode 还是 add mode
- * 需要一个 OK 按钮让确认数据更新,目前代码用着 status按钮当 OK用
+ *
+ * bug:
+ * onActivityResult()里的resultCode 有问题, 导致从addEdit点击Back返回出现闪退
  */
 public class AddEditIntent extends AppCompatActivity {
-//    private Book add_newBook;
-//    private Book edit_existedBook;
-
     private EditText bookName, authorName, ISBN, description;
+    private TextView status;
     private ImageButton img;
-    final static String TAG = "AddEdit";
-    private String userID;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static final String TAG = "AddEdit";
+    protected FirebaseFirestore db;
+    private int myPos;
+    private Book myBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +64,22 @@ public class AddEditIntent extends AppCompatActivity {
         authorName = findViewById(R.id.author_editText);
         ISBN = findViewById(R.id.ISBN_editText);
         description = findViewById(R.id.description);
+        status = findViewById(R.id.status);
         img = findViewById(R.id.add_edit_image);
-        Button okBtn = findViewById(R.id.book_status);
+        Button okBtn = findViewById(R.id.book_confirm);
         Button backBtn = findViewById(R.id.add_edit_quit);
+        Button pickStatus = findViewById(R.id.pick_status);
         Button camera = findViewById(R.id.scan_description);
-
+        db = FirebaseFirestore.getInstance();
         final CollectionReference ColRef = db.collection("Mybook");
+
+        Bundle bundle = getIntent().getExtras();
+        // user has selected a book to edit if bundle if not empty
+        if(bundle != null) {
+            myBook = (Book) bundle.getSerializable("BOOK");   // get the item
+            myPos = bundle.getInt("POS");
+            setTextBox(myBook);
+        }
 
         // open camera to take photo of the book, NOT DONE YET*********
         Window window = this.getWindow();
@@ -83,7 +93,6 @@ public class AddEditIntent extends AppCompatActivity {
         });
 
         // Confirm data and process to the database
-        // change btn status -> ok? need an extra field for selecting status feature*********
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,19 +100,32 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myBookAuthor = authorName.getText().toString();
                 final String myISBN = ISBN.getText().toString();
                 final String myDes = description.getText().toString();
-                HashMap<String, String> data = new HashMap<>();
+                final String myStatus = status.getText().toString();
+                final int myImg = R.drawable.ic_image1; // sample image*********
 
                 // validation of book data, book name, author name, and ISBN are required.
                 // send data to update if valid, otherwise to display error message
                 if(!(TextUtils.isEmpty(myBookName)) &&
                         !(TextUtils.isEmpty(myBookAuthor)) &&
                         !(TextUtils.isEmpty(myISBN))) {
+                    HashMap<String, Object> data = new HashMap<>();
                     data.put("Book Name", myBookName);
                     data.put("Author Name", myBookAuthor);
                     data.put("ISBN", myISBN);
                     data.put("Description", myDes);
-                    sendData(data);
+                    data.put("Status", myStatus);
+                    data.put("Image", myImg);
+                    sendDataToDb(data);
+
+                    myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, null);
+                    Intent intent = new Intent();
+                    intent.putExtra("BOOK", myBook);
+                    intent.putExtra("POS", myPos);
+                    setResult(RESULT_OK, intent);
+                    finish();
+
                 } else {
+                    // display error in the test field if required information are not filled
                     if (TextUtils.isEmpty(myBookName)){
                         bookName.setError("Book name is required!");
                     }
@@ -116,6 +138,14 @@ public class AddEditIntent extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Fail. Please fill the required field",
                             Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        // Select a status from status list
+        pickStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showStatusMenu(view);
             }
         });
 
@@ -136,10 +166,11 @@ public class AddEditIntent extends AppCompatActivity {
      * Update data of the owned book to the database
      * @param data pairs of data that need to be updated to the database
      */
-    public void sendData(HashMap<String, String> data) {
+    public void sendDataToDb(HashMap<String, Object> data) {
         final CollectionReference CollectRef = db.collection("Mybook");
-        // userID = CollectRef.document().getId();
-        userID = "Somebody's book"; // set init user to Somebody's book for testing purpose
+//        String userID = getUserID();
+        String userID = "Somebody's book"; // set init user to Somebody's book for testing purpose
+
         CollectRef
                 .document(userID)
                 .set(data)
@@ -160,9 +191,47 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * Get data of corresponding user from the database
+     * get current logged in user
+     * @return username as a string
      */
-    public void getData() {
-
+    protected String getUserID() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        return String.valueOf(mAuth.getCurrentUser());
     }
+
+    /**
+     * set text field with exist information
+     * @param myBook a selected existing book
+     */
+    public void setTextBox(Book myBook){
+        bookName.setText(myBook.getBook_name());
+        authorName.setText(myBook.getAuthor());
+        ISBN.setText(myBook.getISBN());
+        description.setText(myBook.getDescription());
+        status.setText(myBook.getStatus());
+    }
+
+    /**
+     * popup the menu for picking status
+     * @param view view
+     */
+    public void showStatusMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                status.setText(item.getTitle());
+                return false;
+            }
+        });
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+
+            }
+        });
+        popupMenu.show();
+    }
+
 }

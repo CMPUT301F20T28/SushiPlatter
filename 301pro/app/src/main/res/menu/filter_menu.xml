@@ -4,13 +4,13 @@
         android:id="@+id/borrowed_menu"
         android:title="Borrowed" />
     <item
-        android:id="@+id/avaliable_menu"
-        android:title="Avaliable" />
+        android:id="@+id/available_menu"
+        android:title="Available" />
     <item
         android:id="@+id/accept_menu"
-        android:title="Accept" />
+        android:title="Accepted" />
     <item
         android:id="@+id/request_menu"
-        android:title="Request" />
+        android:title="Requested" />
 
 </menu>
