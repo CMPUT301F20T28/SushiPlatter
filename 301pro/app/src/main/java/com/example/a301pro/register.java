@@ -121,60 +121,56 @@ public class register extends AppCompatActivity {
                 if (TextUtils.isEmpty(firstName)){
                     userFirstName.setError("First name is required!");
                     userExist = true;
-                    return;
 
                 }
 
                 if (TextUtils.isEmpty(lastName)){
                     userLastName.setError("Last name is required!");
                     userExist = true;
-                    return;
                 }
 
                 if (TextUtils.isEmpty(phoneNumber)){
                     userPhone.setError("Phone number is required!");
                     userExist = true;
-                    return;
                 }
 
                 if (TextUtils.isEmpty(userName)){
                     userUserName.setError("User name is required!");
                     userExist = true;
-                    return;
                 }
 
                 if (TextUtils.isEmpty(email)){
                     userEmail.setError("Email address is required!");
                     userExist = true;
-                    return;
                 }
 
                 if (TextUtils.isEmpty(password)){
                     userPassword.setError("Password is required!");
                     userExist = true;
-                    return;
                 }
 
                 if (TextUtils.isEmpty(passwordCheck)){
                     userPasswordRepeat.setError("Please repeat your password!");
                     userExist = true;
-                    return;
                 }
 
                 if (!password.equals(passwordCheck)){
                     Toast.makeText(register.this, "Passwords are not the same, please try again!", Toast.LENGTH_SHORT).show();
+                    userPassword.setError("Passwords not match!");
+                    userPasswordRepeat.setError("Passwords not match!");
                     userExist = true;
-                    return;
 
                 }else{
                     if (password.length()<6){
                         userPassword.setError("Password length should be >= 6!");
                         userPasswordRepeat.setError("Password length should be >= 6!");
                         userExist = true;
-                        return;
                     }
                 }
 
+                if (userExist==true){
+                    return;
+                }
 
                 db.collection("Users").document(userName).get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -185,29 +181,31 @@ public class register extends AppCompatActivity {
                                     userExist = true;
                                     return;
                                 }else{
-                                    {
-                                        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                                if (task.isSuccessful()) {
-                                                    // Sign up success, go to login
-                                                    Log.d(TAG, "createUserWithEmail:success");
-                                                    Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
-                                                    newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
-                                                    createAccount(newUser);
-                                                    Intent intent = new Intent(getBaseContext(), login.class);
-                                                    startActivity(intent);
-                                                    finish();
+                                    if(userExist == false) {
+                                        {
+                                            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        // Sign up success, go to login
+                                                        Log.d(TAG, "createUserWithEmail:success");
+                                                        Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
+                                                        newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
+                                                        createAccount(newUser);
+                                                        Intent intent = new Intent(getBaseContext(), login.class);
+                                                        startActivity(intent);
+                                                        finish();
 
-                                                } else {
-                                                    // If sign up fails, display a message to the user.
-                                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                                    Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        // If sign up fails, display a message to the user.
+                                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                                        Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
 
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+                                        }
                                     }
                                 }
                             }
