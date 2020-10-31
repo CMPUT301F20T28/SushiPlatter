@@ -68,8 +68,6 @@ public class login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 log_in();
-
-//                finish();
             }
         });
 
@@ -139,6 +137,7 @@ public class login extends AppCompatActivity {
                                     "Login Successful.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(),MainActivity.class);
                             startActivity(intent);
+                            finish();
 
                         } else {
                             Toast.makeText(login.this,
