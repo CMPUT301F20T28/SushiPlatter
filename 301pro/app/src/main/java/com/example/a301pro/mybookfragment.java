@@ -46,17 +46,13 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
             }
         });
         final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
-        final String []book_name = {"Kindle", "kindle2", "kindle3", "kindle4", "kindle5", "kindle6"};
-        final String []autor_name = {"Simon", "Lucy", "ONim", "Andi", "Mart", "CA"};
-        final String []ISBN = {"12323124","44441244","55521233","2224444","111222","2221123"};
+        final String []book_name = {"Kindle", "kindle2"};
+        final String []autor_name = {"Simon", "Lucy"};
+        final String []ISBN = {"12323124","44441244"};
         final String []des = {"Have you always wondered how it is that a machine understands what you are saying? Did you wonder how Siri or Alexa always knows exactly what to show you when you ask them something? If you did, you have come to the right place.",
-                "Have you always wondered how it is that a machine understands what you are saying? Did you wonder how Siri or Alexa always knows exactly what to show you when you ask them something? If you did, you have come to the right place.",
-                "Dr. Kai-Fu Lee-one of the world's most respected experts on AI and China-reveals that China has suddenly caught up to the US at an astonishingly rapid and unexpected pace.",
-                "How will AI evolve and what major innovations are on the horizon? What will its impact be on the job",
-                "AI-centric organizations exhibit a new operating architecture, redefining how they create, capture, share, and deliver value.",
-                "Written by prominent thought leaders in the global fintech space, The AI Book aggregates diverse expertise into a single, informative volume and explains what artifical intelligence really means and how it can be used across financial services today. Key industry developments are explained in detail, and critical insights from cutting-edge practitioners offer first-hand information and lessons learned. Coverage includes:"};
-        final String []sta = {"R","B","AC","B","AC","R"};
-        final String []bor = {"Shanz","Fan","HU","ZHi","Shen","zqq"};
+                "Have you always wondered how it is that a machine understands what you are saying? Did you wonder how Siri or Alexa always knows exactly what to show you when you ask them something? If you did, you have come to the right place."};
+        final String []sta = {"R","B"};
+        final String []bor = {"Shanz","Fan"};
         for (int i = 0; i < book_name.length; i++) {
             bookDataList.add((new Book(logo[i],book_name[i], autor_name[i],ISBN[i],des[i],sta[i],bor[i])));
         }
