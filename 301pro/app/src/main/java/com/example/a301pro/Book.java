@@ -2,7 +2,9 @@ package com.example.a301pro;
 
 import android.widget.ImageView;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
     private int imageID;
     private String book_name;
     private String author;
