@@ -29,6 +29,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -64,6 +66,8 @@ public class Sharefragment extends Fragment {
         });
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Library");
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
+        final StorageReference storageRef = storage.getReference();
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -76,6 +80,9 @@ public class Sharefragment extends Fragment {
                 bookIDs.clear();
                 int i = 0;
                 final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
+
+
+
 
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String bookid = doc.getId();
@@ -93,6 +100,8 @@ public class Sharefragment extends Fragment {
                     String owner = (String) doc.getData().get("owner");
                     owners.add(i,owner);
                     //owners.add(owner);
+
+                    String imageID = (String) doc.getData().get("image");
 
                     shareDataList.add((new Share(logo[i],share_name.get(i),des.get(i),sta.get(i),owners.get(i))));
                     i+=1;
