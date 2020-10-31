@@ -133,14 +133,15 @@
             android:layout_height="wrap_content"
             android:text="Already Registered? "
             android:textColor="#FFFFFF" />
-        <TextView
-            android:id="@+id/textview_login"
-            android:layout_width="wrap_content"
+
+        <Button
+            android:id="@+id/login_in_register"
+            android:layout_width="99dp"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:textColor="@color/colorAccent"
             android:gravity="center"
-            android:text="Login" />
+            android:paddingLeft="10dp"
+            android:text="Login"
+            android:textColor="@color/colorAccent" />
 
     </LinearLayout>
 
@@ -149,9 +150,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_register"
         android:layout_centerInParent="true"
+        android:layout_marginTop="79dp"
         android:gravity="right"
         android:text="Need Help"
-        android:layout_marginTop="30dp"
         android:textColor="#FFFFFF" />
 
     <Switch

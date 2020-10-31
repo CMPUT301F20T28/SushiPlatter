@@ -37,9 +37,10 @@ public class register extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     public String TAG = "Register";
-    public Boolean userExist = false;
+    public boolean userExist = false;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Button registerButton;
+    Button login;
 
     /**
      * User sign up
@@ -66,12 +67,21 @@ public class register extends AppCompatActivity {
         final EditText userPassword = findViewById(R.id.text_password);
         final EditText userPasswordRepeat = findViewById(R.id.text_password_check);
         registerButton = findViewById(R.id.btn_register);
+        login = findViewById(R.id.login_in_register);
         mAuth = FirebaseAuth.getInstance();
 
+        login.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(getBaseContext(), login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         registerButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                userExist = false;
                 final String firstName = userFirstName.getText().toString();
                 final String lastName = userLastName.getText().toString();
                 final String phoneNumber = userPhone.getText().toString();
@@ -82,91 +92,103 @@ public class register extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(firstName)){
                     userFirstName.setError("First name is required!");
+                    userExist = true;
                     return;
+
                 }
 
                 if (TextUtils.isEmpty(lastName)){
                     userLastName.setError("Last name is required!");
+                    userExist = true;
                     return;
                 }
 
                 if (TextUtils.isEmpty(phoneNumber)){
                     userPhone.setError("Phone number is required!");
+                    userExist = true;
                     return;
                 }
 
                 if (TextUtils.isEmpty(userName)){
                     userUserName.setError("User name is required!");
+                    userExist = true;
                     return;
                 }
 
                 if (TextUtils.isEmpty(email)){
                     userEmail.setError("Email address is required!");
+                    userExist = true;
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)){
                     userPassword.setError("Password is required!");
+                    userExist = true;
                     return;
                 }
 
                 if (TextUtils.isEmpty(passwordCheck)){
                     userPasswordRepeat.setError("Please repeat your password!");
+                    userExist = true;
                     return;
                 }
 
                 if (!password.equals(passwordCheck)){
                     Toast.makeText(register.this, "Passwords are not the same, please try again!", Toast.LENGTH_SHORT).show();
+                    userExist = true;
                     return;
-                }
 
-
-                checkUserNameExist(userName);
-                if (userExist){
-                    userUserName.setError("Username already exists!");
-                    return;
-                }
-
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
-                            newUser = new User(userName,email,password,firstName,lastName,phoneNumber);
-                            createAccount(newUser);
-                            Intent intent = new Intent(getBaseContext(),login.class);
-                            startActivity(intent);
-                            finish();
-
-                        } else{
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-
-                        }
+                }else{
+                    if (password.length()<6){
+                        userPassword.setError("Password length should be >= 6!");
+                        userPasswordRepeat.setError("Password length should be >= 6!");
+                        userExist = true;
+                        return;
                     }
-                });
+                }
+
+
+                db.collection("Users").document(userName).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.getResult().exists()){
+                                    userUserName.setError("Username already exists!");
+                                    userExist = true;
+                                }
+                            }
+                        });
+
+                if (userExist!=true) {
+                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                                Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
+                                newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
+                                createAccount(newUser);
+                                Intent intent = new Intent(getBaseContext(), login.class);
+                                startActivity(intent);
+                                finish();
+
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+
+                            }
+                        }
+                    });
+                }
 
             }
         });
     }
 
 
-    private void checkUserNameExist(String userName){
-        db.collection("Users").document(userName).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.getResult().exists()){
-                            userExist = true;
-                        }
-                    }
-                });
-
-    }
 
 
     /**
