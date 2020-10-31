@@ -97,6 +97,7 @@ public class Sharefragment extends Fragment {
                     shareDataList.add((new Share(logo[i],share_name.get(i),des.get(i),sta.get(i),owners.get(i))));
                     i+=1;
                 }
+                shareAdapter.notifyDataSetChanged();
 
             }
         });
