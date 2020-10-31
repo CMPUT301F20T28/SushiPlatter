@@ -2,10 +2,16 @@ package com.example.a301pro;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +47,9 @@ public class register extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Button registerButton;
     Button login;
+    Switch mSwitch;
+    EditText passwordView;
+    EditText passwordViewCheck;
 
     /**
      * User sign up
@@ -57,7 +66,8 @@ public class register extends AppCompatActivity {
         // Get the Intent that started this activity and extract the string
         //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
-
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         final EditText userFirstName = findViewById(R.id.first_name);
         final EditText userLastName = findViewById(R.id.last_name);
@@ -69,6 +79,24 @@ public class register extends AppCompatActivity {
         registerButton = findViewById(R.id.btn_register);
         login = findViewById(R.id.login_in_register);
         mAuth = FirebaseAuth.getInstance();
+        mSwitch = (Switch) findViewById(R.id.show_password);
+        passwordView = findViewById(R.id.text_password);
+        passwordViewCheck = findViewById(R.id.text_password_check);
+
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    passwordView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordViewCheck.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                else{
+
+                    passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordViewCheck.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
