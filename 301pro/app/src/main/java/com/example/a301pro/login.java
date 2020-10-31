@@ -68,41 +68,42 @@ public class login extends AppCompatActivity {
         String username = usernameView.getText().toString();
         final String password = passwordView.getText().toString();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference collectionReference = db.collection("Users");
-        DocumentReference docRef = collectionReference.document(username);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        String email = (String) document.getData().get("email");
-                        if (email.isEmpty() || password.isEmpty()) {
-                            Toast.makeText(login.this, "Please ensure you have " +
-                                    "filled out all the fields.", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            validate(email, password, usernameView, passwordView);
-                        }
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(login.this, "Please ensure you have " +
+                    "filled out all the fields.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            CollectionReference collectionReference = db.collection("Users");
+            DocumentReference docRef = collectionReference.document(username);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            String email = (String) document.getData().get("email");
 
+                            validate(email, password, usernameView, passwordView);
+
+                        } else {
+                            Toast.makeText(login.this,
+                                    "Login failed. Please check your Username and try again.",
+                                    Toast.LENGTH_SHORT).show();
+                            usernameView.setText("");
+                            passwordView.setText("");
+
+                        }
                     } else {
                         Toast.makeText(login.this,
-                                "Login failed. Please check your Username and try again.",
+                                "Login failed. Please check your info and try again.",
                                 Toast.LENGTH_SHORT).show();
                         usernameView.setText("");
                         passwordView.setText("");
 
                     }
-                } else {
-                    Toast.makeText(login.this,
-                            "Login failed. Please check your info and try again.",
-                            Toast.LENGTH_SHORT).show();
-                    usernameView.setText("");
-                    passwordView.setText("");
-
                 }
-            }
-        });
+            });
+        }
     }
 
 
