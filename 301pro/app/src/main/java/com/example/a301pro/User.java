@@ -20,6 +20,9 @@ class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public User() {
+    }
+
     public String getUserName() {
         return userName;
     }
