@@ -2,11 +2,16 @@ package com.example.a301pro;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class login extends AppCompatActivity {
     private User login_user;
     protected FirebaseAuth mAuth;
-
-
+    Switch mSwitch;
+    EditText passwordView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +44,26 @@ public class login extends AppCompatActivity {
         //隐藏title
         mAuth = FirebaseAuth.getInstance();
 
-
         AppCompatAcitiviy:getSupportActionBar().hide();
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         Button log = findViewById(R.id.btn_login);
+
+        mSwitch = (Switch) findViewById(R.id.show_password);
+        passwordView = findViewById(R.id.text_password);
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    passwordView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                else{
+
+                    passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
+
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +85,7 @@ public class login extends AppCompatActivity {
     public void log_in() {
         final EditText usernameView = findViewById(R.id.text_username);
         final EditText passwordView = findViewById(R.id.text_password);
+
         String username = usernameView.getText().toString();
         final String password = passwordView.getText().toString();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
