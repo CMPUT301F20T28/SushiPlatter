@@ -30,6 +30,7 @@ public class login extends AppCompatActivity {
     protected FirebaseAuth mAuth;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +61,10 @@ public class login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        }
+    }
     public void log_in() {
-        EditText usernameView = findViewById(R.id.text_username);
-        EditText passwordView = findViewById(R.id.text_password);
+        final EditText usernameView = findViewById(R.id.text_username);
+        final EditText passwordView = findViewById(R.id.text_password);
         String username = usernameView.getText().toString();
         final String password = passwordView.getText().toString();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -79,28 +80,33 @@ public class login extends AppCompatActivity {
                         if (email.isEmpty() || password.isEmpty()) {
                             Toast.makeText(login.this, "Please ensure you have " +
                                     "filled out all the fields.", Toast.LENGTH_SHORT).show();
-
                         }
                         else {
-                            validate(email, password);
+                            validate(email, password, usernameView, passwordView);
                         }
 
                     } else {
                         Toast.makeText(login.this,
                                 "Login failed. Please check your Username and try again.",
                                 Toast.LENGTH_SHORT).show();
+                        usernameView.setText("");
+                        passwordView.setText("");
+
                     }
                 } else {
                     Toast.makeText(login.this,
                             "Login failed. Please check your info and try again.",
                             Toast.LENGTH_SHORT).show();
+                    usernameView.setText("");
+                    passwordView.setText("");
+
                 }
             }
         });
     }
 
 
-    public void validate(String Email, String Password) {
+    public void validate(String Email, String Password, final EditText usernameView, final EditText passwordView) {
         mAuth.signInWithEmailAndPassword(Email, Password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -116,6 +122,8 @@ public class login extends AppCompatActivity {
                             Toast.makeText(login.this,
                                     "Login failed. Please check your info and try again.",
                                     Toast.LENGTH_SHORT).show();
+                            usernameView.setText("");
+                            passwordView.setText("");
                         }
                     }
                 });
