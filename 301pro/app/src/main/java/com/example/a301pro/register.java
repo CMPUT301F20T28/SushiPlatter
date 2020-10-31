@@ -183,35 +183,35 @@ public class register extends AppCompatActivity {
                                 if (task.getResult().exists()){
                                     userUserName.setError("Username already exists!");
                                     userExist = true;
+                                    return;
+                                }else{
+                                    {
+                                        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Sign up success, go to login
+                                                    Log.d(TAG, "createUserWithEmail:success");
+                                                    Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
+                                                    newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
+                                                    createAccount(newUser);
+                                                    Intent intent = new Intent(getBaseContext(), login.class);
+                                                    startActivity(intent);
+                                                    finish();
+
+                                                } else {
+                                                    // If sign up fails, display a message to the user.
+                                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                                    Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         });
-
-                if (userExist!=true) {
-                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success");
-                                Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
-                                newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
-                                createAccount(newUser);
-                                Intent intent = new Intent(getBaseContext(), login.class);
-                                startActivity(intent);
-                                finish();
-
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-
-                            }
-                        }
-                    });
-                }
-
             }
         });
     }
