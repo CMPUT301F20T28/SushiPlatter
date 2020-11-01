@@ -20,13 +20,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a301pro.Utilities.AddBookToLibrary;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import com.example.a301pro.Utilities.AddBookToLibrary;
 import java.util.HashMap;
 
 
@@ -52,6 +53,7 @@ public class AddEditIntent extends AppCompatActivity {
     protected FirebaseFirestore db;
     private int myPos;
     private Book myBook;
+    private String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +121,7 @@ public class AddEditIntent extends AppCompatActivity {
 //                    sendDataToDb(data);
 
                     String myBookID = generateBookID(getUserID(), myISBN);
-                    myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, null);
+                    myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
 
                     sendDataToDb(myBook);
 
@@ -171,13 +173,13 @@ public class AddEditIntent extends AppCompatActivity {
      * Update data of the owned book to the database
      * @param myBook pairs of data that need to be updated to the database
      */
-    public void sendDataToDb(Book myBook) {
-        final CollectionReference CollectRef = db.collection("Mybook");
+    public void sendDataToDb(final Book myBook) {
+        final CollectionReference CollectRef = db.collection("Users");
         String userID = getUserID();
-        String bookID = myBook.getBook_id();
+        final String bookID = myBook.getBook_id();
         CollectRef
                 .document(userID)
-                .collection(bookID)
+                .collection("MyBooks")
                 .document(bookID)
                 .set(myBook)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -185,6 +187,7 @@ public class AddEditIntent extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Book has been updated successfully!");
+                        new AddBookToLibrary(new Share(myBook.getImageID(), myBook.getBook_name(), myBook.getDescription(), "Available", myBook.getOwner()), bookID);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -211,7 +214,7 @@ public class AddEditIntent extends AppCompatActivity {
      * @return unique id of the book, which is uid followed by isbn
      */
     protected String generateBookID(String uid, String isbn) {
-        return uid+isbn;
+        return uid +"-"+isbn;
     }
 
     /**
