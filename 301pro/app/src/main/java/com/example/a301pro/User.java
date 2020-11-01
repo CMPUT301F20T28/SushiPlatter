@@ -9,15 +9,16 @@ class User {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private ArrayList<Book> own_book;
+    private String UID;
 
-    public User(String userName, String email, String password, String firstName, String lastName, String phoneNumber) {
+    public User(String userName, String email, String password, String firstName, String lastName, String phoneNumber, String UID) {
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.UID = UID;
     }
 
     public User() {
@@ -41,14 +42,6 @@ class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public ArrayList<Book> getOwn_book() {
-        return own_book;
-    }
-
-    public void setOwn_book(ArrayList<Book> own_book) {
-        this.own_book = own_book;
     }
 
     public void setPassword(String password) {
@@ -78,4 +71,13 @@ class User {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String phoneNumber) {
+        this.UID = UID;
+    }
+
 }

@@ -75,6 +75,8 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                 "Have you always wondered how it is that a machine understands what you are saying? Did you wonder how Siri or Alexa always knows exactly what to show you when you ask them something? If you did, you have come to the right place."};
         final String []sta = {"R","B"};
         final String []bor = {"Shanz","Fan"};
+
+
         for (int i = 0; i < book_name.length; i++) {
             bookDataList.add((new Book(logo[i],book_name[i], autor_name[i],ISBN[i],des[i],sta[i],bor[i])));
         }
