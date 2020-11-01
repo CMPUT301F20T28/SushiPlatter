@@ -92,7 +92,7 @@ public class login extends AppCompatActivity {
                     "filled out all the fields.", Toast.LENGTH_SHORT).show();
         }
         else{
-            CollectionReference collectionReference = db.collection("Users");
+            CollectionReference collectionReference = db.collection("userDict");
             DocumentReference docRef = collectionReference.document(username);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override

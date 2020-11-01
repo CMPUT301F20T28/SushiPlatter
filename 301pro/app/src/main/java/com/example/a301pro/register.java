@@ -56,6 +56,7 @@ public class register extends AppCompatActivity {
      * @param savedInstanceState
      *
      * reference: https://firebase.google.com/docs/auth/android/start
+     *            https://www.youtube.com/watch?v=Z-RE1QuUWPg&ab_channel=CodeWithMazn
      */
 
 
@@ -172,7 +173,7 @@ public class register extends AppCompatActivity {
                     return;
                 }
 
-                db.collection("Users").document(userName).get()
+                db.collection("userDict").document(userName).get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -183,14 +184,16 @@ public class register extends AppCompatActivity {
                                 }else{
                                     if(userExist == false) {
                                         {
-                                            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            mAuth.createUserWithEmailAndPassword(email, password)
+                                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                                     if (task.isSuccessful()) {
                                                         // Sign up success, go to login
+                                                        final String UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                                         Log.d(TAG, "createUserWithEmail:success");
                                                         Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
-                                                        newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
+                                                        newUser = new User(userName, email, password, firstName, lastName, phoneNumber, UID);
                                                         createAccount(newUser);
                                                         Intent intent = new Intent(getBaseContext(), login.class);
                                                         startActivity(intent);
@@ -206,6 +209,7 @@ public class register extends AppCompatActivity {
                                                 }
                                             });
                                         }
+
                                     }
                                 }
                             }
@@ -228,21 +232,41 @@ public class register extends AppCompatActivity {
         userInfo.put("phoneNumber", newUser.getPhoneNumber());
         userInfo.put("firstName", newUser.getFirstName());
         userInfo.put("lastName", newUser.getLastName());
+//        userInfo.put("password", newUser.getPassword());
+        userInfo.put("userName", newUser.getUserName());
+        userInfo.put("UID", newUser.getUID());
 
-        db.collection("Users").document(newUser.getUserName())
+        db.collection("Users").document(newUser.getUID())
                 .set(userInfo)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Log.d(TAG, "New user info successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
+                        Log.w(TAG, "Error writing new user info", e);
                     }
                 });
 
+        Map<String, Object> userDict = new HashMap<>();
+        userDict.put("email", newUser.getEmail());
+        userDict.put("UID", newUser.getUID());
+        db.collection("userDict").document(newUser.getUserName())
+                .set(userDict)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "userDict successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing userDict", e);
+                    }
+                });
     }
 }
