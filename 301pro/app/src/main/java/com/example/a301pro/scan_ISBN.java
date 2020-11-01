@@ -62,7 +62,7 @@ public class scan_ISBN extends AppCompatActivity implements View.OnClickListener
                 });
                 AlertDialog dialog=builder.create();
                 dialog.show();
-                newBook = new Book(1, "aaaa", "bbbb", "cccc","dddd", "eeee", "ffff");
+                newBook = new Book(1, "aaaa", "bbbb", "cccc","dddd", "eeee", "123", "fff", null);
             }
             else {
                 Toast.makeText(this,"No result",Toast.LENGTH_SHORT).show();
