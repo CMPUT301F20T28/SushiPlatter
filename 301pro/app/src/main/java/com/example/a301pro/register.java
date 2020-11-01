@@ -173,7 +173,7 @@ public class register extends AppCompatActivity {
                     return;
                 }
 
-                db.collection("Users").document(userName).get()
+                db.collection("userDict").document(userName).get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -183,62 +183,27 @@ public class register extends AppCompatActivity {
                                     return;
                                 }else{
                                     if(userExist == false) {
-//Old create account
-//                                        {
-//                                            mAuth.createUserWithEmailAndPassword(email, password)
-//                                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                                                @Override
-//                                                public void onComplete(@NonNull Task<AuthResult> task) {
-//                                                    if (task.isSuccessful()) {
-//                                                        // Sign up success, go to login
-//                                                        Log.d(TAG, "createUserWithEmail:success");
-//                                                        Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
-//                                                        newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
-//                                                        createAccount(newUser);
-//                                                        Intent intent = new Intent(getBaseContext(), login.class);
-//                                                        startActivity(intent);
-//                                                        finish();
-//
-//                                                    } else {
-//                                                        // If sign up fails, display a message to the user.
-//                                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-//                                                        Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//
-//
-//                                                    }
-//                                                }
-//                                            });
-//                                        }
-                                                                                {
+                                        {
                                             mAuth.createUserWithEmailAndPassword(email, password)
                                                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                                     if (task.isSuccessful()) {
-                                                        newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
-
-                                                        FirebaseDatabase.getInstance().getReference("Users_ID")
-                                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userInfo")
-                                                                .setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                if (task.isSuccessful()){
-                                                                    Log.d(TAG, "createUserWithEmail:success");
-                                                                    Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
-                                                                    createAccount(newUser);
-                                                                    Intent intent = new Intent(getBaseContext(), login.class);
-                                                                    startActivity(intent);
-                                                                    finish();
-                                                                }else{
-                                                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                                                    Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            }
-                                                        });
+                                                        // Sign up success, go to login
+                                                        final String UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                        Log.d(TAG, "createUserWithEmail:success");
+                                                        Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
+                                                        newUser = new User(userName, email, password, firstName, lastName, phoneNumber, UID);
+                                                        createAccount(newUser);
+                                                        Intent intent = new Intent(getBaseContext(), login.class);
+                                                        startActivity(intent);
+                                                        finish();
 
                                                     } else {
+                                                        // If sign up fails, display a message to the user.
                                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                                         Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
 
                                                     }
                                                 }
@@ -267,8 +232,11 @@ public class register extends AppCompatActivity {
         userInfo.put("phoneNumber", newUser.getPhoneNumber());
         userInfo.put("firstName", newUser.getFirstName());
         userInfo.put("lastName", newUser.getLastName());
+//        userInfo.put("password", newUser.getPassword());
+        userInfo.put("userName", newUser.getUserName());
+        userInfo.put("UID", newUser.getUID());
 
-        db.collection("Users").document(newUser.getUserName())
+        db.collection("Users").document(newUser.getUID())
                 .set(userInfo)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -283,20 +251,21 @@ public class register extends AppCompatActivity {
                     }
                 });
 
-        Map<String, Object> email_to_userName = new HashMap<>();
-        email_to_userName.put("userName", newUser.getUserName());
-        db.collection("email_to_username").document(newUser.getEmail())
-                .set(userInfo)
+        Map<String, Object> userDict = new HashMap<>();
+        userDict.put("email", newUser.getEmail());
+        userDict.put("UID", newUser.getUID());
+        db.collection("userDict").document(newUser.getUserName())
+                .set(userDict)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "email_to_userName successfully written!");
+                        Log.d(TAG, "userDict successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing email_to_userName", e);
+                        Log.w(TAG, "Error writing userDict", e);
                     }
                 });
     }

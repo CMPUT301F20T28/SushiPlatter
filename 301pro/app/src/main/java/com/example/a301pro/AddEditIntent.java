@@ -20,10 +20,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -119,6 +122,25 @@ public class AddEditIntent extends AppCompatActivity {
                     sendDataToDb(data);
 
                     myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, null);
+
+
+                    // Add new book to realtime database
+                    String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    FirebaseDatabase.getInstance().getReference("Users_ID/" + currentUser + "/MyBooks/" + currentUser + "-" + myBook.getBook_name())
+                            .setValue(myBook).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Log.d(TAG, "Add new book:success");
+                                Toast.makeText(AddEditIntent.this, "Book added!", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(AddEditIntent.this, "Add new book failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
                     Intent intent = new Intent();
                     intent.putExtra("BOOK", myBook);
                     intent.putExtra("POS", myPos);
