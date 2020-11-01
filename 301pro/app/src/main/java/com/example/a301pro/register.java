@@ -2,10 +2,16 @@ package com.example.a301pro;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,12 +47,16 @@ public class register extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Button registerButton;
     Button login;
+    Switch mSwitch;
+    EditText passwordView;
+    EditText passwordViewCheck;
 
     /**
      * User sign up
      * @param savedInstanceState
      *
      * reference: https://firebase.google.com/docs/auth/android/start
+     *            https://www.youtube.com/watch?v=Z-RE1QuUWPg&ab_channel=CodeWithMazn
      */
 
 
@@ -57,7 +67,8 @@ public class register extends AppCompatActivity {
         // Get the Intent that started this activity and extract the string
         //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
-
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         final EditText userFirstName = findViewById(R.id.first_name);
         final EditText userLastName = findViewById(R.id.last_name);
@@ -69,6 +80,24 @@ public class register extends AppCompatActivity {
         registerButton = findViewById(R.id.btn_register);
         login = findViewById(R.id.login_in_register);
         mAuth = FirebaseAuth.getInstance();
+        mSwitch = (Switch) findViewById(R.id.show_password);
+        passwordView = findViewById(R.id.text_password);
+        passwordViewCheck = findViewById(R.id.text_password_check);
+
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    passwordView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordViewCheck.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                else{
+
+                    passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordViewCheck.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -154,30 +183,68 @@ public class register extends AppCompatActivity {
                                     return;
                                 }else{
                                     if(userExist == false) {
+//Old create account
+//                                        {
+//                                            mAuth.createUserWithEmailAndPassword(email, password)
+//                                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                                                @Override
+//                                                public void onComplete(@NonNull Task<AuthResult> task) {
+//                                                    if (task.isSuccessful()) {
+//                                                        // Sign up success, go to login
+//                                                        Log.d(TAG, "createUserWithEmail:success");
+//                                                        Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
+//                                                        newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
+//                                                        createAccount(newUser);
+//                                                        Intent intent = new Intent(getBaseContext(), login.class);
+//                                                        startActivity(intent);
+//                                                        finish();
+//
+//                                                    } else {
+//                                                        // If sign up fails, display a message to the user.
+//                                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+//                                                        Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//
+//
+//                                                    }
+//                                                }
+//                                            });
+//                                        }
                                         {
-                                            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                                    if (task.isSuccessful()) {
-                                                        // Sign up success, go to login
-                                                        Log.d(TAG, "createUserWithEmail:success");
-                                                        Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
-                                                        newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
-                                                        createAccount(newUser);
-                                                        Intent intent = new Intent(getBaseContext(), login.class);
-                                                        startActivity(intent);
-                                                        finish();
+                                            mAuth.createUserWithEmailAndPassword(email, password)
+                                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                                            if (task.isSuccessful()) {
+                                                                newUser = new User(userName, email, password, firstName, lastName, phoneNumber);
 
-                                                    } else {
-                                                        // If sign up fails, display a message to the user.
-                                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                                        Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                                FirebaseDatabase.getInstance().getReference("Users_ID")
+                                                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userInfo")
+                                                                        .setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        if (task.isSuccessful()){
+                                                                            Log.d(TAG, "createUserWithEmail:success");
+                                                                            Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
+                                                                            createAccount(newUser);
+                                                                            Intent intent = new Intent(getBaseContext(), login.class);
+                                                                            startActivity(intent);
+                                                                            finish();
+                                                                        }else{
+                                                                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                                                            Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                });
 
+                                                            } else {
+                                                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                                                Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                                    }
-                                                }
-                                            });
+                                                            }
+                                                        }
+                                                    });
                                         }
+
                                     }
                                 }
                             }
@@ -206,15 +273,31 @@ public class register extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Log.d(TAG, "New user info successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
+                        Log.w(TAG, "Error writing new user info", e);
                     }
                 });
 
+        Map<String, Object> email_to_userName = new HashMap<>();
+        email_to_userName.put("userName", newUser.getUserName());
+        db.collection("email_to_username").document(newUser.getEmail())
+                .set(userInfo)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "email_to_userName successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing email_to_userName", e);
+                    }
+                });
     }
 }
