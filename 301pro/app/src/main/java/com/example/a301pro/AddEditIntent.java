@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -38,7 +39,6 @@ import java.util.HashMap;
  * 可以add/edit, 可以同步到数据库
  *
  * fail:
- * userID是对应login的账户,但目前还没实现从login那边获取登录的id
  * add 的拍照功能, 和图片上传功能还没弄
  *
  * bug:
@@ -108,16 +108,21 @@ public class AddEditIntent extends AppCompatActivity {
                 if(!(TextUtils.isEmpty(myBookName)) &&
                         !(TextUtils.isEmpty(myBookAuthor)) &&
                         !(TextUtils.isEmpty(myISBN))) {
-                    HashMap<String, Object> data = new HashMap<>();
-                    data.put("Book Name", myBookName);
-                    data.put("Author Name", myBookAuthor);
-                    data.put("ISBN", myISBN);
-                    data.put("Description", myDes);
-                    data.put("Status", myStatus);
-                    data.put("Image", myImg);
-                    sendDataToDb(data);
 
-                    myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, null);
+//                    HashMap<String, Object> data = new HashMap<>();
+//                    data.put("Book Name", myBookName);
+//                    data.put("Author Name", myBookAuthor);
+//                    data.put("ISBN", myISBN);
+//                    data.put("Description", myDes);
+//                    data.put("Status", myStatus);
+//                    data.put("Image", myImg);
+//                    sendDataToDb(data);
+
+                    String myBookID = generateBookID(getUserID(), myISBN);
+                    myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, null);
+
+                    sendDataToDb(myBook);
+
                     Intent intent = new Intent();
                     intent.putExtra("BOOK", myBook);
                     intent.putExtra("POS", myPos);
@@ -164,16 +169,17 @@ public class AddEditIntent extends AppCompatActivity {
 
     /**
      * Update data of the owned book to the database
-     * @param data pairs of data that need to be updated to the database
+     * @param myBook pairs of data that need to be updated to the database
      */
-    public void sendDataToDb(HashMap<String, Object> data) {
+    public void sendDataToDb(Book myBook) {
         final CollectionReference CollectRef = db.collection("Mybook");
-//        String userID = getUserID();
-        String userID = "Somebody's book"; // set init user to Somebody's book for testing purpose
-
+        String userID = getUserID();
+        String bookID = myBook.getBook_id();
         CollectRef
                 .document(userID)
-                .set(data)
+                .collection(bookID)
+                .document(bookID)
+                .set(myBook)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -191,12 +197,21 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * get current logged in user
-     * @return username as a string
+     * get uid of the current logged in user
+     * @return uid as a string
      */
     protected String getUserID() {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        return String.valueOf(mAuth.getCurrentUser());
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
+    /**
+     * generate a unique id for a book
+     * @param uid unique userId from the database
+     * @param isbn isbn code for the book
+     * @return unique id of the book, which is uid followed by isbn
+     */
+    protected String generateBookID(String uid, String isbn) {
+        return uid+isbn;
     }
 
     /**
@@ -233,5 +248,6 @@ public class AddEditIntent extends AppCompatActivity {
         });
         popupMenu.show();
     }
+
 
 }
