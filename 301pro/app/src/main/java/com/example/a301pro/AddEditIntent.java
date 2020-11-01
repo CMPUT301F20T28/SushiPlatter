@@ -103,17 +103,6 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myStatus = status.getText().toString();
                 final int myImg = R.drawable.ic_image1; // sample image*********
 
-                // Confirm data and process to the database
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String myBookName = bookName.getText().toString();
-                final String myBookAuthor = authorName.getText().toString();
-                final String myISBN = ISBN.getText().toString();
-                final String myDes = description.getText().toString();
-                final String myStatus = status.getText().toString();
-                final int myImg = R.drawable.ic_image1; // sample image*********
-
                 // validation of book data, book name, author name, and ISBN are required.
                 // send data to update if valid, otherwise to display error message
                 if(!(TextUtils.isEmpty(myBookName)) &&
