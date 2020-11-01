@@ -172,12 +172,12 @@ public class AddEditIntent extends AppCompatActivity {
      * @param myBook pairs of data that need to be updated to the database
      */
     public void sendDataToDb(Book myBook) {
-        final CollectionReference CollectRef = db.collection("Mybook");
+        final CollectionReference CollectRef = db.collection("Users");
         String userID = getUserID();
         String bookID = myBook.getBook_id();
         CollectRef
                 .document(userID)
-                .collection(bookID)
+                .collection("MyBooks")
                 .document(bookID)
                 .set(myBook)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -211,7 +211,7 @@ public class AddEditIntent extends AppCompatActivity {
      * @return unique id of the book, which is uid followed by isbn
      */
     protected String generateBookID(String uid, String isbn) {
-        return uid+isbn;
+        return uid +"-"+isbn;
     }
 
     /**
