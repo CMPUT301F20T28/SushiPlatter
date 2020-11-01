@@ -20,16 +20,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-=======
-import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -109,12 +103,22 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myStatus = status.getText().toString();
                 final int myImg = R.drawable.ic_image1; // sample image*********
 
+                // Confirm data and process to the database
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String myBookName = bookName.getText().toString();
+                final String myBookAuthor = authorName.getText().toString();
+                final String myISBN = ISBN.getText().toString();
+                final String myDes = description.getText().toString();
+                final String myStatus = status.getText().toString();
+                final int myImg = R.drawable.ic_image1; // sample image*********
+
                 // validation of book data, book name, author name, and ISBN are required.
                 // send data to update if valid, otherwise to display error message
                 if(!(TextUtils.isEmpty(myBookName)) &&
                         !(TextUtils.isEmpty(myBookAuthor)) &&
                         !(TextUtils.isEmpty(myISBN))) {
-
 
 //                    HashMap<String, Object> data = new HashMap<>();
 //                    data.put("Book Name", myBookName);
@@ -129,36 +133,6 @@ public class AddEditIntent extends AppCompatActivity {
                     myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, null);
 
                     sendDataToDb(myBook);
-
-                    HashMap<String, Object> data = new HashMap<>();
-                    data.put("Book Name", myBookName);
-                    data.put("Author Name", myBookAuthor);
-                    data.put("ISBN", myISBN);
-                    data.put("Description", myDes);
-                    data.put("Status", myStatus);
-                    data.put("Image", myImg);
-                    sendDataToDb(data);
-
-                    myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, null);
-
-
-                    // Add new book to realtime database
-                    String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    FirebaseDatabase.getInstance().getReference("Users_ID/" + currentUser + "/MyBooks/" + currentUser + "-" + myBook.getBook_name())
-                            .setValue(myBook).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()){
-                                Log.d(TAG, "Add new book:success");
-                                Toast.makeText(AddEditIntent.this, "Book added!", Toast.LENGTH_SHORT).show();
-                            }else{
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(AddEditIntent.this, "Add new book failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-
 
                     Intent intent = new Intent();
                     intent.putExtra("BOOK", myBook);
