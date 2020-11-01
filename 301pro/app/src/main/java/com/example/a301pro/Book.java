@@ -13,9 +13,9 @@ public class Book implements Serializable {
     private String status;
     private String book_id;
     private String borrower_name;
-    private User owner;
+    private String owner;
 
-    public Book(int imageID, String book_name, String author, String ISBN, String description, String status, String book_id, String borrower_name, User owner) {
+    public Book(int imageID, String book_name, String author, String ISBN, String description, String status, String book_id, String borrower_name, String owner) {
         this.imageID = imageID;
         this.book_name = book_name;
         this.author = author;
@@ -91,11 +91,11 @@ public class Book implements Serializable {
         this.borrower_name = borrower_name;
     }
 
-    public User getOwner() {
+    public String getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner() {
         this.owner = owner;
     }
 }

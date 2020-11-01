@@ -23,6 +23,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -183,32 +184,36 @@ public class register extends AppCompatActivity {
                                     return;
                                 }else{
                                     if(userExist == false) {
-                                        {
-                                            mAuth.createUserWithEmailAndPassword(email, password)
-                                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                                    if (task.isSuccessful()) {
-                                                        // Sign up success, go to login
-                                                        final String UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                                        Log.d(TAG, "createUserWithEmail:success");
-                                                        Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
-                                                        newUser = new User(userName, email, password, firstName, lastName, phoneNumber, UID);
-                                                        createAccount(newUser);
-                                                        Intent intent = new Intent(getBaseContext(), login.class);
-                                                        startActivity(intent);
-                                                        finish();
-
-                                                    } else {
+                                        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "createUserWithEmail:success");
+                                                    final FirebaseUser user = mAuth.getCurrentUser();
+                                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(userName).build();
+                                                    user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                // Sign up success, go to login
+                                                                final String UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                                 Log.d(TAG, "createUserWithEmail:success");
+                                                                 Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
+                                                                 newUser = new User(userName, email, password, firstName, lastName, phoneNumber, UID);
+                                                                createAccount(newUser);
+                                                                Intent intent = new Intent(getBaseContext(), login.class);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            }
+                                                        }
+                                                    });
+                                                } else {
                                                         // If sign up fails, display a message to the user.
                                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                                         Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-
-                                                    }
                                                 }
-                                            });
-                                        }
+                                            }
+                                        });
 
                                     }
                                 }

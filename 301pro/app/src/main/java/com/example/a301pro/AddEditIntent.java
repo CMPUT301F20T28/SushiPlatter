@@ -119,7 +119,8 @@ public class AddEditIntent extends AppCompatActivity {
 //                    sendDataToDb(data);
 
                     String myBookID = generateBookID(getUserID(), myISBN);
-                    myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, null);
+                    String userName = getUserName();
+                    myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
 
                     sendDataToDb(myBook);
 
@@ -202,6 +203,10 @@ public class AddEditIntent extends AppCompatActivity {
      */
     protected String getUserID() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
+    protected String getUserName() {
+        return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
 
     /**
