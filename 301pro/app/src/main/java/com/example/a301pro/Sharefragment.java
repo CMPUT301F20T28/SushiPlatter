@@ -42,11 +42,6 @@ public class Sharefragment extends Fragment {
     ListView shareList;
     ArrayAdapter<Share> shareAdapter;
     ArrayList<Share> shareDataList;
-    ArrayList<String> share_name = new ArrayList<String>();
-    ArrayList<String> des = new ArrayList<String>();
-    ArrayList<String> sta = new ArrayList<String>();
-    ArrayList<String> owners = new ArrayList<String>();
-    ArrayList<String> bookIDs = new ArrayList<String>();
     public Sharefragment() {
     }
 
@@ -72,47 +67,21 @@ public class Sharefragment extends Fragment {
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                // Clear the old list
-                share_name.clear();
-                des.clear();
-                sta.clear();
-                owners.clear();
-                bookIDs.clear();
-                int i = 0;
-                final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
-
-
-
 
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String bookid = doc.getId();
-                    bookIDs.add(i, bookid);
-                    //bookIDs.add(bookid);
                     String bookName= (String) doc.getData().get("book_name");
-                    share_name.add(i,bookName);
-                    //share_name.add(bookName);
                     String description = (String) doc.getData().get("description");
-                    des.add(i,description);
-                    //des.add(description);
                     String status = (String) doc.getData().get("status");
-                    sta.add(i,status);
-                    //sta.add(status);
                     String owner = (String) doc.getData().get("owner");
-                    owners.add(i,owner);
-                    //owners.add(owner);
-
                     String imageID = (String) doc.getData().get("image");
 
-                    shareDataList.add((new Share(logo[i],share_name.get(i),des.get(i),sta.get(i),owners.get(i))));
-                    i+=1;
+                    shareDataList.add((new Share(R.drawable.ic_image1,bookName,description,status,owner)));
                 }
                 shareAdapter.notifyDataSetChanged();
 
             }
         });
-
-
-
 
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
