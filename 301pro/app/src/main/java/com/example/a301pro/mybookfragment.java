@@ -14,13 +14,22 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.githang.statusbar.StatusBarCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -65,31 +74,37 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         final ImageButton mesBtn = view.findViewById(R.id.message_center);
         final FloatingActionButton addBookbtn = view.findViewById(R.id.add_book_button);
 
-//        getMybookData();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("MyBooks");
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
+        final StorageReference storageRef = storage.getReference();
 
-        final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1};
-        final String []book_name = {"Kindle", "kindle2"};
-        final String []autor_name = {"Simon", "Lucy"};
-        final String []ISBN = {"12323124","44441244"};
-        final String []des = {"Have you always wondered how it is that a machine understands what you are saying? Did you wonder how Siri or Alexa always knows exactly what to show you when you ask them something? If you did, you have come to the right place.",
-                "Have you always wondered how it is that a machine understands what you are saying? Did you wonder how Siri or Alexa always knows exactly what to show you when you ask them something? If you did, you have come to the right place."};
-        final String []sta = {"R","B"};
-        final String []bor = {"Shanz","Fan"};
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                bookAdapter.clear();
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                    //String imageID = (String) doc.getData().get("image");
+                    String bookName= (String) doc.getData().get("book_name");
+                    String author = (String) doc.getData().get("author");
+                    String ISBN =  (String) doc.getData().get("isbn");
+                    String description = (String) doc.getData().get("description");
+                    String status = (String) doc.getData().get("status");
+                    String bookid = doc.getId();
+                    String borrower = (String) doc.getData().get("borrower_name");
+                    String owner = (String) doc.getData().get("owner");
+                    bookDataList.add((new Book(R.drawable.ic_image1,bookName,author,ISBN,description,status,bookid,borrower,owner)));
+                }
+                bookAdapter.notifyDataSetChanged();
+            }
+        });
 
-        final String []bookid = {"123","456"};
-
-
-
-
-        for (int i = 0; i < book_name.length; i++) {
-            bookDataList.add((new Book(logo[i],book_name[i], autor_name[i],ISBN[i],des[i],sta[i], bookid[i], bor[i], null)));
-        }
-
-        // click on message button to check message
+// click on message button to check message
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                Toast.makeText(getContext(),getUserID(),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -184,8 +199,12 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         bookAdapter.remove(book);
     }
 
-    public void getMybookData(){
-        String userID = String.valueOf(FirebaseAuth.getInstance().getCurrentUser());
-
+    protected String getUserID() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
+
+    protected String generateBookID(String uid, String isbn) {
+        return uid +"-"+isbn;
+    }
+
 }
