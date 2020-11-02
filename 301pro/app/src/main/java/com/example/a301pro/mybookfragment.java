@@ -32,6 +32,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * Allow user to view all the owned books, search for a book, fetch books by status,
@@ -76,15 +78,15 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("MyBooks");
-        final FirebaseStorage storage = FirebaseStorage.getInstance();
-        final StorageReference storageRef = storage.getReference();
+
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 bookAdapter.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    //String imageID = (String) doc.getData().get("image");
+
+                    String imageID = (String) doc.getData().get("imageID");
                     String bookName= (String) doc.getData().get("book_name");
                     String author = (String) doc.getData().get("author");
                     String ISBN =  (String) doc.getData().get("isbn");
@@ -93,7 +95,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                     String bookid = doc.getId();
                     String borrower = (String) doc.getData().get("borrower_name");
                     String owner = (String) doc.getData().get("owner");
-                    bookDataList.add((new Book(R.drawable.ic_image1,bookName,author,ISBN,description,status,bookid,borrower,owner)));
+                    bookDataList.add((new Book(imageID,bookName,author,ISBN,description,status,bookid,borrower,owner)));
                 }
                 bookAdapter.notifyDataSetChanged();
             }
@@ -158,15 +160,17 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ADD) {
-//            if (resultCode == RESULT_OK) {
-            Book myBook = (Book) data.getSerializableExtra("BOOK");
-            bookAdapter.add(myBook);
+            if (resultCode == RESULT_OK) {
+                Book myBook = (Book) data.getSerializableExtra("BOOK");
+                bookAdapter.add(myBook);
+            }
         } else if (requestCode == REQUEST_EDIT) {
-//            if (resultCode == RESULT_OK) {
-            Book myBook = (Book) data.getSerializableExtra("BOOK");
-            int pos = data.getIntExtra("POS",-1);
-            bookDataList.set(pos, myBook);
-            bookAdapter.notifyDataSetChanged();
+            if (resultCode == RESULT_OK) {
+                Book myBook = (Book) data.getSerializableExtra("BOOK");
+                int pos = data.getIntExtra("POS",-1);
+                bookDataList.set(pos, myBook);
+                bookAdapter.notifyDataSetChanged();
+            }
         }
     }
 

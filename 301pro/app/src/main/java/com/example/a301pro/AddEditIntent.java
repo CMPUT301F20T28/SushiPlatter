@@ -104,6 +104,7 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myDes = description.getText().toString();
                 final String myStatus = status.getText().toString();
                 final int myImg = R.drawable.ic_image1; // sample image*********
+                //final int myImg =
 
                 // validation of book data, book name, author name, and ISBN are required.
                 // send data to update if valid, otherwise to display error message
@@ -121,7 +122,7 @@ public class AddEditIntent extends AppCompatActivity {
 //                    sendDataToDb(data);
 
                     String myBookID = generateBookID(getUserID(), myISBN);
-                    myBook = new Book(myImg, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                    myBook = new Book("default.png", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
 
                     sendDataToDb(myBook);
 
@@ -187,7 +188,7 @@ public class AddEditIntent extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Book has been updated successfully!");
-                        new AddBookToLibrary(new Share(myBook.getImageID(), myBook.getBook_name(), myBook.getDescription(), "Available", myBook.getOwner()), bookID);
+                        new AddBookToLibrary(new Share(R.drawable.ic_image1, myBook.getBook_name(), myBook.getDescription(), "Available", myBook.getOwner()), bookID);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
