@@ -341,7 +341,9 @@ public class AddEditIntent extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Book has been updated successfully!");
-                        new AddBookToLibrary(new Share(R.drawable.ic_image1, myBook.getBook_name(), myBook.getDescription(), "Available", myBook.getOwner()), bookID);
+                        if(myBook.getStatus().equals("Available")) {
+                            new AddBookToLibrary(new Share(myBook.getImageID(), myBook.getBook_name(), myBook.getDescription(), "Available", getUserID()), bookID);
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

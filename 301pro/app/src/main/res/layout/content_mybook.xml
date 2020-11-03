@@ -20,7 +20,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="25sp" />
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="8dp"
+                android:autoSizeMaxTextSize="26dp"
+                android:autoSizeStepGranularity="2dp"
+            />
     </LinearLayout>
 
         <TextView
@@ -41,7 +45,7 @@
             android:id="@+id/status_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp" >
+            android:textSize="15sp" >
         </TextView>
 
         <TextView
