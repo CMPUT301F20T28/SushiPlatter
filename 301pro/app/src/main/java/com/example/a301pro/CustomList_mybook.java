@@ -46,8 +46,6 @@ public class CustomList_mybook extends ArrayAdapter<Book> {
         TextView des = view.findViewById(R.id.des_text);
         TextView sta = view.findViewById(R.id.status_text);
         TextView bor = view.findViewById(R.id.borrower_text);
-
-        //imageView.setImageResource(R.drawable.ic_image1);
         StorageReference imageRef = storage.getReference().child(book.getImageID());
         imageRef.getBytes(1024 * 1024)
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
