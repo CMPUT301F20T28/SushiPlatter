@@ -59,30 +59,45 @@ public class Sharefragment extends Fragment {
                 showPopupMenu(filter_btn);
             }
         });
+        // initialize a database
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // find the reference of Library
         CollectionReference collectionReference = db.collection("Library");
+        // get an instance of FirebaseStorage
         final FirebaseStorage storage = FirebaseStorage.getInstance();
+        // get the reference of storage instance
         final StorageReference storageRef = storage.getReference();
 
+        // read data from library and storage, and save read data in the shareDatalist
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
+            // read data from library and storage, and save read data in the shareDatalist
+
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                // read data from library and storage, and save read data in the shareDatalist
 
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                    //get bookid, book id is the main key of a book entity
                     String bookid = doc.getId();
+                    // get book name
                     String bookName= (String) doc.getData().get("book_name");
+                    // get book description
                     String description = (String) doc.getData().get("description");
+                    // get book status
                     String status = (String) doc.getData().get("status");
+                    // get book onwer
                     String owner = (String) doc.getData().get("owner");
+                    // get image of the book
                     String imageID = (String) doc.getData().get("image");
-
+                    // create instance of share based on above data and add it to shareDatalist
                     shareDataList.add((new Share(R.drawable.ic_image1,bookName,description,status,owner)));
                 }
+                // notify the adpter
                 shareAdapter.notifyDataSetChanged();
 
             }
         });
-
+        
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
