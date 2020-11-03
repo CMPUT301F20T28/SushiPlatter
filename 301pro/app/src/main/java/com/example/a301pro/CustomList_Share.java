@@ -28,7 +28,6 @@ public class CustomList_Share extends ArrayAdapter<Share> {
         super(context,0,shares);
         this.shares = shares;
         this.context = context;
-
         //Constructor of the CustomList
     }
 
@@ -56,6 +55,7 @@ public class CustomList_Share extends ArrayAdapter<Share> {
                         img.setImageBitmap(bitmap);
                     }
                 });
+
         //img.setImageResource(share.getImageId());
         book_name.setText(share.getBook_name());
         des.setText(share.getDes());

@@ -39,7 +39,6 @@ public class Share {
         return onwer;
     }
 
-
     public void setBook_name(String book_name) {
         this.book_name = book_name;
     }
