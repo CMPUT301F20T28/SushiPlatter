@@ -69,17 +69,16 @@ public class Sharefragment extends Fragment {
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
 
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    String bookid = doc.getId();
+                    String imageid = (String) doc.getData().get("imageId") ;
+                    //String bookid = doc.getId();
                     String bookName= (String) doc.getData().get("book_name");
-                    String description = (String) doc.getData().get("description");
-                    String status = (String) doc.getData().get("status");
+                    String description = (String) doc.getData().get("des");
+                    String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
-                    String imageID = (String) doc.getData().get("image");
 
-                    shareDataList.add((new Share(R.drawable.ic_image1,bookName,description,status,owner)));
+                    shareDataList.add((new Share(imageid,bookName,description,status,owner)));
                 }
                 shareAdapter.notifyDataSetChanged();
-
             }
         });
 

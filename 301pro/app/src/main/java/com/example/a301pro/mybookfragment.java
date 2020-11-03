@@ -2,13 +2,17 @@ package com.example.a301pro;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -31,35 +35,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-
-/**
- * Allow user to view all the owned books, search for a book, fetch books by status,
- * add a new book, and edit a existed book
- *
- * current process
- *
- * success:
- * 可以add/edit, 并且更新到数据库和list view
- *
- * fail:
- * 目前还是静态添加book, 还没实现从数据库抓取数据添加到list view,
- * 所以重启app的时候只能显示hardcode上去的book
- *
- * bug:
- * onActivityResult()里的resultCode 有问题, 导致从addEdit点击Back返回出现闪退
- * delete book弹窗问题未修复
- */
 public class mybookfragment extends Fragment implements ComfirmDialog.OnFragmentInteractionListenerComfirm {
     ListView bookList;
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> bookDataList;
+    ArrayList<Book> searchList;
 
     public static final String Evaluate_DIALOG = "evaluate_dialog";
     public static final int REQUEST_ADD = 0;
     public static final int REQUEST_EDIT = 1;
+
+    //private EditText serach;
 
     public mybookfragment() {
     }
@@ -70,20 +60,22 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
         bookList = view.findViewById(R.id.my_book_list);
         bookDataList = new ArrayList<>();
+        searchList = new ArrayList<>();
         bookAdapter = new CustomList_mybook(getContext(),bookDataList);
         bookList.setAdapter(bookAdapter);
         final Button filterBtn = view.findViewById(R.id.filter);
         final ImageButton mesBtn = view.findViewById(R.id.message_center);
         final FloatingActionButton addBookbtn = view.findViewById(R.id.add_book_button);
+        final EditText search = view.findViewById(R.id.search_method);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("MyBooks");
+        final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("MyBooks");
 
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                bookAdapter.clear();
+                bookDataList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
                     String imageID = (String) doc.getData().get("imageID");
@@ -96,10 +88,12 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                     String borrower = (String) doc.getData().get("borrower_name");
                     String owner = (String) doc.getData().get("owner");
                     bookDataList.add((new Book(imageID,bookName,author,ISBN,description,status,bookid,borrower,owner)));
+
                 }
                 bookAdapter.notifyDataSetChanged();
             }
         });
+        
 
 // click on message button to check message
         mesBtn.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +148,10 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         });
 
         return view;
+    }
+
+    private void changelist(String de) {
+        searchList.clear();
     }
 
     @Override
