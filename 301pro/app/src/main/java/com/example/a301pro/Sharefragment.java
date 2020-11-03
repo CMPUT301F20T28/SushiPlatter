@@ -42,11 +42,6 @@ public class Sharefragment extends Fragment {
     ListView shareList;
     ArrayAdapter<Share> shareAdapter;
     ArrayList<Share> shareDataList;
-    ArrayList<String> share_name = new ArrayList<String>();
-    ArrayList<String> des = new ArrayList<String>();
-    ArrayList<String> sta = new ArrayList<String>();
-    ArrayList<String> owners = new ArrayList<String>();
-    ArrayList<String> bookIDs = new ArrayList<String>();
     public Sharefragment() {
     }
 
@@ -64,56 +59,45 @@ public class Sharefragment extends Fragment {
                 showPopupMenu(filter_btn);
             }
         });
+        // initialize a database
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // find the reference of Library
         CollectionReference collectionReference = db.collection("Library");
+        // get an instance of FirebaseStorage
         final FirebaseStorage storage = FirebaseStorage.getInstance();
+        // get the reference of storage instance
         final StorageReference storageRef = storage.getReference();
 
+        // read data from library and storage, and save read data in the shareDatalist
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
+            // read data from library and storage, and save read data in the shareDatalist
+
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                // Clear the old list
-                share_name.clear();
-                des.clear();
-                sta.clear();
-                owners.clear();
-                bookIDs.clear();
-                int i = 0;
-                final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
-
-
-
+                // read data from library and storage, and save read data in the shareDatalist
 
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                    //get bookid, book id is the main key of a book entity
                     String bookid = doc.getId();
-                    bookIDs.add(i, bookid);
-                    //bookIDs.add(bookid);
+                    // get book name
                     String bookName= (String) doc.getData().get("book_name");
-                    share_name.add(i,bookName);
-                    //share_name.add(bookName);
+                    // get book description
                     String description = (String) doc.getData().get("description");
-                    des.add(i,description);
-                    //des.add(description);
+                    // get book status
                     String status = (String) doc.getData().get("status");
-                    sta.add(i,status);
-                    //sta.add(status);
+                    // get book onwer
                     String owner = (String) doc.getData().get("owner");
-                    owners.add(i,owner);
-                    //owners.add(owner);
-
+                    // get image of the book
                     String imageID = (String) doc.getData().get("image");
-
-                    shareDataList.add((new Share(logo[i],share_name.get(i),des.get(i),sta.get(i),owners.get(i))));
-                    i+=1;
+                    // create instance of share based on above data and add it to shareDatalist
+                    shareDataList.add((new Share(R.drawable.ic_image1,bookName,description,status,owner)));
                 }
+                // notify the adpter
                 shareAdapter.notifyDataSetChanged();
 
             }
         });
-
-
-
-
+        
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

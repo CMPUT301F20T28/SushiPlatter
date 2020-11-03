@@ -1,6 +1,8 @@
 package com.example.a301pro;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +13,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 
 public class CustomList_mybook extends ArrayAdapter<Book> {
     private ArrayList<Book> books;
     private Context context;
-
+    final FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public CustomList_mybook(@NonNull Context context, ArrayList<Book> books) {
         super(context,0,books);
@@ -35,13 +41,21 @@ public class CustomList_mybook extends ArrayAdapter<Book> {
 
         Book book = books.get(position);
 
-        ImageView imageView = view.findViewById(R.id.book_image);
+        final ImageView imageView = view.findViewById(R.id.book_image);
         TextView book_name = view.findViewById(R.id.name_text);
         TextView des = view.findViewById(R.id.des_text);
         TextView sta = view.findViewById(R.id.status_text);
         TextView bor = view.findViewById(R.id.borrower_text);
+        StorageReference imageRef = storage.getReference().child(book.getImageID());
+        imageRef.getBytes(1024 * 1024)
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        imageView.setImageBitmap(bitmap);
+                    }
+                });
 
-        imageView.setImageResource(book.getImageID());
         book_name.setText(book.getBook_name());
         des.setText(book.getDescription());
         sta.setText(book.getStatus());
