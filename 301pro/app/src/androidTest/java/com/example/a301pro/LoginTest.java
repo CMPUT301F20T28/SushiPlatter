@@ -27,10 +27,10 @@ public class LoginTest {
     }
 
 
-    @Test
-    public void start() throws Exception{
-        Activity activity = rule.getActivity();
-    }
+//    @Test
+//    public void start() throws Exception{
+//        Activity activity = rule.getActivity();
+//    }
 
 
     @Test
@@ -53,6 +53,8 @@ public class LoginTest {
         solo.sleep(20000);
 
     }
+
+
 
 
 
