@@ -93,7 +93,45 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                 bookAdapter.notifyDataSetChanged();
             }
         });
-        
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                final String dess = s.toString();
+                bookDataList.clear();
+                       collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                    bookDataList.clear();
+                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+
+                        String imageID = (String) doc.getData().get("imageID");
+                        String bookName= (String) doc.getData().get("book_name");
+                        String author = (String) doc.getData().get("author");
+                        String ISBN =  (String) doc.getData().get("isbn");
+                        String description = (String) doc.getData().get("description");
+                        String status = (String) doc.getData().get("status");
+                        String bookid = doc.getId();
+                        String borrower = (String) doc.getData().get("borrower_name");
+                        String owner = (String) doc.getData().get("owner");
+                        if (description.contains(dess)) {
+                            bookDataList.add((new Book(imageID, bookName, author, ISBN, description, status, bookid, borrower, owner)));
+                        }
+                    }
+                    bookAdapter.notifyDataSetChanged();
+                }
+            });
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 // click on message button to check message
         mesBtn.setOnClickListener(new View.OnClickListener() {
