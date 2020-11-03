@@ -1,7 +1,10 @@
 package com.example.a301pro;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -25,9 +28,15 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.a301pro.Utilities.AddBookToLibrary;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 
@@ -54,6 +63,8 @@ public class AddEditIntent extends AppCompatActivity {
     private int myPos;
     private Book myBook;
     private String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+    private static final int REQUEST_IMAGE_CAPTURE = 10001;
+    private boolean jg = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +86,7 @@ public class AddEditIntent extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         final CollectionReference ColRef = db.collection("Mybook");
 
+
         Bundle bundle = getIntent().getExtras();
         // user has selected a book to edit if bundle if not empty
         if(bundle != null) {
@@ -89,8 +101,17 @@ public class AddEditIntent extends AppCompatActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+            }
+        });
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
-                startActivity(takePhotoIntent);
+                if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
+                }
             }
         });
 
@@ -103,8 +124,16 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myISBN = ISBN.getText().toString();
                 final String myDes = description.getText().toString();
                 final String myStatus = status.getText().toString();
-                final int myImg = R.drawable.ic_image1; // sample image*********
-                //final int myImg =
+
+                if(jg == true) {
+                    Bitmap bm = ((BitmapDrawable) ((ImageButton) img).getDrawable()).getBitmap();
+                    handleUpload(bm);
+                    String myBookID = generateBookID(getUserID(), myISBN);
+                    myBook = new Book(myBookID+".jpeg", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                }else{
+                    String myBookID = generateBookID(getUserID(), myISBN);
+                    myBook = new Book("default.png", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                }
 
                 // validation of book data, book name, author name, and ISBN are required.
                 // send data to update if valid, otherwise to display error message
@@ -112,20 +141,7 @@ public class AddEditIntent extends AppCompatActivity {
                         !(TextUtils.isEmpty(myBookAuthor)) &&
                         !(TextUtils.isEmpty(myISBN))) {
 
-//                    HashMap<String, Object> data = new HashMap<>();
-//                    data.put("Book Name", myBookName);
-//                    data.put("Author Name", myBookAuthor);
-//                    data.put("ISBN", myISBN);
-//                    data.put("Description", myDes);
-//                    data.put("Status", myStatus);
-//                    data.put("Image", myImg);
-//                    sendDataToDb(data);
-
-                    String myBookID = generateBookID(getUserID(), myISBN);
-                    myBook = new Book("default.png", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
-
                     sendDataToDb(myBook);
-
                     Intent intent = new Intent();
                     intent.putExtra("BOOK", myBook);
                     intent.putExtra("POS", myPos);
@@ -169,7 +185,75 @@ public class AddEditIntent extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            img.setImageBitmap(imageBitmap);
+            //handleUpload(imageBitmap);
+            jg = true;
+        }
+    }
 
+    private void handleUpload(Bitmap imageBitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+
+        //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String myBookID = generateBookID(getUserID(),ISBN.getText().toString());
+        final StorageReference reference = FirebaseStorage.getInstance().getReference()
+                .child(myBookID+".jpeg");
+        reference.putBytes(baos.toByteArray())
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //getDownload(reference);
+                        Toast.makeText(AddEditIntent.this,"11111",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG,"onFailure",e.getCause());
+                    }
+                });
+    }
+/*
+    private void getDownload(StorageReference reference) {
+        reference.getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.e(TAG,"onSuccess: "+uri);
+                        setUserProfileUrl(uri);
+                    }
+                });
+    }
+
+    private void setUserProfileUrl(Uri uri){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                .setPhotoUri(uri)
+                .build();
+        user.updateProfile(request)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(AddEditIntent.this,"11111",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddEditIntent.this,"22222",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+*/
     /**
      * Update data of the owned book to the database
      * @param myBook pairs of data that need to be updated to the database
