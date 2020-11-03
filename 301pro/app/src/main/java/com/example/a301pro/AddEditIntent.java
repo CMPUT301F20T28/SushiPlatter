@@ -1,6 +1,8 @@
 package com.example.a301pro;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -24,6 +26,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.a301pro.Utilities.AddBookToLibrary;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -68,10 +72,11 @@ public class AddEditIntent extends AppCompatActivity {
     private int myPos;
     private Book myBook;
     private String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-    private static final int REQUEST_IMAGE_CAPTURE = 10001;
-    private static final int REQUEST_IMAGE_TO_TEXT = 10002;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_TO_TEXT = 2;
     private boolean jg = false;
     private String imgid;
+    Button camera;
     //private Bitmap bb;
 
     @Override
@@ -91,7 +96,7 @@ public class AddEditIntent extends AppCompatActivity {
         Button okBtn = findViewById(R.id.book_confirm);
         Button backBtn = findViewById(R.id.add_edit_quit);
         Button pickStatus = findViewById(R.id.pick_status);
-        Button camera = findViewById(R.id.scan_description);
+        camera = findViewById(R.id.scan_description);
         db = FirebaseFirestore.getInstance();
         final CollectionReference ColRef = db.collection("Mybook");
 
@@ -114,8 +119,8 @@ public class AddEditIntent extends AppCompatActivity {
                     });
         }
         else{
-            imgid = "default.png";
-            StorageReference imageRef = storage.getReference().child(imgid);
+            imgid ="default.png";
+            StorageReference imageRef = storage.getReference().child("default.png");
             imageRef.getBytes(1024 * 1024)
                     .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                         @Override
@@ -131,26 +136,17 @@ public class AddEditIntent extends AppCompatActivity {
         // open camera to take photo of the book, NOT DONE YET*********
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //image to text
-                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
-                if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePhotoIntent, REQUEST_IMAGE_TO_TEXT);
-                }
-            }
-        });
 
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
-                if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
-                }
-            }
-        });
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},110);
+            takingPhoto();
+            itot();
+        }
+        else {
+            takingPhoto();
+            itot();
+        }
+
 
         // Confirm data and process to the database
         okBtn.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +211,7 @@ public class AddEditIntent extends AppCompatActivity {
             }
         });
 
-        // Cancel action, no change will be made
+        // Cancel action, no change will be made1
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -226,7 +222,30 @@ public class AddEditIntent extends AppCompatActivity {
         });
 
     }
+    public void itot() {
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
+                if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            }
+        });
+    }
 
+    public void takingPhoto() {
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
+                if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePhotoIntent, REQUEST_IMAGE_TO_TEXT);
+                    //startActivity(takePhotoIntent);
+                }
+            }
+        });
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
