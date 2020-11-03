@@ -48,21 +48,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
-
-/**
- * This class provides functionality of adding a new book to the collection of the user,
- * and editing the data of a selected own book.
- *
- * current process
- * success:
- * 可以add/edit, 可以同步到数据库
- *
- * fail:
- * add 的拍照功能, 和图片上传功能还没弄
- *
- * bug:
- * onActivityResult()里的resultCode 有问题, 导致从addEdit点击Back返回出现闪退
- */
 public class AddEditIntent extends AppCompatActivity {
     private EditText bookName, authorName, ISBN, description;
     private TextView status;
@@ -222,7 +207,12 @@ public class AddEditIntent extends AppCompatActivity {
         });
 
     }
-    public void itot() {
+
+    /**
+     * intent to camera
+     * get the image taken by the camera to be the book image
+     */
+    public void takingPhoto() {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,7 +224,11 @@ public class AddEditIntent extends AppCompatActivity {
         });
     }
 
-    public void takingPhoto() {
+    /**
+     * intent to camera
+     * get the image of image to text
+     */
+    public void itot() {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,6 +257,10 @@ public class AddEditIntent extends AppCompatActivity {
         }
     }
 
+    /**
+     * To upload the book image into the data base and give the image a unique name
+     * @param imageBitmap the image taken from camera
+     */
     private void handleUpload(Bitmap imageBitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
@@ -287,6 +285,10 @@ public class AddEditIntent extends AppCompatActivity {
                 });
     }
 
+    /**
+     * get the text in the image using the moblie vision API
+     * @param bitmap the image taken from camera
+     */
     private void getTextFromImage(Bitmap bitmap){
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
         if (!textRecognizer.isOperational()){
