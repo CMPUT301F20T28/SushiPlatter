@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +28,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.a301pro.Utilities.AddBookToLibrary;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.TextBlock;
+import com.google.android.gms.vision.text.TextRecognizer;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -65,7 +69,10 @@ public class AddEditIntent extends AppCompatActivity {
     private Book myBook;
     private String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     private static final int REQUEST_IMAGE_CAPTURE = 10001;
+    private static final int REQUEST_IMAGE_TO_TEXT = 10002;
     private boolean jg = false;
+    private String imgid;
+    //private Bitmap bb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +87,7 @@ public class AddEditIntent extends AppCompatActivity {
         description = findViewById(R.id.description);
         status = findViewById(R.id.status);
         img = findViewById(R.id.add_edit_image);
-
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
         Button okBtn = findViewById(R.id.book_confirm);
         Button backBtn = findViewById(R.id.add_edit_quit);
         Button pickStatus = findViewById(R.id.pick_status);
@@ -88,25 +95,38 @@ public class AddEditIntent extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         final CollectionReference ColRef = db.collection("Mybook");
 
-        Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getIntent().getExtras();
         // user has selected a book to edit if bundle if not empty
         if(bundle != null) {
             myBook = (Book) bundle.getSerializable("BOOK");   // get the item
             myPos = bundle.getInt("POS");
             setTextBox(myBook);
-        }
+            imgid = myBook.getImageID();
 
-        final FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference imageRef = storage.getReference().child(imgid);
+            imageRef.getBytes(1024 * 1024)
+                    .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            img.setImageBitmap(bitmap);
+                        }
+                    });
+        }
+        else{
+            imgid = "default.png";
+            StorageReference imageRef = storage.getReference().child(imgid);
+            imageRef.getBytes(1024 * 1024)
+                    .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            img.setImageBitmap(bitmap);
+                        }
+                    });
+        }
         //imageView.setImageResource(R.drawable.ic_image1);
-        StorageReference imageRef = storage.getReference().child(myBook.getImageID());
-        imageRef.getBytes(1024 * 1024)
-                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        img.setImageBitmap(bitmap);
-                    }
-                });
+
 
         // open camera to take photo of the book, NOT DONE YET*********
         Window window = this.getWindow();
@@ -115,6 +135,10 @@ public class AddEditIntent extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //image to text
+                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
+                if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePhotoIntent, REQUEST_IMAGE_TO_TEXT);
+                }
             }
         });
 
@@ -137,7 +161,6 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myISBN = ISBN.getText().toString();
                 final String myDes = description.getText().toString();
                 final String myStatus = status.getText().toString();
-                final String imgid = myBook.getImageID();
 
                 if(jg == true) {
                     Bitmap bm = ((BitmapDrawable) ((ImageButton) img).getDrawable()).getBitmap();
@@ -214,6 +237,11 @@ public class AddEditIntent extends AppCompatActivity {
             //handleUpload(imageBitmap);
             jg = true;
         }
+        if (requestCode == REQUEST_IMAGE_TO_TEXT && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap bb = (Bitmap) extras.get("data");
+            getTextFromImage(bb);
+        }
     }
 
     private void handleUpload(Bitmap imageBitmap) {
@@ -238,6 +266,25 @@ public class AddEditIntent extends AppCompatActivity {
                         Log.e(TAG,"onFailure",e.getCause());
                     }
                 });
+    }
+
+    private void getTextFromImage(Bitmap bitmap){
+        TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+        if (!textRecognizer.isOperational()){
+            Toast.makeText(getApplicationContext(),"Could not get the Text",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+            SparseArray<TextBlock> items = textRecognizer.detect(frame);
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i <items.size();i++){
+                TextBlock myItem = items.valueAt(i);
+                sb.append(myItem.getValue());
+                sb.append("\n");
+
+            }
+            description.setText(sb.toString());
+        }
     }
 
     /**
