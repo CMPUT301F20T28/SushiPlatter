@@ -209,7 +209,7 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * intent to camera
+     * intent to camera1
      * get the image taken by the camera to be the book image
      */
     public void takingPhoto() {
