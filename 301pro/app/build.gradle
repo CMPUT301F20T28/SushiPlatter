@@ -54,5 +54,10 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-storage'
 
+    androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.3.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
     implementation 'com.google.android.gms:play-services-vision:20.1.2'
 }
