@@ -5,6 +5,7 @@
     android:weightSum="4"
     android:background="@drawable/round_item"
     >
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -22,7 +23,11 @@
             android:id="@+id/name_text_share"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp" />
+            android:gravity="center"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="8dp"
+            android:autoSizeMaxTextSize="26dp"
+            android:autoSizeStepGranularity="2dp" />
 
 
     </LinearLayout>
@@ -35,7 +40,8 @@
         android:layout_width="0dp"
         android:layout_weight="1.7"
         android:layout_height="match_parent"
-        android:textSize="10dp"></TextView>
+
+        ></TextView>
 
 
     <LinearLayout
@@ -48,7 +54,7 @@
             android:id="@+id/status_text_share"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="45dp"
+            android:textSize="15sp"
             android:layout_weight="0.7"
             android:hint="A"
             >
@@ -63,8 +69,6 @@
             android:hint="Borrower Name"
             >
         </TextView>
-
-
     </LinearLayout>
 
 

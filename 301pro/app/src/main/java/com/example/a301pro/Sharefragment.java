@@ -3,6 +3,8 @@ package com.example.a301pro;
 import android.app.MediaRouteActionProvider;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -60,9 +63,10 @@ public class Sharefragment extends Fragment {
             }
         });
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference collectionReference = db.collection("Library");
+        final CollectionReference collectionReference = db.collection("Library");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
+
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -81,6 +85,8 @@ public class Sharefragment extends Fragment {
                 shareAdapter.notifyDataSetChanged();
             }
         });
+
+
 
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
