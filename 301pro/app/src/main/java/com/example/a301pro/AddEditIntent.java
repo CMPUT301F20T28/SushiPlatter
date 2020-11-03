@@ -2,6 +2,7 @@ package com.example.a301pro;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -63,6 +64,7 @@ public class AddEditIntent extends AppCompatActivity {
     private Book myBook;
     private String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     private static final int REQUEST_IMAGE_CAPTURE = 10001;
+    private boolean jg = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +124,16 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myISBN = ISBN.getText().toString();
                 final String myDes = description.getText().toString();
                 final String myStatus = status.getText().toString();
-                final int myImg = R.drawable.ic_image1; // sample image*********
-                //final int myImg =
+
+                if(jg == true) {
+                    Bitmap bm = ((BitmapDrawable) ((ImageButton) img).getDrawable()).getBitmap();
+                    handleUpload(bm);
+                    String myBookID = generateBookID(getUserID(), myISBN);
+                    myBook = new Book(myBookID+".jpeg", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                }else{
+                    String myBookID = generateBookID(getUserID(), myISBN);
+                    myBook = new Book("default.png", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                }
 
                 // validation of book data, book name, author name, and ISBN are required.
                 // send data to update if valid, otherwise to display error message
@@ -131,20 +141,7 @@ public class AddEditIntent extends AppCompatActivity {
                         !(TextUtils.isEmpty(myBookAuthor)) &&
                         !(TextUtils.isEmpty(myISBN))) {
 
-//                    HashMap<String, Object> data = new HashMap<>();
-//                    data.put("Book Name", myBookName);
-//                    data.put("Author Name", myBookAuthor);
-//                    data.put("ISBN", myISBN);
-//                    data.put("Description", myDes);
-//                    data.put("Status", myStatus);
-//                    data.put("Image", myImg);
-//                    sendDataToDb(data);
-
-                    String myBookID = generateBookID(getUserID(), myISBN);
-                    myBook = new Book("default.png", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
-
                     sendDataToDb(myBook);
-
                     Intent intent = new Intent();
                     intent.putExtra("BOOK", myBook);
                     intent.putExtra("POS", myPos);
@@ -195,7 +192,8 @@ public class AddEditIntent extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             img.setImageBitmap(imageBitmap);
-            handleUpload(imageBitmap);
+            //handleUpload(imageBitmap);
+            jg = true;
         }
     }
 
@@ -203,15 +201,16 @@ public class AddEditIntent extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String myBookID = generateBookID(getUserID(),ISBN.getText().toString());
         final StorageReference reference = FirebaseStorage.getInstance().getReference()
-                .child("BookImages")
-                .child(uid+".jpeg");
+                .child(myBookID+".jpeg");
         reference.putBytes(baos.toByteArray())
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        getDownload(reference);
+                        //getDownload(reference);
+                        Toast.makeText(AddEditIntent.this,"11111",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -221,7 +220,7 @@ public class AddEditIntent extends AppCompatActivity {
                     }
                 });
     }
-
+/*
     private void getDownload(StorageReference reference) {
         reference.getDownloadUrl()
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -254,7 +253,7 @@ public class AddEditIntent extends AppCompatActivity {
                 });
     }
 
-
+*/
     /**
      * Update data of the owned book to the database
      * @param myBook pairs of data that need to be updated to the database
