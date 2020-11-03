@@ -1,13 +1,13 @@
 package com.example.a301pro;
 
 public class Share {
-    private int imageId;
+    private String imageId;
     private String book_name;
     private String des;
     private String sit;
     private String onwer;
 
-    public Share(int imageId,String book_name, String des, String sit, String onwer) {
+    public Share(String imageId,String book_name, String des, String sit, String onwer) {
         this.imageId =imageId;
         this.book_name = book_name;
         this.des = des;
@@ -15,11 +15,11 @@ public class Share {
         this.onwer = onwer;
     }
 
-    public int getImageId() {
+    public String getImageId() {
         return imageId;
     }
 
-    public void setImageId(int imageId) {
+    public void setImageId(String imageId) {
         this.imageId = imageId;
     }
 

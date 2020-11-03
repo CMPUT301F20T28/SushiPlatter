@@ -82,22 +82,22 @@ public class Sharefragment extends Fragment {
                     // get book name
                     String bookName= (String) doc.getData().get("book_name");
                     // get book description
-                    String description = (String) doc.getData().get("description");
+                    String description = (String) doc.getData().get("des");
                     // get book status
-                    String status = (String) doc.getData().get("status");
+                    String status = (String) doc.getData().get("sit");
                     // get book onwer
                     String owner = (String) doc.getData().get("owner");
                     // get image of the book
-                    String imageID = (String) doc.getData().get("image");
+                    String imageID = (String) doc.getData().get("imageID");
                     // create instance of share based on above data and add it to shareDatalist
-                    shareDataList.add((new Share(R.drawable.ic_image1,bookName,description,status,owner)));
+                    shareDataList.add((new Share(imageID,bookName,description,status,owner)));
                 }
                 // notify the adpter
                 shareAdapter.notifyDataSetChanged();
 
             }
         });
-        
+
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
