@@ -2,6 +2,7 @@ package com.example.a301pro;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
@@ -79,13 +80,13 @@ public class AddEditIntent extends AppCompatActivity {
         description = findViewById(R.id.description);
         status = findViewById(R.id.status);
         img = findViewById(R.id.add_edit_image);
+
         Button okBtn = findViewById(R.id.book_confirm);
         Button backBtn = findViewById(R.id.add_edit_quit);
         Button pickStatus = findViewById(R.id.pick_status);
         Button camera = findViewById(R.id.scan_description);
         db = FirebaseFirestore.getInstance();
         final CollectionReference ColRef = db.collection("Mybook");
-
 
         Bundle bundle = getIntent().getExtras();
         // user has selected a book to edit if bundle if not empty
@@ -95,13 +96,25 @@ public class AddEditIntent extends AppCompatActivity {
             setTextBox(myBook);
         }
 
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
+        //imageView.setImageResource(R.drawable.ic_image1);
+        StorageReference imageRef = storage.getReference().child(myBook.getImageID());
+        imageRef.getBytes(1024 * 1024)
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        img.setImageBitmap(bitmap);
+                    }
+                });
+
         // open camera to take photo of the book, NOT DONE YET*********
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //image to text
             }
         });
 
@@ -124,6 +137,7 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myISBN = ISBN.getText().toString();
                 final String myDes = description.getText().toString();
                 final String myStatus = status.getText().toString();
+                final String imgid = myBook.getImageID();
 
                 if(jg == true) {
                     Bitmap bm = ((BitmapDrawable) ((ImageButton) img).getDrawable()).getBitmap();
@@ -131,8 +145,13 @@ public class AddEditIntent extends AppCompatActivity {
                     String myBookID = generateBookID(getUserID(), myISBN);
                     myBook = new Book(myBookID+".jpeg", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
                 }else{
-                    String myBookID = generateBookID(getUserID(), myISBN);
-                    myBook = new Book("default.png", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                    if (imgid.equals("default.png")) {
+                        String myBookID = generateBookID(getUserID(), myISBN);
+                        myBook = new Book("default.png", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                    }else{
+                        String myBookID = generateBookID(getUserID(), myISBN);
+                        myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                    }
                 }
 
                 // validation of book data, book name, author name, and ISBN are required.
@@ -220,40 +239,7 @@ public class AddEditIntent extends AppCompatActivity {
                     }
                 });
     }
-/*
-    private void getDownload(StorageReference reference) {
-        reference.getDownloadUrl()
-                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Log.e(TAG,"onSuccess: "+uri);
-                        setUserProfileUrl(uri);
-                    }
-                });
-    }
 
-    private void setUserProfileUrl(Uri uri){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
-                .setPhotoUri(uri)
-                .build();
-        user.updateProfile(request)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(AddEditIntent.this,"11111",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AddEditIntent.this,"22222",Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-*/
     /**
      * Update data of the owned book to the database
      * @param myBook pairs of data that need to be updated to the database
