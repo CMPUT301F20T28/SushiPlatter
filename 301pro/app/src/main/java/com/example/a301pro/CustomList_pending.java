@@ -39,7 +39,7 @@ public class CustomList_pending extends ArrayAdapter<Borrowed> {
         TextView sta = view.findViewById(R.id.status_text_pending);
         TextView own = view.findViewById(R.id.owner_text_pending);
 
-        img.setImageResource(pend.getImageId());
+//        img.setImageResource(pend.getImageId());
         book_name.setText(pend.getBook_name());
         des.setText(pend.getDes());
         sta.setText(pend.getStatus());
