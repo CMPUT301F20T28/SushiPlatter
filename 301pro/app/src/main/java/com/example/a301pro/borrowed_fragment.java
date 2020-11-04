@@ -9,9 +9,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.githang.statusbar.StatusBarCompat;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -37,9 +47,33 @@ public class borrowed_fragment extends Fragment {
         final String []sta = {"AV","B","R","R","AC","R"};
         final String []own = {"Shanzhi ZHang","Fan","HIHIHIHI","ZHi","Shen","UUUUUUUUUUUUUUUUUUUUU"};
 
-        for (int i = 0; i < book_name.length; i++) {
-            pendDataList.add(new Borrowed(logo[i],book_name[i], des[i], sta[i],own[i]));
-        }
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final CollectionReference collectionReference = db.collection("Borrowed");
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
+        final StorageReference storageRef = storage.getReference();
+
+
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                    String imageid = (String) doc.getData().get("imageId") ;
+                    String bookName= (String) doc.getData().get("book_name");
+                    String description = (String) doc.getData().get("des");
+                    String status = (String) doc.getData().get("sit");
+                    String owner = (String) doc.getData().get("owner");
+
+                    pendDataList.add((new Borrowed(imageid,bookName,description,status,owner)));
+                }
+                pendAdapter.notifyDataSetChanged();
+            }
+        });
+
+//        for (int i = 0; i < book_name.length; i++) {
+//            pendDataList.add(new Borrowed(logo[i],book_name[i], des[i], sta[i],own[i]));
+//        }
 
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
