@@ -1,6 +1,8 @@
 package com.example.a301pro;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 
 public class CustomList_pending extends ArrayAdapter<Borrowed> {
     private ArrayList<Borrowed> pends;
     private Context context;
+    final FirebaseStorage storage = FirebaseStorage.getInstance();
+
 
     public CustomList_pending(@NonNull Context context, ArrayList<Borrowed> pends) {
         super(context,0,pends);
@@ -33,13 +41,22 @@ public class CustomList_pending extends ArrayAdapter<Borrowed> {
         }
 
         Borrowed pend = pends.get(position);
-        ImageView img = view.findViewById(R.id.book_image_pending);
+        final ImageView img = view.findViewById(R.id.book_image_pending);
         TextView book_name = view.findViewById(R.id.name_text_pending);
         TextView des = view.findViewById(R.id.des_text_pending);
         TextView sta = view.findViewById(R.id.status_text_pending);
         TextView own = view.findViewById(R.id.owner_text_pending);
 
-        img.setImageResource(pend.getImageId());
+        StorageReference imageRef = storage.getReference().child(pend.getImageId());
+        imageRef.getBytes(1024 * 1024)
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        img.setImageBitmap(bitmap);
+                    }
+                });
+//        img.setImageResource(pend.getImageId());
         book_name.setText(pend.getBook_name());
         des.setText(pend.getDes());
         sta.setText(pend.getStatus());
