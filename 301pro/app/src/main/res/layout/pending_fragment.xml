@@ -2,7 +2,59 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#4169E1"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:weightSum="10" >
 
+        <Button
+            android:id="@+id/userhead_pending"
+            android:layout_gravity="center_vertical"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+            android:gravity="center"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="#4169E1" />
+
+        <EditText
+            android:id="@+id/search_method_pending"
+            android:layout_weight="10"
+            android:background="@drawable/menu_searchshape"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:hint="search"
+            android:textColor="#123"
+            android:drawableLeft="@drawable/ic_search_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/message_center_pending"
+            android:layout_gravity="center_vertical"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:background="#4169E1"
+            style="?android:attr/borderlessButtonStyle"
+            android:src="@drawable/ic_email_black_24dp" />
+
+        <Button
+            android:id="@+id/filter_pending"
+            android:layout_gravity="center_vertical"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:background="#4169E1"
+            style="?android:attr/borderlessButtonStyle"
+            android:drawableLeft="@drawable/ic_baseline_filter_list_24" />
+
+    </LinearLayout>
     <ListView
         android:id="@+id/pending_list"
         android:layout_width="match_parent"
