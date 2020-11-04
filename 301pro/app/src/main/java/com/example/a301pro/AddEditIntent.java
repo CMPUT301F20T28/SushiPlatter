@@ -70,7 +70,7 @@ public class AddEditIntent extends AppCompatActivity {
 
     /**
      * User event listener of all features
-     * @param savedInstanceState
+     * @param savedInstanceState data passed from mybookfragment
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,13 +123,9 @@ public class AddEditIntent extends AppCompatActivity {
                         }
                     });
         }
-        //imageView.setImageResource(R.drawable.ic_image1);
 
-
-        // open camera to take photo of the book, NOT DONE YET*********
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},110);
             takingPhoto();
@@ -243,7 +239,6 @@ public class AddEditIntent extends AppCompatActivity {
                 Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
                 if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePhotoIntent, REQUEST_IMAGE_TO_TEXT);
-                    //startActivity(takePhotoIntent);
                 }
             }
         });
@@ -392,6 +387,7 @@ public class AddEditIntent extends AppCompatActivity {
     public void showStatusMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
+        // click item in menu
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -399,6 +395,7 @@ public class AddEditIntent extends AppCompatActivity {
                 return false;
             }
         });
+        // close the menu
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
