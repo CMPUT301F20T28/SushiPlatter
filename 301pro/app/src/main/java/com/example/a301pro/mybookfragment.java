@@ -49,7 +49,6 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
     public static final int REQUEST_ADD = 0;
     public static final int REQUEST_EDIT = 1;
 
-    //private EditText serach;
 
     public mybookfragment() {
     }
@@ -76,6 +75,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 bookDataList.clear();
+                //bookAdapter.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
                     String imageID = (String) doc.getData().get("imageID");
@@ -103,7 +103,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 final String dess = s.toString();
                 bookDataList.clear();
-                       collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                     bookDataList.clear();
@@ -188,27 +188,6 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         return view;
     }
 
-    private void changelist(String de) {
-        searchList.clear();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_ADD) {
-            if (resultCode == RESULT_OK) {
-                Book myBook = (Book) data.getSerializableExtra("BOOK");
-                bookAdapter.add(myBook);
-            }
-        } else if (requestCode == REQUEST_EDIT) {
-            if (resultCode == RESULT_OK) {
-                Book myBook = (Book) data.getSerializableExtra("BOOK");
-                int pos = data.getIntExtra("POS",-1);
-                bookDataList.set(pos, myBook);
-                bookAdapter.notifyDataSetChanged();
-            }
-        }
-    }
 
     private void showPopupMenu(View view) {
         // View当前PopupMenu显示的相对View的位置
