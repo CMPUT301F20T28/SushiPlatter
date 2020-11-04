@@ -48,6 +48,10 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
+/**
+ * This class provides functionality of adding a new book to the collection of the user,
+ * and editing the data of a selected own book.
+ */
 public class AddEditIntent extends AppCompatActivity {
     private EditText bookName, authorName, ISBN, description;
     private TextView status;
@@ -64,6 +68,10 @@ public class AddEditIntent extends AppCompatActivity {
     Button camera;
     //private Bitmap bb;
 
+    /**
+     * User event listener of all features
+     * @param savedInstanceState data passed from mybookfragment
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,13 +123,9 @@ public class AddEditIntent extends AppCompatActivity {
                         }
                     });
         }
-        //imageView.setImageResource(R.drawable.ic_image1);
 
-
-        // open camera to take photo of the book, NOT DONE YET*********
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},110);
             takingPhoto();
@@ -209,7 +213,7 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * intent to camera1
+     * Intent to camera
      * get the image taken by the camera to be the book image
      */
     public void takingPhoto() {
@@ -225,7 +229,7 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * intent to camera
+     * Intent to camera
      * get the image of image to text
      */
     public void itot() {
@@ -235,11 +239,17 @@ public class AddEditIntent extends AppCompatActivity {
                 Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
                 if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePhotoIntent, REQUEST_IMAGE_TO_TEXT);
-                    //startActivity(takePhotoIntent);
                 }
             }
         });
     }
+
+    /**
+     * Receive result from takePhotoIntent
+     * @param requestCode request for takePhotoIntent
+     * @param resultCode result from takePhotoIntent
+     * @param data image data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -286,7 +296,7 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * get the text in the image using the moblie vision API
+     * Get the text in the image using the moblie vision API
      * @param bitmap the image taken from camera
      */
     private void getTextFromImage(Bitmap bitmap){
@@ -341,7 +351,7 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * get uid of the current logged in user
+     * Get uid of the current logged in user
      * @return uid as a string
      */
     protected String getUserID() {
@@ -349,7 +359,7 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * generate a unique id for a book
+     * Generate a unique id for a book
      * @param uid unique userId from the database
      * @param isbn isbn code for the book
      * @return unique id of the book, which is uid followed by isbn
@@ -359,7 +369,7 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * set text field with exist information
+     * Set text field with exist information
      * @param myBook a selected existing book
      */
     public void setTextBox(Book myBook){
@@ -371,12 +381,13 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * popup the menu for picking status
+     * Popup the menu for picking status
      * @param view view
      */
     public void showStatusMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
+        // click item in menu
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -384,6 +395,7 @@ public class AddEditIntent extends AppCompatActivity {
                 return false;
             }
         });
+        // close the menu
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {

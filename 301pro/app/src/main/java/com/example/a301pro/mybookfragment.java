@@ -1,5 +1,8 @@
 package com.example.a301pro;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,6 +42,9 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * This fragment class allows user to add/edit/delete a book, as well as view all the owned book.
+ */
 public class mybookfragment extends Fragment implements ComfirmDialog.OnFragmentInteractionListenerComfirm {
     ListView bookList;
     ArrayAdapter<Book> bookAdapter;
@@ -51,9 +57,13 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
 
     //private EditText serach;
 
-    public mybookfragment() {
-    }
-
+    /**
+     * Provide functionality of add/edit/delete a book, as well as view all the owned book.
+     * @param inflater layout of the view of the mybookfragment
+     * @param container layout container of view object
+     * @param savedInstanceState data of previous instance of the mybookfragment
+     * @return view of mybookfragment
+     */
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_book_fragment,container,false);
@@ -71,7 +81,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("MyBooks");
 
-
+        // read book data from database
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -94,6 +104,8 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                 bookAdapter.notifyDataSetChanged();
             }
         });
+
+        // search book with keys
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,27 +117,27 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                 final String dess = s.toString();
                 bookDataList.clear();
                 collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                    bookDataList.clear();
-                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                    @Override
+                    public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                        bookDataList.clear();
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
-                        String imageID = (String) doc.getData().get("imageID");
-                        String bookName= (String) doc.getData().get("book_name");
-                        String author = (String) doc.getData().get("author");
-                        String ISBN =  (String) doc.getData().get("isbn");
-                        String description = (String) doc.getData().get("description");
-                        String status = (String) doc.getData().get("status");
-                        String bookid = doc.getId();
-                        String borrower = (String) doc.getData().get("borrower_name");
-                        String owner = (String) doc.getData().get("owner");
-                        if (description.contains(dess)) {
-                            bookDataList.add((new Book(imageID, bookName, author, ISBN, description, status, bookid, borrower, owner)));
+                            String imageID = (String) doc.getData().get("imageID");
+                            String bookName= (String) doc.getData().get("book_name");
+                            String author = (String) doc.getData().get("author");
+                            String ISBN =  (String) doc.getData().get("isbn");
+                            String description = (String) doc.getData().get("description");
+                            String status = (String) doc.getData().get("status");
+                            String bookid = doc.getId();
+                            String borrower = (String) doc.getData().get("borrower_name");
+                            String owner = (String) doc.getData().get("owner");
+                            if (description.contains(dess)) {
+                                bookDataList.add((new Book(imageID, bookName, author, ISBN, description, status, bookid, borrower, owner)));
+                            }
                         }
+                        bookAdapter.notifyDataSetChanged();
                     }
-                    bookAdapter.notifyDataSetChanged();
-                }
-            });
+                });
             }
 
             @Override
@@ -134,7 +146,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
             }
         });
 
-// click on message button to check message
+        // click on message button to check message
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,10 +189,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Book book = bookAdapter.getItem(position);
-                ComfirmDialog dialog = new ComfirmDialog(book);
-                //dialog.show(getFragmentManager(),Comfirm_DIALOG);
-                //注意setTargetFragment
-
+                ComfirmDialog dialog = new ComfirmDialog(book, collectionReference);
                 dialog.show(getFragmentManager(),"show mes");
                 return true;
             }
@@ -193,6 +202,12 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         searchList.clear();
     }
 
+    /**
+     * Receive result from AddEditIntent
+     * @param requestCode request for AddEditIntent
+     * @param resultCode result from AddEditIntent
+     * @param data book data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -212,12 +227,14 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         }
     }
 
+    /**
+     * Popup the menu for picking status
+     * @param view view
+     */
     private void showPopupMenu(View view) {
-        // View当前PopupMenu显示的相对View的位置
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        // menu布局
         popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
-        // menu的item点击事件
+        // click item in menu
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -225,7 +242,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                 return false;
             }
         });
-        // PopupMenu关闭事件
+        // close the menu
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
@@ -236,15 +253,29 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         popupMenu.show();
     }
 
+    /**
+     *
+     * @param book
+     */
     @Override
-    public void onOkPressed(Book book) {
+    public void onOkPressed(final Book book) {
         bookAdapter.remove(book);
     }
 
+    /**
+     * Get uid of the current logged in user
+     * @return uid as a string
+     */
     protected String getUserID() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
+    /**
+     * Generate a unique id for a book
+     * @param uid unique userId from the database
+     * @param isbn isbn code for the book
+     * @return unique id of the book, which is uid followed by isbn
+     */
     protected String generateBookID(String uid, String isbn) {
         return uid +"-"+isbn;
     }
