@@ -126,7 +126,7 @@ public class Sharefragment extends Fragment {
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
-                Toast.makeText(getContext(), "关闭PopupMenu", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "shut done PopupMenu", Toast.LENGTH_SHORT).show();
             }
         });
 
