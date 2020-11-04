@@ -86,6 +86,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 bookDataList.clear();
+                //bookAdapter.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
                     String imageID = (String) doc.getData().get("imageID");
@@ -212,14 +213,15 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ADD) {
             if (resultCode == RESULT_OK) {
-                Book myBook = (Book) data.getSerializableExtra("BOOK");
-                bookAdapter.add(myBook);
+                //Book myBook = (Book) data.getSerializableExtra("BOOK");
+                //bookAdapter.add(myBook);
+                bookAdapter.notifyDataSetChanged();
             }
         } else if (requestCode == REQUEST_EDIT) {
             if (resultCode == RESULT_OK) {
-                Book myBook = (Book) data.getSerializableExtra("BOOK");
-                int pos = data.getIntExtra("POS",-1);
-                bookDataList.set(pos, myBook);
+                //Book myBook = (Book) data.getSerializableExtra("BOOK");
+                //int pos = data.getIntExtra("POS",-1);
+                //bookDataList.set(pos, myBook);
                 bookAdapter.notifyDataSetChanged();
             }
         }
