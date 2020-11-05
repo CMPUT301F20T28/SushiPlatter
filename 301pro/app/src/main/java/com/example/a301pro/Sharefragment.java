@@ -66,7 +66,7 @@ public class Sharefragment extends Fragment {
         final CollectionReference collectionReference = db.collection("Library");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
-
+        final EditText search = view.findViewById(R.id.search_method);
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -86,6 +86,41 @@ public class Sharefragment extends Fragment {
             }
         });
 
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                final String dess = s.toString();
+                shareDataList.clear();
+                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                            String imageid = (String) doc.getData().get("imageId") ;
+                            //String bookid = doc.getId();
+                            String bookName= (String) doc.getData().get("book_name");
+                            String description = (String) doc.getData().get("des");
+                            String status = (String) doc.getData().get("sit");
+                            String owner = (String) doc.getData().get("owner");
+                            if (description.contains(dess)) {
+                                shareDataList.add((new Share(imageid, bookName, description, status, owner)));
+                            }
+                        }
+                        shareAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
