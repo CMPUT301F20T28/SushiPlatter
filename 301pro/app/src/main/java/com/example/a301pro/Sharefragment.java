@@ -3,6 +3,7 @@ package com.example.a301pro;
 import android.app.MediaRouteActionProvider;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -45,6 +46,7 @@ public class Sharefragment extends Fragment {
     ListView shareList;
     ArrayAdapter<Share> shareAdapter;
     ArrayList<Share> shareDataList;
+    public static final int REQUEST_REQUEST = 3;
     public Sharefragment() {
     }
 
@@ -74,13 +76,13 @@ public class Sharefragment extends Fragment {
 
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String imageid = (String) doc.getData().get("imageId") ;
-                    //String bookid = doc.getId();
+                    String bookid = doc.getId();
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
 
-                    shareDataList.add((new Share(imageid,bookName,description,status,owner)));
+                    shareDataList.add((new Share(bookid,imageid,bookName,description,status,owner)));
                 }
                 shareAdapter.notifyDataSetChanged();
             }
@@ -102,13 +104,13 @@ public class Sharefragment extends Fragment {
 
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             String imageid = (String) doc.getData().get("imageId") ;
-                            //String bookid = doc.getId();
+                            String bookid = doc.getId();
                             String bookName= (String) doc.getData().get("book_name");
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("sit");
                             String owner = (String) doc.getData().get("owner");
                             if (description.contains(dess)) {
-                                shareDataList.add((new Share(imageid, bookName, description, status, owner)));
+                                shareDataList.add((new Share(bookid,imageid, bookName, description, status, owner)));
                             }
                         }
                         shareAdapter.notifyDataSetChanged();
@@ -126,8 +128,10 @@ public class Sharefragment extends Fragment {
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(),sentrequestintent.class);
-                startActivity(intent);
+                Share R_book = shareAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(),sentrequestintent.class);
+                intent.putExtra("R_book",R_book);
+                startActivityForResult(intent,REQUEST_REQUEST);
             }
         });
         final ImageButton mes_btn = view.findViewById(R.id.message_center);

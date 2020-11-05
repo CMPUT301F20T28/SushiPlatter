@@ -1,18 +1,30 @@
 package com.example.a301pro;
 
-public class Share {
+import java.io.Serializable;
+
+public class Share implements Serializable {
+    private String bookID;
     private String imageId;
     private String book_name;
     private String des;
     private String sit;
     private String onwer;
 
-    public Share(String imageId,String book_name, String des, String sit, String onwer) {
+    public Share(String bookID,String imageId,String book_name, String des, String sit, String onwer) {
+        this.bookID = bookID;
         this.imageId =imageId;
         this.book_name = book_name;
         this.des = des;
         this.sit = sit;
         this.onwer = onwer;
+    }
+
+    public String getBookID() {
+        return bookID;
+    }
+
+    public void setBookID(String bookID) {
+        this.bookID = bookID;
     }
 
     public String getImageId() {

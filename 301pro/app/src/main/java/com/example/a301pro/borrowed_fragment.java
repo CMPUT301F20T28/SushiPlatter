@@ -88,7 +88,6 @@ public class borrowed_fragment extends Fragment {
             }
         });
 
-        
 
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
