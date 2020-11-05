@@ -5,34 +5,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.githang.statusbar.StatusBarCompat;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 
-import static com.githang.statusbar.StatusBarTools.getStatusBarHeight;
+import java.io.Console;
 
 public class MainActivity extends AppCompatActivity {
-
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final FirebaseFirestore db;
-
-        db = FirebaseFirestore.getInstance();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
@@ -44,11 +45,27 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
-        Button user_information = (Button) headerView.findViewById(R.id.user_self_login);
+
+
+        // allow user go to the profile page by clicking the head icon
+        Button user_information = headerView.findViewById(R.id.user_self_login);
         user_information.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"1111",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getBaseContext(), ViewUserProfile.class);
+                startActivity(intent);
+            }
+        });
+
+        // allow user to logout current account and re-login
+        Button logout = findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                Intent intent = new Intent(getBaseContext(), login.class);
+                startActivity(intent);
             }
         });
     }
@@ -68,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_bo:
                     selectedFragment = new borrowed_fragment();
                     break;
-
             }
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();

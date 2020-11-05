@@ -31,13 +31,13 @@
                 android:layout_gravity="bottom" >
 
                 <Button
-                    android:id="@+id/app_set"
+                    android:id="@+id/logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/componentBackground"
                     android:gravity="center"
-                    android:textColor="@color/colorAccent"
-                    android:text="Settings" />
+                    android:text="Logout"
+                    android:textColor="@color/colorAccent" />
 
             </LinearLayout>
 

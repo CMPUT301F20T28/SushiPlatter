@@ -71,8 +71,9 @@
                 android:textSize="20sp"
                 android:paddingHorizontal="15dp"
                 android:textColor="#FFFFFF"
-                android:gravity="bottom">
+                android:gravity="bottom" >
             </TextView>
+
         </LinearLayout>
     </LinearLayout>
 
@@ -89,8 +90,8 @@
         android:textColor="#FFFFFFFF"
         android:textSize="14sp" >
     </Button>
-
     <Button
+        android:id="@+id/profile_quit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_profile"
@@ -102,4 +103,5 @@
         android:textColor="@color/colorAccent"
         android:textSize="14sp" >
     </Button>
+
 </RelativeLayout>

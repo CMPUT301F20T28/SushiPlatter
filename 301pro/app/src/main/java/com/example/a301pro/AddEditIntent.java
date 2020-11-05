@@ -88,7 +88,7 @@ public class AddEditIntent extends AppCompatActivity {
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         Button okBtn = findViewById(R.id.book_confirm);
         Button backBtn = findViewById(R.id.add_edit_quit);
-        Button pickStatus = findViewById(R.id.pick_status);
+//        Button pickStatus = findViewById(R.id.pick_status);
         camera = findViewById(R.id.scan_description);
         db = FirebaseFirestore.getInstance();
         final CollectionReference ColRef = db.collection("Mybook");
@@ -113,6 +113,7 @@ public class AddEditIntent extends AppCompatActivity {
         }
         else{
             imgid ="default.png";
+            status.setText(String.valueOf(BookStatusEnum.Available));
             StorageReference imageRef = storage.getReference().child("default.png");
             imageRef.getBytes(1024 * 1024)
                     .addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -146,6 +147,7 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myISBN = ISBN.getText().toString();
                 final String myDes = description.getText().toString();
                 final String myStatus = status.getText().toString();
+                status.setText(myStatus);
 
                 if(jg == true) {
                     Bitmap bm = ((BitmapDrawable) ((ImageButton) img).getDrawable()).getBitmap();
@@ -193,12 +195,12 @@ public class AddEditIntent extends AppCompatActivity {
         });
 
         // Select a status from status list
-        pickStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showStatusMenu(view);
-            }
-        });
+//        pickStatus.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showStatusMenu(view);
+//            }
+//        });
 
         // Cancel action, no change will be made1
         backBtn.setOnClickListener(new View.OnClickListener() {
