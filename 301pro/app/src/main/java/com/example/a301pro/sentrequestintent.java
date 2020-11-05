@@ -44,6 +44,14 @@ public class sentrequestintent extends AppCompatActivity {
             public void onClick(View v) {
                 sendDataToDb(requested_Book);
                 //Toast.makeText(getApplicationContext(),requested_Book.getBook_name(),Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+        Button back = findViewById(R.id.back_sent_request);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
