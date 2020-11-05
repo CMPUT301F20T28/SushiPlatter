@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 
 import com.githang.statusbar.StatusBarCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,6 +48,9 @@ public class borrowed_fragment extends Fragment {
         StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
         pendList = view.findViewById(R.id.pending_list);
         pendDataList = new ArrayList<>();
+        pendAdapter = new CustomList_pending(getContext(),pendDataList);
+        pendList.setAdapter(pendAdapter);
+
         final Button filterBtn = view.findViewById(R.id.filter_pending);
         // click on filter button to filter out item
         filterBtn.setOnClickListener(new View.OnClickListener() {
@@ -55,18 +59,9 @@ public class borrowed_fragment extends Fragment {
                 showPopupMenu(filterBtn);
             }
         });
-        final EditText search = view.findViewById(R.id.search_method_pending);
-
-        final int []logo = {R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1,R.drawable.ic_image1};
-        final String []book_name = {"Edmonton", "Vancouver", "Toronto", "Hamilton", "Denver", "Los Angeles"};
-        final String []des = {"1232311111111111111111111111111113asdffffffffaea1231231","44231231eeeeeeeeeeeeeeefddddddddddddddddddddddddddd234","55123wwwwwwwwwwwwwwww1235",
-                "2221qqqqqqqqqqqqqqqqqqqqqqqqqqqqrrrrrrrrrrrrrrrrrrrrrrrrrrewwwwwwwwwwwwwwwww3123123","11231aaaaaaaaaaaaaaaaaaaddddddddddddffffff2311","22123123asssssssssssssssdddddddd1232"};
-        final String []sta = {"AV","B","R","R","AC","R"};
-        final String []own = {"Shanzhi ZHang","Fan","HIHIHIHI","ZHi","Shen","UUUUUUUUUUUUUUUUUUUUU"};
-
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Borrowed");
+        final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("Borrowed");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
 
@@ -74,15 +69,16 @@ public class borrowed_fragment extends Fragment {
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-
+                pendDataList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                    String bookID = doc.getId();
                     String imageid = (String) doc.getData().get("imageId") ;
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
 
-                    pendDataList.add((new Borrowed(imageid,bookName,description,status,owner)));
+                    pendDataList.add((new Borrowed(bookID,imageid,bookName,description,status,owner)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -137,6 +133,9 @@ public class borrowed_fragment extends Fragment {
         });
 
         popupMenu.show();
+    }
+    protected String getUserID() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
 }

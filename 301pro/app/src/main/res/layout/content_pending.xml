@@ -33,7 +33,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.7"
-        android:textSize="10dp"></TextView>
+        android:textSize="15sp"></TextView>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -45,7 +45,7 @@
             android:id="@+id/status_text_pending"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="45dp"
+            android:textSize="15dp"
             android:hint="A"
             >
         </TextView>
