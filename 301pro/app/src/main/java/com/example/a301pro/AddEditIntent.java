@@ -75,7 +75,7 @@ public class AddEditIntent extends AppCompatActivity {
 
     /**
      * User event listener of all features
-     * @param savedInstanceState data passed from mybookfragment
+     * @param savedInstanceState data passed from previous activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

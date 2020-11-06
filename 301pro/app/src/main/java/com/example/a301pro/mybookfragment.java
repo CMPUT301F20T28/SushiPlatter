@@ -55,14 +55,12 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
     public static final int REQUEST_ADD = 0;
     public static final int REQUEST_EDIT = 1;
 
-    //private EditText serach;
-
     /**
-     * Provide functionality of add/edit/delete a book, as well as view all the owned book.
-     * @param inflater layout of the view of the mybookfragment
+     * Provide functionality for viewing and updating data of a book
+     * @param inflater layout of the view
      * @param container layout container of view object
-     * @param savedInstanceState data of previous instance of the mybookfragment
-     * @return view of mybookfragment
+     * @param savedInstanceState data of previous instance
+     * @return layout of the fragment
      */
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
@@ -105,7 +103,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
             }
         });
 
-        // search book with keys
+        // search book by keyword
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -233,7 +231,6 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
     private void showPopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
-        // click item in menu
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -241,7 +238,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                 return false;
             }
         });
-        // close the menu
+
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
@@ -253,8 +250,8 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
     }
 
     /**
-     *
-     * @param book
+     * Update book data to list view
+     * @param book book data
      */
     @Override
     public void onOkPressed(final Book book) {

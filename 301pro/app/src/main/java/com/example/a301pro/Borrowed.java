@@ -1,5 +1,8 @@
 package com.example.a301pro;
 
+/**
+ * This class initializes the property of a borrowed book as well as gets the data of a book
+ */
 public class Borrowed {
     private String bookID;
     private String imageId;
@@ -8,7 +11,7 @@ public class Borrowed {
     private String o_name;
     private String status;
     /**
-     * This constructor initializes the property of a Share
+     * This constructor initializes the property of a borrowed book
      * @param imageId image id of the book
      * @param book_name name of the book
      * @param des description of the book

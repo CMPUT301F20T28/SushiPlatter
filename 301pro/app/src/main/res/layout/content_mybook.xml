@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:weightSum="4"
     android:background="@drawable/round_item" >
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_weight="1.4"
@@ -16,25 +17,23 @@
             android:layout_height="100dp" />
 
         <TextView
-                android:id="@+id/name_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="8dp"
-                android:autoSizeMaxTextSize="26dp"
-                android:autoSizeStepGranularity="2dp"
-            />
+            android:id="@+id/name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="8dp"
+            android:autoSizeMaxTextSize="26dp"
+            android:autoSizeStepGranularity="2dp" />
     </LinearLayout>
 
-        <TextView
-            android:layout_marginHorizontal="10dp"
-            android:id="@+id/des_text"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.7"
-            android:textSize="15sp" />
-
+    <TextView
+        android:layout_marginHorizontal="10dp"
+        android:id="@+id/des_text"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.7"
+        android:textSize="15sp" />
 
     <LinearLayout
         android:layout_width="0dp"

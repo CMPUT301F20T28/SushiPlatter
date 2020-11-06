@@ -19,18 +19,32 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+/**
+ * This class control the data view of shareable book list
+ */
 public class CustomList_Share extends ArrayAdapter<Share> {
     private ArrayList<Share> shares;
     private Context context;
     final FirebaseStorage storage = FirebaseStorage.getInstance();
 
+    /**
+     * Constructor
+     * @param context context of view
+     * @param shares list of shareable book
+     */
     public CustomList_Share(@NonNull Context context, ArrayList<Share> shares) {
         super(context,0,shares);
         this.shares = shares;
         this.context = context;
-        //Constructor of the CustomList
     }
 
+    /**
+     * Update view of the fragment
+     * @param position index of the book to be updated
+     * @param convertView convert the view
+     * @param parent parent view
+     * @return updated view
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //to create the view that we want as a item, and later we will add this to the Adapter
         View view = convertView;

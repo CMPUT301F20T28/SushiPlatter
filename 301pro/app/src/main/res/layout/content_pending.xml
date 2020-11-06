@@ -3,61 +3,57 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:weightSum="4"
-    android:background="@drawable/round_item"
-    >
+    android:background="@drawable/round_item" >
+
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_weight="1.4"
-        android:orientation="vertical">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/book_image_pending"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="100dp" />
 
-        </ImageView>
         <TextView
             android:id="@+id/name_text_pending"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp" />
-</LinearLayout>
-
+            android:gravity="center"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="8dp"
+            android:autoSizeMaxTextSize="26dp"
+            android:autoSizeStepGranularity="2dp" />
+    </LinearLayout>
 
     <TextView
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginHorizontal="10dp"
         android:id="@+id/des_text_pending"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.7"
-        android:textSize="15sp"></TextView>
+        android:textSize="15sp" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="0.9"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical" >
         <TextView
             android:id="@+id/status_text_pending"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:hint="A"
-            >
+            android:textSize="15sp" >
         </TextView>
 
         <TextView
             android:id="@+id/owner_text_pending"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:hint="Owner's Name"
+            android:textSize="15sp"
             android:layout_marginTop="20dp"
-            >
+            android:hint="Owner Name">
         </TextView>
 
 
