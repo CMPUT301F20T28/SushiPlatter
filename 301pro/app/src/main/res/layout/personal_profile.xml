@@ -51,28 +51,29 @@
                 android:textColor="#FFFFFF"
                 android:gravity="bottom" >
             </TextView>
+
             <TextView
                 android:id="@+id/user_email_display"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="email@ual.ca"
                 android:layout_weight="0.5"
-                android:textSize="20sp"
+                android:editable="False"
+                android:gravity="bottom"
                 android:paddingHorizontal="15dp"
+                android:text="email@ual.ca"
                 android:textColor="#FFFFFF"
-                android:gravity="bottom">
-            </TextView>
-            <TextView
+                android:textSize="20sp"></TextView>
+
+            <EditText
                 android:id="@+id/phone_num_display"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="587XXXXXXX"
+                android:layout_height="43dp"
                 android:layout_weight="0.5"
-                android:textSize="20sp"
+                android:gravity="bottom"
                 android:paddingHorizontal="15dp"
+                android:text="587XXXXXXX"
                 android:textColor="#FFFFFF"
-                android:gravity="bottom" >
-            </TextView>
+                android:textSize="20sp"></EditText>
 
         </LinearLayout>
     </LinearLayout>

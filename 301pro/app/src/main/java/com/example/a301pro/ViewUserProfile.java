@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -17,8 +20,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ViewUserProfile extends AppCompatActivity {
-    TextView userFullNameShow, phoneShow, emailShow, UserNameShow;
+    TextView userFullNameShow, emailShow, UserNameShow;
+    EditText phoneShow;
     Button edit, profileQuit;
     String Tag = "ViewUserProfile";
     String firstName, lastName, phoneNumber, email;
@@ -39,6 +46,7 @@ public class ViewUserProfile extends AppCompatActivity {
 
         DocumentReference docRef = db.collection("Users").document(getUserID());
         mAuth = FirebaseAuth.getInstance();
+        phoneShow.setEnabled(false);
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -76,7 +84,34 @@ public class ViewUserProfile extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (!edit.getText().toString().equals("Confirm")){
+                    edit.setText("Confirm");
+                    phoneShow.setEnabled(true);
+                }else{
+                    String newPhoneNumber = phoneShow.getText().toString();
+                    if (newPhoneNumber.equals(phoneNumber)){
+                        phoneShow.setError("Please enter a new phone number!");
+                    }
+                    else{
+                        Map<String, Object> userInfo = new HashMap<>();
+                        userInfo.put("phoneNumber", newPhoneNumber);
+                        db.collection("Users").document(mAuth.getCurrentUser().getUid())
+                                .update(userInfo)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("Change Phone#", "User phone number successfully changed!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("Change Phone#", "Error change new user phone number", e);
+                                    }
+                                });
+                        finish();
+                    }
+                }
             }
         });
 
