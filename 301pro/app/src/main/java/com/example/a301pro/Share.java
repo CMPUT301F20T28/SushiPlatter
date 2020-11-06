@@ -8,15 +8,15 @@ public class Share implements Serializable {
     private String book_name;
     private String des;
     private String sit;
-    private String onwer;
+    private String owner;
 
-    public Share(String bookID,String imageId,String book_name, String des, String sit, String onwer) {
+    public Share(String bookID,String imageId,String book_name, String des, String sit, String owner) {
         this.bookID = bookID;
         this.imageId =imageId;
         this.book_name = book_name;
         this.des = des;
         this.sit = sit;
-        this.onwer = onwer;
+        this.owner = owner;
     }
 
     public String getBookID() {
@@ -47,8 +47,8 @@ public class Share implements Serializable {
         return sit;
     }
 
-    public String getOnwer() {
-        return onwer;
+    public String getOwner() {
+        return owner;
     }
 
     public void setBook_name(String book_name) {
@@ -63,7 +63,7 @@ public class Share implements Serializable {
         this.sit = sit;
     }
 
-    public void setOnwer(String onwer) {
-        this.onwer = onwer;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }
