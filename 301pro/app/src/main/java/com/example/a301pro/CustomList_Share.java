@@ -60,7 +60,7 @@ public class CustomList_Share extends ArrayAdapter<Share> {
         book_name.setText(share.getBook_name());
         des.setText(share.getDes());
         sta.setText(share.getSit());
-        bor.setText(share.getOnwer());
+        bor.setText(share.getOwner());
 
         return view;
     }

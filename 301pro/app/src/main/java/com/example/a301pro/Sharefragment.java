@@ -27,7 +27,10 @@ import androidx.fragment.app.Fragment;
 import com.githang.statusbar.StatusBarCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -47,6 +50,8 @@ public class Sharefragment extends Fragment {
     ArrayAdapter<Share> shareAdapter;
     ArrayList<Share> shareDataList;
     public static final int REQUEST_REQUEST = 3;
+    protected FirebaseFirestore db;
+
     public Sharefragment() {
     }
 
@@ -57,6 +62,8 @@ public class Sharefragment extends Fragment {
         StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
         shareList = view.findViewById(R.id.search_list);
         shareDataList = new ArrayList<>();
+        shareAdapter = new CustomList_Share(getContext(),shareDataList);
+        shareList.setAdapter(shareAdapter);
         final Button filter_btn = view.findViewById(R.id.filter);
         filter_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +80,10 @@ public class Sharefragment extends Fragment {
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                shareDataList.clear();
 
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+
                     String imageid = (String) doc.getData().get("imageId") ;
                     String bookid = doc.getId();
                     String bookName= (String) doc.getData().get("book_name");
@@ -82,7 +91,8 @@ public class Sharefragment extends Fragment {
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
 
-                    shareDataList.add((new Share(bookid,imageid,bookName,description,status,owner)));
+                    shareDataList.add((new Share(bookid, imageid, bookName, description, status, owner)));
+
                 }
                 shareAdapter.notifyDataSetChanged();
             }
@@ -110,7 +120,9 @@ public class Sharefragment extends Fragment {
                             String status = (String) doc.getData().get("sit");
                             String owner = (String) doc.getData().get("owner");
                             if (description.contains(dess)) {
-                                shareDataList.add((new Share(bookid,imageid, bookName, description, status, owner)));
+
+                                shareDataList.add((new Share(bookid, imageid, bookName, description, status, owner)));
+
                             }
                         }
                         shareAdapter.notifyDataSetChanged();
@@ -140,6 +152,7 @@ public class Sharefragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mes_btn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                //Toast.makeText(getContext(),userName,Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -171,5 +184,11 @@ public class Sharefragment extends Fragment {
 
         popupMenu.show();
     }
+    protected String getUserID() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
 
+    protected String getUserName(){
+        return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+    }
 }

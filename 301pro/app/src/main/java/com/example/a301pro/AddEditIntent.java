@@ -30,8 +30,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.a301pro.Utilities.AddBookToLibrary;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
@@ -39,6 +41,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.a301pro.Utilities.AddBookToLibrary;
 import com.google.firebase.storage.FirebaseStorage;
@@ -60,12 +64,13 @@ public class AddEditIntent extends AppCompatActivity {
     protected FirebaseFirestore db;
     private int myPos;
     private Book myBook;
-    private String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_TO_TEXT = 2;
     private boolean jg = false;
     private String imgid;
     Button camera;
+    private String userName;
+
     //private Bitmap bb;
 
     /**
@@ -137,6 +142,20 @@ public class AddEditIntent extends AppCompatActivity {
             itot();
         }
 
+        DocumentReference docRef = db.collection("Users").document(getUserID());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null) {
+                        userName = document.getString("userName");
+                    } else {
+                    }
+                } else {
+                }
+            }
+        });
 
         // Confirm data and process to the database
         okBtn.setOnClickListener(new View.OnClickListener() {
@@ -339,7 +358,7 @@ public class AddEditIntent extends AppCompatActivity {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Book has been updated successfully!");
                         if(myBook.getStatus().equals("Available")) {
-                            new AddBookToLibrary(new Share(bookID,myBook.getImageID(), myBook.getBook_name(), myBook.getDescription(), "Available", getUserID()), bookID);
+                            new AddBookToLibrary(new Share(bookID,myBook.getImageID(), myBook.getBook_name(), myBook.getDescription(), "Available", userName), bookID);
                         }
                     }
                 })
