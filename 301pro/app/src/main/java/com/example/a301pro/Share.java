@@ -99,14 +99,14 @@ public class Share implements Serializable {
     }
     /**
      * This set the status of a book
-     * @param status status to be set
+     * @param sit status to be set
      */
     public void setSit(String sit) {
         this.sit = sit;
     }
     /**
      * This set the name of a book
-     * @param book_name name of a book to be set
+     * @param owner name of a book to be set
      */
     public void setOwner(String owner) {
         this.owner = owner;

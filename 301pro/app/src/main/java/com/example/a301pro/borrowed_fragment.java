@@ -2,6 +2,8 @@ package com.example.a301pro;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +52,7 @@ public class borrowed_fragment extends Fragment {
         pendDataList = new ArrayList<>();
         pendAdapter = new CustomList_pending(getContext(),pendDataList);
         pendList.setAdapter(pendAdapter);
+        final EditText search = view.findViewById(R.id.search_method_pending);
 
         final Button filterBtn = view.findViewById(R.id.filter_pending);
         // click on filter button to filter out item
@@ -84,7 +87,43 @@ public class borrowed_fragment extends Fragment {
             }
         });
 
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                final String dess = s.toString();
+                pendDataList.clear();
+                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                            String imageid = (String) doc.getData().get("imageId") ;
+                            String bookid = doc.getId();
+                            String bookName= (String) doc.getData().get("book_name");
+                            String description = (String) doc.getData().get("des");
+                            String status = (String) doc.getData().get("sit");
+                            String owner = (String) doc.getData().get("owner");
+                            if (description.contains(dess)) {
+
+                                pendDataList.add((new Borrowed(bookid, imageid, bookName, description, status, owner)));
+
+                            }
+                        }
+                        pendAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -137,5 +176,7 @@ public class borrowed_fragment extends Fragment {
     protected String getUserID() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
-
+    protected String getUserName(){
+        return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+    }
 }
