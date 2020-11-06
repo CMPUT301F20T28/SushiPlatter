@@ -93,23 +93,27 @@ public class ViewUserProfile extends AppCompatActivity {
                         phoneShow.setError("Please enter a new phone number!");
                     }
                     else{
-                        Map<String, Object> userInfo = new HashMap<>();
-                        userInfo.put("phoneNumber", newPhoneNumber);
-                        db.collection("Users").document(mAuth.getCurrentUser().getUid())
-                                .update(userInfo)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("Change Phone#", "User phone number successfully changed!");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w("Change Phone#", "Error change new user phone number", e);
-                                    }
-                                });
-                        finish();
+                        if(newPhoneNumber.length()>0){
+                            Map<String, Object> userInfo = new HashMap<>();
+                            userInfo.put("phoneNumber", newPhoneNumber);
+                            db.collection("Users").document(mAuth.getCurrentUser().getUid())
+                                    .update(userInfo)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("Change Phone#", "User phone number successfully changed!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("Change Phone#", "Error change new user phone number", e);
+                                        }
+                                    });
+                            finish();
+                        }else{
+                            phoneShow.setError("Please enter a new phone number!");
+                        }
                     }
                 }
             }
