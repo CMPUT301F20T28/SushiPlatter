@@ -119,7 +119,7 @@ public class Sharefragment extends Fragment {
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("sit");
                             String owner = (String) doc.getData().get("owner");
-                            if (description.contains(dess)|| bookName.contains(dess)) {
+                            if (description.contains(dess)) {
 
                                 shareDataList.add((new Share(bookid, imageid, bookName, description, status, owner)));
 
