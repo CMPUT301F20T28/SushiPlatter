@@ -36,6 +36,10 @@ public class login extends AppCompatActivity {
     Switch mSwitch;
     EditText passwordView;
 
+    /**
+     * User login: when log in successfully jump to the main activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +84,11 @@ public class login extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * User login: handle entered username and password
+     * reference: https://firebase.google.com/docs/auth/android/start
+     */
     public void log_in() {
         final EditText usernameView = findViewById(R.id.text_username);
         final EditText passwordView = findViewById(R.id.text_password);
@@ -124,7 +133,10 @@ public class login extends AppCompatActivity {
             });
         }
     }
-
+    /**
+     * User login: check whether the username and password are consistent with that in recorded in fire store
+     * @param String Email, String Password, final EditText usernameView, final EditText passwordView
+     */
 
     public void validate(String Email, String Password, final EditText usernameView, final EditText passwordView) {
         mAuth.signInWithEmailAndPassword(Email, Password)
