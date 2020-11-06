@@ -135,7 +135,10 @@ public class login extends AppCompatActivity {
     }
     /**
      * User login: check whether the username and password are consistent with that in recorded in fire store
-     * @param String Email, String Password, final EditText usernameView, final EditText passwordView
+     * @param String Email, searched by username
+     * @param String Password, user's input
+     * @param final EditText usernameView, if user enter wrong information, empty the edit text
+     * @param final EditText passwordView, if user enter wrong information, empty the edit text
      */
 
     public void validate(String Email, String Password, final EditText usernameView, final EditText passwordView) {
