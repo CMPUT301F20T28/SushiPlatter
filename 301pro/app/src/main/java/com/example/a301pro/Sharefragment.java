@@ -91,7 +91,10 @@ public class Sharefragment extends Fragment {
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
 
-                    shareDataList.add((new Share(bookid, imageid, bookName, description, status, owner)));
+                    if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
+                        shareDataList.add((new Share(bookid, imageid, bookName, description, status, owner)));
+
+                    }
 
                 }
                 shareAdapter.notifyDataSetChanged();
@@ -120,9 +123,9 @@ public class Sharefragment extends Fragment {
                             String status = (String) doc.getData().get("sit");
                             String owner = (String) doc.getData().get("owner");
                             if (description.contains(dess)) {
-
-                                shareDataList.add((new Share(bookid, imageid, bookName, description, status, owner)));
-
+                                if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
+                                    shareDataList.add((new Share(bookid, imageid, bookName, description, status, owner)));
+                                }
                             }
                         }
                         shareAdapter.notifyDataSetChanged();
@@ -152,7 +155,7 @@ public class Sharefragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mes_btn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
-                //Toast.makeText(getContext(),userName,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),Toast.LENGTH_SHORT).show();
             }
         });
 
