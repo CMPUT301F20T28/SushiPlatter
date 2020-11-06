@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
+        final TextView un = (TextView) headerView.findViewById(R.id.un);
+        final String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        un.setText(userName);
 
         // allow user go to the profile page by clicking the head icon
         Button user_information = headerView.findViewById(R.id.user_self_login);
