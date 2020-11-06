@@ -12,25 +12,36 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+/**
+ * Intent testing for Register activity
+ */
 public class RegisterTest {
     private Solo solo;
     @Rule
     public ActivityTestRule<register> rule =
             new ActivityTestRule<register>(register.class, true, true);
 
+    /**
+     * Set up the start point for activity test
+     */
     @Before
     public void setUp() {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
     }
 
-
+    /**
+     * Test for executing the app
+     * @throws Exception fail message
+     */
     @Test
     public void start() throws Exception{
         Activity activity = rule.getActivity();
     }
 
-
-    //test if the login button in Register class actually work
+    /**
+     * Test if the login button in Register class actually work
+     */
     @Test
     public void checkLoginSwitch() {
         solo.assertCurrentActivity("Wrong activity",register.class);
@@ -41,7 +52,10 @@ public class RegisterTest {
 
     }
 
-    //test if Register button actually work 有bug,每次需要去firebase删除该用户才能重复运行,或者新建一个不重名的
+    /**
+     * Test if Register button actually work
+     */
+    // bug: need to delete the test account before each test runs
     @Test
     public void checkDoRegisterButton() {
         solo.assertCurrentActivity("Wrong activity",register.class);
@@ -66,6 +80,19 @@ public class RegisterTest {
     }
 
 
+    /**
+     * Test if user can switch back to login page without creating an account
+     */
+    @Test
+    public void checkRegSwitchLog() {
+        solo.assertCurrentActivity("Wrong activity",register.class);
+        solo.clickOnButton("Login");
+        solo.assertCurrentActivity("Wrong activity",login.class);
+    }
+
+    /**
+     * Close Activity when done test
+     */
     @After
     public void tearDown() {
         solo.finishOpenedActivities();

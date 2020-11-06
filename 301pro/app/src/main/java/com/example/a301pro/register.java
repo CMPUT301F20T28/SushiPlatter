@@ -39,6 +39,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class allows user to register an account
+ */
 public class register extends AppCompatActivity {
     private User newUser;
     private FirebaseAuth mAuth;
@@ -66,7 +69,6 @@ public class register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
         // Get the Intent that started this activity and extract the string
-        //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -100,6 +102,7 @@ public class register extends AppCompatActivity {
             }
         });
 
+        // return to login page without setting up an account
         login.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent intent = new Intent(getBaseContext(), login.class);
@@ -108,6 +111,7 @@ public class register extends AppCompatActivity {
             }
         });
 
+        // set up a new account and send data to database
         registerButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -228,8 +232,7 @@ public class register extends AppCompatActivity {
 
     /**
      * Send new user info to FireBase
-     *
-     * @param User newUser
+     * @param newUser data of the new user
      */
     private void createAccount(User newUser){
         Map<String, Object> userInfo = new HashMap<>();

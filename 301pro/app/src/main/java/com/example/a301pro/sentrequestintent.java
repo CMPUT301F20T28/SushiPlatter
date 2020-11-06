@@ -18,18 +18,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * This class allow user to send a book request in the purpose of book trading
+ */
 public class sentrequestintent extends AppCompatActivity {
     private User sender;
     private Share requested_Book;
     protected FirebaseFirestore db;
     public static final String TAG = "SentRequest";
 
+    /**
+     * Control the status and request of a book
+     * @param savedInstanceState data of previous instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sent_request);
         // Get the Intent that started this activity and extract the string
-        //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -57,6 +63,11 @@ public class sentrequestintent extends AppCompatActivity {
 
 
     }
+
+    /**
+     * Update book data to the database
+     * @param R_Book book to be requested
+     */
     public void sendDataToDb(final Share R_Book) {
         final CollectionReference CollectRef = db.collection("Users");
         String userID = getUserID();
@@ -83,6 +94,10 @@ public class sentrequestintent extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Get uid of the current logged in user
+     * @return uid as a string
+     */
     protected String getUserID() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }

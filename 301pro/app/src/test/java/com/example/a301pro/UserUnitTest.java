@@ -3,13 +3,22 @@ package com.example.a301pro;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+/**
+ * Unit testing for User
+ */
 public class UserUnitTest {
 
+    /**
+     * user for testing purpose
+     * @return Mock User
+     */
     public User MockUser(){ return new User("testUserName","testUserEmail","123456",
             "testFirstName","testLastName","123456","testUID");
     }
 
-
+    /**
+     * Test if it can get and set a username
+     */
     @Test
     public void testUserName(){
         User mockUser = MockUser();
@@ -21,7 +30,9 @@ public class UserUnitTest {
         assertNotEquals("testUserName",mockUser.getUserName());
     }
 
-
+    /**
+     * Test if it can get and set an email
+     */
     @Test
     public void testUserEmail(){
         User mockUser = MockUser();
@@ -33,7 +44,9 @@ public class UserUnitTest {
         assertNotEquals("testUserEmail",mockUser.getEmail());
     }
 
-
+    /**
+     * Test if it can validate password, get and set a password
+     */
     @Test
     public void testPassword(){
         User mockUser = MockUser();
@@ -50,7 +63,9 @@ public class UserUnitTest {
         assertFalse(mockUser.getPassword().length()>=6);
     }
 
-
+    /**
+     * Test if it can get and set the user's first name and last name
+     */
     @Test
     public void testName(){
         User mockUser = MockUser();
@@ -68,7 +83,9 @@ public class UserUnitTest {
 
     }
 
-
+    /**
+     * Test if it can get and set a phone number
+     */
     @Test
     public void testPhoneNum(){
         User mockUser = MockUser();
@@ -81,7 +98,9 @@ public class UserUnitTest {
 
     }
 
-
+    /**
+     * Test if it can get correct UID
+     */
     @Test
     public void testUID(){
         User mockUser = MockUser();

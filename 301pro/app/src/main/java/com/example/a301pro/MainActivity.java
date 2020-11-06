@@ -27,7 +27,14 @@ import com.google.firebase.firestore.Source;
 
 import java.io.Console;
 
+/**
+ * This class builds the basic layout, and controls the functions of each divided fragments
+ */
 public class MainActivity extends AppCompatActivity {
+    /**
+     * controller of all fragments
+     * @param savedInstanceState data of previous instance
+     */
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Controller of the fragment navigation bar
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

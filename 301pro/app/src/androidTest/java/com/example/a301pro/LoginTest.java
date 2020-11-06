@@ -13,7 +13,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-
+/**
+ * Intent testing for Login activity
+ */
 public class LoginTest {
     private Solo solo;
 
@@ -21,19 +23,27 @@ public class LoginTest {
     public ActivityTestRule<login> rule =
             new ActivityTestRule<login>(login.class, true, true);
 
+    /**
+     * Set up the start point for activity test
+     */
     @Before
     public void setUp() {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
     }
 
-
+    /**
+     * Test for executing the app
+     * @throws Exception fail message
+     */
     @Test
     public void start() throws Exception{
         Activity activity = rule.getActivity();
     }
 
 
-    //test if the register button actually work
+    /**
+     * Test if the register button actually work
+     */
     @Test
     public void checkRegisterSwitch() {
         solo.assertCurrentActivity("Wrong activity",login.class);
@@ -43,7 +53,9 @@ public class LoginTest {
         solo.sleep(10000);
     }
 
-    //test if login button actually work
+    /**
+     * Test if login button actually work
+     */
     @Test
     public void checkLoginButton() {
         solo.assertCurrentActivity("Wrong activity",login.class);
@@ -52,7 +64,7 @@ public class LoginTest {
         solo.assertCurrentActivity("Wrong activity",login.class);
 
         solo.sleep(10000);
-        solo.enterText((EditText) solo.getView(R.id.text_username),"sjy");
+        solo.enterText((EditText) solo.getView(R.id.text_username),"intent_testing1");
         solo.enterText((EditText) solo.getView(R.id.text_password),"123456");
         solo.clickOnButton("Login");
         solo.waitForActivity("MainActivity",10000);
@@ -61,12 +73,14 @@ public class LoginTest {
 
     }
 
-    //test if user can proceed without username or password both been filled.
+    /**
+     * Test if user can proceed without username or password both been filled.
+     */
     @Test
     public void checkLoginInput() {
         solo.assertCurrentActivity("Wrong activity",login.class);
 
-        solo.enterText((EditText) solo.getView(R.id.text_username),"sjy");
+        solo.enterText((EditText) solo.getView(R.id.text_username),"intent_testing1");
         solo.clickOnButton("Login");
         solo.assertCurrentActivity("Wrong activity",login.class);
         solo.clearEditText((EditText)solo.getView(R.id.text_username));
@@ -77,11 +91,9 @@ public class LoginTest {
         solo.assertCurrentActivity("Wrong activity",login.class);
     }
 
-
-
-
-
-
+    /**
+     * Close Activity when done test
+     */
     @After
     public void tearDown() {
         solo.finishOpenedActivities();

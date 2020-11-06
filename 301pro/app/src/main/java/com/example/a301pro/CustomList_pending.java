@@ -19,19 +19,32 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+/**
+ * This class control the data view of book pending list
+ */
 public class CustomList_pending extends ArrayAdapter<Borrowed> {
     private ArrayList<Borrowed> pends;
     private Context context;
     final FirebaseStorage storage = FirebaseStorage.getInstance();
 
-
+    /**
+     * Constructor
+     * @param context context of view
+     * @param pends list of pending book
+     */
     public CustomList_pending(@NonNull Context context, ArrayList<Borrowed> pends) {
         super(context,0,pends);
         this.pends = pends;
         this.context = context;
-        //Constructor of the CustomList
     }
 
+    /**
+     * Update view of the fragment
+     * @param position index of the book to be updated
+     * @param convertView convert the view
+     * @param parent parent view
+     * @return updated view
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //to create the view that we want as a item, and later we will add this to the Adapter
         View view = convertView;
