@@ -99,6 +99,8 @@ public class ViewUserProfile extends AppCompatActivity {
         });
 
         // edit personal data
+        // The first click would change the interface to edit mode
+        // The second click would submit the changes to user profile
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,8 +109,6 @@ public class ViewUserProfile extends AppCompatActivity {
                     phoneShow.setEnabled(true);
                     userFirstNameShow.setEnabled(true);
                     userLastNameShow.setEnabled(true);
-
-                    // Uncomment the following line if checking if the edited email already exists is finished
                     emailShow.setEnabled(true);
 
                 }else{
@@ -118,6 +118,7 @@ public class ViewUserProfile extends AppCompatActivity {
                     String newLastName = userLastNameShow.getText().toString();
                     final String newEmail = emailShow.getText().toString();
 
+                    //Change users' phone number
                     if(!newPhoneNumber.equals(phoneNumber)){
                         if (newPhoneNumber.length()>0){
                             Map<String, Object> userInfo = new HashMap<>();
@@ -145,11 +146,12 @@ public class ViewUserProfile extends AppCompatActivity {
                         }
                     }
 
+                    // Change user's full name
                     if((!newFirstName.toLowerCase().equals(firstName.toLowerCase())) || (!newLastName.toLowerCase().equals(lastName.toLowerCase()))){
                         if ((newFirstName.length()>0) && (newLastName.length()>0)){
                             Map<String, Object> userName = new HashMap<>();
-                            userName.put("firstName", newFirstName);
-                            userName.put("lastName", newLastName);
+                            userName.put("firstName", newFirstName.toLowerCase());
+                            userName.put("lastName", newLastName.toLowerCase());
                             db.collection("Users").document(mAuth.getCurrentUser().getUid())
                                     .update(userName)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -178,6 +180,8 @@ public class ViewUserProfile extends AppCompatActivity {
                         }
                     }
 
+
+                    //Change users' email
                     if (!newEmail.toLowerCase().equals(email.toLowerCase())){
                         if (newEmail.length()>0){
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
