@@ -108,7 +108,7 @@ public class borrowed_fragment extends Fragment {
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("sit");
                             String owner = (String) doc.getData().get("owner");
-                            if (description.contains(dess)) {
+                            if (description.contains(dess) || bookName.contains(dess)) {
 
                                 pendDataList.add((new Borrowed(bookid, imageid, bookName, description, status, owner)));
 

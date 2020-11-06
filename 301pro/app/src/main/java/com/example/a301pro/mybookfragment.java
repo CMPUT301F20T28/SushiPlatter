@@ -130,7 +130,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                             String bookid = doc.getId();
                             String borrower = (String) doc.getData().get("borrower_name");
                             String owner = (String) doc.getData().get("owner");
-                            if (description.contains(dess)) {
+                            if (description.contains(dess)|| bookName.contains(dess)) {
                                 bookDataList.add((new Book(imageID, bookName, author, ISBN, description, status, bookid, borrower, owner)));
                             }
                         }
