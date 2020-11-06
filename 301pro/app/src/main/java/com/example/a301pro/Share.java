@@ -9,15 +9,7 @@ public class Share implements Serializable {
     private String des;
     private String sit;
     private String onwer;
-    /**
-     * This constructor initializes the property of a Share
-     * @param imageId image id of the book
-     * @param book_name name of the book
-     * @param des description of the book
-     * @param sit status of the book
-     * @param bookID id of the book
-     * @param onwer owner of the book
-     */
+
     public Share(String bookID,String imageId,String book_name, String des, String sit, String onwer) {
         this.bookID = bookID;
         this.imageId =imageId;
