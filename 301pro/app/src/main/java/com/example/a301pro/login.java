@@ -30,6 +30,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * This class allows user to login
+ */
 public class login extends AppCompatActivity {
     private User login_user;
     protected FirebaseAuth mAuth;
@@ -38,14 +41,13 @@ public class login extends AppCompatActivity {
 
     /**
      * User login: when log in successfully jump to the main activity
-     * @param savedInstanceState
+     * @param savedInstanceState data of previous instance
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         // Get the Intent that started this activity and extract the string
-        //隐藏title
         mAuth = FirebaseAuth.getInstance();
 
         AppCompatAcitiviy:getSupportActionBar().hide();
@@ -133,14 +135,14 @@ public class login extends AppCompatActivity {
             });
         }
     }
+
     /**
      * User login: check whether the username and password are consistent with that in recorded in fire store
-     * @param String Email, searched by username
-     * @param String Password, user's input
-     * @param final EditText usernameView, if user enter wrong information, empty the edit text
-     * @param final EditText passwordView, if user enter wrong information, empty the edit text
+     * @param Email searched by username
+     * @param Password, user's input
+     * @param usernameView if user enter wrong information, empty the edit text
+     * @param passwordView if user enter wrong information, empty the edit text
      */
-
     public void validate(String Email, String Password, final EditText usernameView, final EditText passwordView) {
         mAuth.signInWithEmailAndPassword(Email, Password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

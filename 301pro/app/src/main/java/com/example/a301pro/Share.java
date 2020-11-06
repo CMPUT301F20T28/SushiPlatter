@@ -2,6 +2,9 @@ package com.example.a301pro;
 
 import java.io.Serializable;
 
+/**
+ * This class initializes the property of a shareable book as well as gets the data of a book
+ */
 public class Share implements Serializable {
     private String bookID;
     private String imageId;
@@ -10,7 +13,7 @@ public class Share implements Serializable {
     private String sit;
     private String owner;
     /**
-     * This constructor initializes the property of a Share
+     * This constructor initializes the property of a shareable book
      * @param imageId image id of the book
      * @param book_name name of the book
      * @param des description of the book

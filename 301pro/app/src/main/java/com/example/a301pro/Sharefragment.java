@@ -44,6 +44,9 @@ import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * This fragment class allows user to view all shareable book and selects a book for trading
+ */
 public class Sharefragment extends Fragment {
 
     ListView shareList;
@@ -52,9 +55,19 @@ public class Sharefragment extends Fragment {
     public static final int REQUEST_REQUEST = 3;
     protected FirebaseFirestore db;
 
+    /**
+     * Default constructor
+     */
     public Sharefragment() {
     }
 
+    /**
+     * Provide functionality for all shareable books
+     * @param inflater layout of the view
+     * @param container layout container of view object
+     * @param savedInstanceState data of previous instance
+     * @return layout of the fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -101,6 +114,7 @@ public class Sharefragment extends Fragment {
             }
         });
 
+        // search book by keyword
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -139,7 +153,7 @@ public class Sharefragment extends Fragment {
             }
         });
 
-
+        // switch page to send borrowing request to selected book
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -149,9 +163,9 @@ public class Sharefragment extends Fragment {
                 startActivityForResult(intent,REQUEST_REQUEST);
             }
         });
+
         final ImageButton mes_btn = view.findViewById(R.id.message_center);
         mes_btn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 mes_btn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
@@ -164,12 +178,14 @@ public class Sharefragment extends Fragment {
 
         return view;
     }
+
+    /**
+     * Popup the menu for picking status
+     * @param view view
+     */
     private void showPopupMenu(View view) {
-        // View当前PopupMenu显示的相对View的位置
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        // menu布局
         popupMenu.getMenuInflater().inflate(R.menu.book_category, popupMenu.getMenu());
-        // menu的item点击事件
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -177,7 +193,6 @@ public class Sharefragment extends Fragment {
                 return false;
             }
         });
-        // PopupMenu关闭事件
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
@@ -187,10 +202,19 @@ public class Sharefragment extends Fragment {
 
         popupMenu.show();
     }
+
+    /**
+     * Get uid of the current logged in user
+     * @return uid as a string
+     */
     protected String getUserID() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
+    /**
+     * Get username of the current logged in user
+     * @return username as a string
+     */
     protected String getUserName(){
         return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }

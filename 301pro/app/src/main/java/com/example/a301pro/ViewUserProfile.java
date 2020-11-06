@@ -27,6 +27,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class allows user to view the personal information as well as change the contact information
+ */
 public class ViewUserProfile extends AppCompatActivity {
     EditText phoneShow, userFirstNameShow, userLastNameShow, emailShow;
     Button edit, profileQuit;
@@ -34,6 +37,11 @@ public class ViewUserProfile extends AppCompatActivity {
     String firstName, lastName, phoneNumber, email;
     private FirebaseAuth mAuth;
 
+    /**
+     * Provide functionality viewing and editing personal profile
+     * @param savedInstanceState data of previous instance
+     * @return layout of the fragment
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +64,7 @@ public class ViewUserProfile extends AppCompatActivity {
         emailShow.setEnabled(false);
 
 
+        // get user data
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -89,7 +98,7 @@ public class ViewUserProfile extends AppCompatActivity {
             }
         });
 
-
+        // edit personal data
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -207,6 +216,7 @@ public class ViewUserProfile extends AppCompatActivity {
             }
         });
 
+        // cancel editing
         profileQuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
