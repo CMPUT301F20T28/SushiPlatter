@@ -188,7 +188,7 @@ public class ViewUserProfile extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 Map<String, Object> userEmail = new HashMap<>();
 
-                                                userEmail.put("email", newEmail);
+                                                userEmail.put("email", newEmail.toLowerCase());
                                                 db.collection("Users").document(mAuth.getCurrentUser().getUid()).update(userEmail);
                                                 db.collection("userDict").document(mAuth.getCurrentUser().getDisplayName()).update(userEmail);
                                                 Toast.makeText(ViewUserProfile.this,"User's email successfully updated!", Toast.LENGTH_SHORT).show();
