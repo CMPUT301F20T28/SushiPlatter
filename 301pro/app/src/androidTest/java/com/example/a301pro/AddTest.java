@@ -1,9 +1,13 @@
 package com.example.a301pro;
 
 
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.rule.ActivityTestRule;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,20 +19,27 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.robotium.solo.Solo;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static com.example.a301pro.R.id.book_confirm;
+import static org.hamcrest.Matchers.anything;
 import static org.junit.Assert.assertTrue;
 
 public class AddTest {
@@ -106,8 +117,30 @@ public class AddTest {
 
     }
 
+    public static int getCountFromList(@IdRes int listViewId) {
+        final int[] count = {0};
+
+        Matcher matcher = new TypeSafeMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View item) {
+                count[0] = ((ListView) item).getCount();
+                return true;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+        };
+
+        onView(withId(listViewId)).check(matches(matcher));
+
+        int result = count[0];
+        count[0] = 0;
+        return result;
+    }
+
     @Test
-    public void testAddBookWithoutImages() throws Exception {
+    public void testWithoutImages() throws Exception {
 
 
         solo.assertCurrentActivity("Wrong Activity", register.class);
@@ -146,13 +179,13 @@ public class AddTest {
         solo.waitForActivity(AddEditIntent.class);
         solo.assertCurrentActivity("Wrong Activity", AddEditIntent.class);
 
-
+        // add new book for testing
         solo.enterText((EditText) solo.getView(R.id.book_name_editText), "Test Book Name");
         solo.enterText((EditText) solo.getView(R.id.author_editText), "Test Book Author");
         solo.enterText((EditText) solo.getView(R.id.ISBN_editText), "1234567891011");
         solo.enterText((EditText) solo.getView(R.id.description), "Test Book Description");
 
-        onView(withId(R.id.book_confirm)).perform(click());
+        onView(withId(book_confirm)).perform(click());
 
         solo.waitForActivity(MainActivity.class);
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -160,7 +193,42 @@ public class AddTest {
         assertTrue(solo.waitForText("Test Book Description"));
         assertTrue(solo.waitForText("Test Book Name"));
 
+        // edit existed book
+
+        onData(anything()).inAdapterView(withId(R.id.my_book_list)).atPosition(0).perform(click());
+
+        solo.waitForActivity(AddEditIntent.class);
+        solo.assertCurrentActivity("Wrong Activity", AddEditIntent.class);
+
+        assertTrue(solo.waitForText("Test Book Description"));
+        assertTrue(solo.waitForText("Test Book Name"));
+        assertTrue(solo.waitForText("1234567891011"));
+        assertTrue(solo.waitForText("Test Book Author"));
+
+        onView(withId(R.id.book_name_editText)).perform(clearText());
+        onView(withId(R.id.author_editText)).perform(clearText());
+        onView(withId(R.id.ISBN_editText)).perform(clearText());
+        onView(withId(R.id.description)).perform(clearText());
+
+        solo.enterText((EditText) solo.getView(R.id.book_name_editText), "Edit Book Name");
+        solo.enterText((EditText) solo.getView(R.id.author_editText), "Edit Book Author");
+        solo.enterText((EditText) solo.getView(R.id.ISBN_editText), "1234567891213");
+        solo.enterText((EditText) solo.getView(R.id.description), "Edit Book Description");
+
+        onView(withId(book_confirm)).perform(click());
+
+        solo.waitForActivity(MainActivity.class);
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+
+        assertTrue(solo.waitForText("Edit Book Description"));
+        assertTrue(solo.waitForText("Edit Book Name"));
+
+        Assert.assertEquals(getCountFromList(R.id.my_book_list), 1);
+
+
+
     }
+
 }
 
 
