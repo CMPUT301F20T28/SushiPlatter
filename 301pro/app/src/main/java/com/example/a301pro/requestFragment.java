@@ -38,15 +38,15 @@ import java.util.ArrayList;
 /**
  * This fragment class allows user to borrow a book
  */
-public class borrowed_fragment extends Fragment {
+public class requestFragment extends Fragment {
     ListView pendList;
-    ArrayAdapter<Borrowed> pendAdapter;
-    ArrayList<Borrowed> pendDataList;
+    ArrayAdapter<Request> pendAdapter;
+    ArrayList<Request> pendDataList;
 
     /**
      * Default constructor
      */
-    public borrowed_fragment() {
+    public requestFragment() {
     }
 
     /**
@@ -63,7 +63,7 @@ public class borrowed_fragment extends Fragment {
         StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
         pendList = view.findViewById(R.id.pending_list);
         pendDataList = new ArrayList<>();
-        pendAdapter = new CustomList_pending(getContext(),pendDataList);
+        pendAdapter = new CustomList_pending_request(getContext(),pendDataList);
         pendList.setAdapter(pendAdapter);
         final EditText search = view.findViewById(R.id.search_method_pending);
 
@@ -77,7 +77,7 @@ public class borrowed_fragment extends Fragment {
         });
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("Borrowed");
+        final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("Request");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
 
@@ -91,10 +91,10 @@ public class borrowed_fragment extends Fragment {
                     String imageId = (String) doc.getData().get("imageId") ;
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
-                    String status = (String) doc.getData().get("sit");
-                    String owner = (String) doc.getData().get("owner");
+                    String status = (String) doc.getData().get("status");
+                    String requestSender = (String) doc.getData().get("requestSender");
 
-                    pendDataList.add((new Borrowed(bookID,imageId,bookName,description,status,owner)));
+                    pendDataList.add((new Request(bookID,imageId,bookName,description,status,requestSender)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -120,11 +120,11 @@ public class borrowed_fragment extends Fragment {
                             String bookId = doc.getId();
                             String bookName= (String) doc.getData().get("book_name");
                             String description = (String) doc.getData().get("des");
-                            String status = (String) doc.getData().get("sit");
-                            String owner = (String) doc.getData().get("owner");
+                            String status = (String) doc.getData().get("status");
+                            String requestSender = (String) doc.getData().get("requestSender");
                             if (description.contains(dess) || bookName.contains(dess)) {
 
-                                pendDataList.add((new Borrowed(bookId, imageId, bookName, description, status, owner)));
+                                pendDataList.add((new Request(bookId, imageId, bookName, description, status, requestSender)));
 
                             }
                         }
@@ -142,7 +142,7 @@ public class borrowed_fragment extends Fragment {
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Borrowed selectedBook = pendAdapter.getItem(position);
+                Request selectedBook = pendAdapter.getItem(position);
                 if (!selectedBook.getStatus().equals("Requested")){
                     Intent intent = new Intent(getContext(),scan_ISBN.class);
                     startActivity(intent);
@@ -160,7 +160,7 @@ public class borrowed_fragment extends Fragment {
         });
 
 
-        pendAdapter = new CustomList_pending(getContext(),pendDataList);
+        pendAdapter = new CustomList_pending_request(getContext(),pendDataList);
         pendList.setAdapter(pendAdapter);
 
         return view;
