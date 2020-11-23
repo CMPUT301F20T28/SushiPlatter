@@ -1,6 +1,7 @@
 package com.example.a301pro;
 
 import android.content.Intent;
+import com.example.a301pro.Utilities.requestNotification;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -70,8 +71,9 @@ public class sentrequestintent extends AppCompatActivity {
      */
     public void sendDataToDb(final Share RBook) {
         final CollectionReference CollectRef = db.collection("Users");
-        String userID = getUserID();
+        final String userID = getUserID();
         final String bookID = RBook.getBookID();
+        RBook.setSit("Requested");
         CollectRef
                 .document(userID)
                 .collection("Borrowed")
@@ -82,6 +84,8 @@ public class sentrequestintent extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Book has been updated successfully!");
+                        Request requestInfo = new Request(bookID, RBook.getImageId(), RBook.getBook_name(), RBook.getDes(), "Pending", userID);
+                        new requestNotification(requestInfo, CollectRef);
 
                     }
                 })

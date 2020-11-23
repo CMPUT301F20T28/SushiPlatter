@@ -98,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_bo:
                     selectedFragment = new borrowed_fragment();
                     break;
+                case R.id.nav_request:
+                    selectedFragment = new requestFragment();
+                    break;
             }
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();

@@ -11,13 +11,17 @@
     <item
         android:id="@+id/nav_share"
         android:icon="@drawable/ic_people_black_24dp"
-        android:title="Share"
-        />
+        android:title="Library" />
 
     <item
         android:id="@+id/nav_bo"
         android:icon="@drawable/ic_sentiment_satisfied_black_24dp"
         android:title="Borrowed"/>
+
+    <item
+        android:id="@+id/nav_request"
+        android:icon="@android:drawable/stat_notify_chat"
+        android:title="Requests" />
 
 
 </menu>
