@@ -55,7 +55,7 @@ public class CustomList_Share extends ArrayAdapter<Share> {
 
         Share share = shares.get(position);
         final ImageView img = view.findViewById(R.id.book_image_share);
-        TextView book_name = view.findViewById(R.id.name_text_share);
+        TextView bookName = view.findViewById(R.id.name_text_share);
         TextView des = view.findViewById(R.id.des_text_share);
         TextView sta = view.findViewById(R.id.status_text_share);
         TextView bor = view.findViewById(R.id.borrower_text_share);
@@ -71,7 +71,7 @@ public class CustomList_Share extends ArrayAdapter<Share> {
                 });
 
         //img.setImageResource(share.getImageId());
-        book_name.setText(share.getBook_name());
+        bookName.setText(share.getBook_name());
         des.setText(share.getDes());
         sta.setText(share.getSit());
         bor.setText(share.getOwner());

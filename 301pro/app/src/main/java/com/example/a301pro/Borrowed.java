@@ -6,26 +6,26 @@ package com.example.a301pro;
 public class Borrowed {
     private String bookID;
     private String imageId;
-    private String book_name;
+    private String bookName;
     private String des;
-    private String o_name;
+    private String oName;
     private String status;
     /**
      * This constructor initializes the property of a borrowed book
      * @param imageId image id of the book
-     * @param book_name name of the book
+     * @param bookName name of the book
      * @param des description of the book
      * @param status status of the book
      * @param bookID id of the book
-     * @param o_name owner of the book
+     * @param oName owner of the book
      */
-    public Borrowed(String bookID,String imageId,String book_name, String des, String status, String o_name) {
+    public Borrowed(String bookID,String imageId,String bookName, String des, String status, String oName) {
         this.bookID = bookID;
         this.imageId = imageId;
-        this.book_name = book_name;
+        this.bookName = bookName;
         this.des = des;
         this.status = status;
-        this.o_name = o_name;
+        this.oName = oName;
     }
     /**
      * This allows the outside to get the owner's name of a book
@@ -60,7 +60,7 @@ public class Borrowed {
      * @return image id of a book
      */
     public String getBook_name() {
-        return book_name;
+        return bookName;
     }
     /**
      * This allows the outside to get the description of a book
@@ -74,7 +74,7 @@ public class Borrowed {
      * @return owner's name of a book
      */
     public String getO_name() {
-        return o_name;
+        return oName;
     }
     /**
      * This allows the outside to get the status of a book
@@ -92,10 +92,10 @@ public class Borrowed {
     }
     /**
      * This set the description of a book
-     * @param o_name description to be set
+     * @param oName description to be set
      */
-    public void setO_name(String o_name) {
-        this.o_name = o_name;
+    public void setO_name(String oName) {
+        this.oName = oName;
     }
 
     /**
@@ -107,9 +107,9 @@ public class Borrowed {
     }
     /**
      * This set the name of a book
-     * @param book_name name of a book to be set
+     * @param bookName name of a book to be set
      */
-    public void setBook_name(String book_name) {
-        this.book_name = book_name;
+    public void setBook_name(String bookName) {
+        this.bookName = bookName;
     }
 }

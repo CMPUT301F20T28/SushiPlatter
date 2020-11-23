@@ -34,7 +34,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * This class allows user to login
  */
 public class login extends AppCompatActivity {
-    private User login_user;
+    private User loginUser;
     protected FirebaseAuth mAuth;
     Switch mSwitch;
     EditText passwordView;
@@ -73,7 +73,7 @@ public class login extends AppCompatActivity {
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                log_in();
+                logIn();
             }
         });
 
@@ -91,7 +91,7 @@ public class login extends AppCompatActivity {
      * User login: handle entered username and password
      * reference: https://firebase.google.com/docs/auth/android/start
      */
-    public void log_in() {
+    public void logIn() {
         final EditText usernameView = findViewById(R.id.text_username);
         final EditText passwordView = findViewById(R.id.text_password);
 
