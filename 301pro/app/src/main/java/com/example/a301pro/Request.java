@@ -17,15 +17,15 @@ public class Request {
      * @param des description of the book
      * @param status status of the book
      * @param bookID id of the book
-     * @param requestSender name of the request sender
+     * @param requestFrom name of the request sender
      */
-    public Request(String bookID,String imageId,String bookName, String des, String status, String requestSender) {
+    public Request(String bookID,String imageId,String bookName, String des, String status, String requestFrom) {
         this.bookID = bookID;
         this.imageId = imageId;
         this.bookName = bookName;
         this.des = des;
         this.status = status;
-        this.requestFrom = requestSender;
+        this.requestFrom = requestFrom;
     }
     /**
      * This allows the outside to get the owner's name of a book
