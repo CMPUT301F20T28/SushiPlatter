@@ -7,9 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.test.rule.ActivityTestRule;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,6 +34,7 @@ import static org.junit.Assert.assertTrue;
 public class AddTest {
 
     private Solo solo;
+    final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Rule
@@ -44,39 +49,61 @@ public class AddTest {
 
     @After
     public void tearDown() throws Exception {
-        deleteUser();
+        getUID();
         solo.finishOpenedActivities();
     }
 
-    public void deleteUser() throws Exception {
+    public void getUID() {
+
+        String testUsername = "username";
+
+
+        CollectionReference collectionReference = db.collection("userDict");
+        DocumentReference docRef = collectionReference.document(testUsername);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        final String UID = (String) document.getData().get("UID");
+                        deleteUser(UID);
+                    }
+
+                }
+            }
+        });
+
+    }
+
+    public void deleteUser(String UID){
         String testFirstName = "firstName";
         String testLastName = "lastName";
         String testUsername = "username";
         final String testEmail = "firstname@uablerta.ca";
         String testPhone = "1234567890";
-        final String testPassword = "88888888";
 
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        final FirebaseUser testuser = FirebaseAuth.getInstance().getCurrentUser();
-
-        db.collection("userDict").whereEqualTo("username", testUsername).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("userDict").document(testUsername)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String docId = document.getId();
-                                db.collection("userDict").document(docId).delete();
-                                db.collection("Users").document(docId).delete();
-                                testuser.delete();
-                                FirebaseAuth authenticatedUser = FirebaseAuth.getInstance();
-                                authenticatedUser.signOut();
-                            }
-                        }
+                    public void onSuccess(Void aVoid) {
                     }
                 });
+        db.collection("Users").document(UID)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                });
+        final FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+        currUser.delete();
+        FirebaseAuth authenticatedUser = FirebaseAuth.getInstance();
+        authenticatedUser.signOut();
+
+
+
     }
 
     @Test
