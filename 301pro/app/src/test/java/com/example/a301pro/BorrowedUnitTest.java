@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-class BorrowedUnitTest {
+public class BorrowedUnitTest {
     /**
      * share for testing purpose
      * @return Mock share
@@ -25,7 +25,7 @@ class BorrowedUnitTest {
 
         Borrowed mockBorrowed= MockBorrowed();
         assertEquals("1234567",mockBorrowed.getImageId());
-        assertNotEquals("1234567",mockBorrowed.getImageId());
+        assertNotEquals("12345678",mockBorrowed.getImageId());
     }
 
     /**
@@ -35,7 +35,7 @@ class BorrowedUnitTest {
     public void testSetImageID(){
         Borrowed mockBorrowed= MockBorrowed();
         assertEquals("1234567",mockBorrowed.getImageId());
-        assertNotEquals("1234567",mockBorrowed.getImageId());
+        assertNotEquals("12345678",mockBorrowed.getImageId());
 
         mockBorrowed.setImageId("1234567");
         assertEquals("1234567",mockBorrowed.getImageId());
