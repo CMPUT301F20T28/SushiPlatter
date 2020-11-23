@@ -140,7 +140,7 @@ public class AddTest {
     }
 
     @Test
-    public void testWithoutImages() throws Exception {
+    public void testAddWithoutImages() throws Exception {
 
 
         solo.assertCurrentActivity("Wrong Activity", register.class);
@@ -164,14 +164,14 @@ public class AddTest {
         solo.clickOnButton("DONE REGISTER");
 
         solo.waitForActivity(login.class);
-        solo.assertCurrentActivity("Wrong activity",login.class);
+        solo.assertCurrentActivity("Wrong activity", login.class);
         solo.sleep(10000);
 
-        solo.enterText((EditText) solo.getView(R.id.text_username),testUsername);
-        solo.enterText((EditText) solo.getView(R.id.text_password),testPassword);
+        solo.enterText((EditText) solo.getView(R.id.text_username), testUsername);
+        solo.enterText((EditText) solo.getView(R.id.text_password), testPassword);
         solo.clickOnButton("Login");
-        solo.waitForActivity("MainActivity",10000);
-        solo.assertCurrentActivity("Wrong activity",MainActivity.class);
+        solo.waitForActivity("MainActivity", 10000);
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
         solo.sleep(10000);
 
         solo.clickOnView(solo.getView(R.id.add_book_button));
@@ -193,8 +193,7 @@ public class AddTest {
         assertTrue(solo.waitForText("Test Book Description"));
         assertTrue(solo.waitForText("Test Book Name"));
 
-        // edit existed book
-
+        // test edit book information function
         onData(anything()).inAdapterView(withId(R.id.my_book_list)).atPosition(0).perform(click());
 
         solo.waitForActivity(AddEditIntent.class);
@@ -224,11 +223,19 @@ public class AddTest {
         assertTrue(solo.waitForText("Edit Book Name"));
 
         Assert.assertEquals(getCountFromList(R.id.my_book_list), 1);
+        // test cancel button
+        onData(anything()).inAdapterView(withId(R.id.my_book_list)).atPosition(0).perform(click());
+        solo.waitForActivity(AddEditIntent.class);
+        solo.assertCurrentActivity("Wrong Activity", AddEditIntent.class);
 
+        onView(withId(R.id.add_edit_quit)).perform(click());
+        solo.waitForActivity(MainActivity.class);
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        assertTrue(solo.waitForText("Edit Book Description"));
+        assertTrue(solo.waitForText("Edit Book Name"));
 
 
     }
-
 }
 
 
