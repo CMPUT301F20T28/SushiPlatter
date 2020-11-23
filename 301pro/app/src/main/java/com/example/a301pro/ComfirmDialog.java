@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -57,11 +58,15 @@ public class ComfirmDialog extends DialogFragment
     {
         // customize the alert
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
         builder.setTitle("Are you sure to delete\"" + book.getBook_name() + "\"?")
                 .setNegativeButton("Cancel",null)
                 .setPositiveButton("Yes", new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                if (book.getStatus().contentEquals("Available") ) {
+
                 collectRef
                         .document(String.valueOf(book.getBook_id()))
                         .delete()  // delete selected item from database
@@ -94,7 +99,12 @@ public class ComfirmDialog extends DialogFragment
                             }
                         });
             }
+            else{
+                Toast.makeText(getContext(), "Fail. Only the Available book can be deleted", Toast.LENGTH_SHORT).show();
+            }
+            }
         });
+
         return builder.create();
     }
 }
