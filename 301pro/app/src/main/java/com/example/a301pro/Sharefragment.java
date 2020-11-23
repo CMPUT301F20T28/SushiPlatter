@@ -157,18 +157,18 @@ public class Sharefragment extends Fragment {
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Share R_book = shareAdapter.getItem(position);
+                Share RBook = shareAdapter.getItem(position);
                 Intent intent = new Intent(getActivity(),sentrequestintent.class);
-                intent.putExtra("R_book",R_book);
+                intent.putExtra("R_book",RBook);
                 startActivityForResult(intent,REQUEST_REQUEST);
             }
         });
 
-        final ImageButton mes_btn = view.findViewById(R.id.message_center);
-        mes_btn.setOnClickListener(new View.OnClickListener() {
+        final ImageButton mesBtn = view.findViewById(R.id.message_center);
+        mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mes_btn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
                 Toast.makeText(getContext(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),Toast.LENGTH_SHORT).show();
             }
         });

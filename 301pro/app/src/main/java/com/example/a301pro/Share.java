@@ -8,23 +8,23 @@ import java.io.Serializable;
 public class Share implements Serializable {
     private String bookID;
     private String imageId;
-    private String book_name;
+    private String bookName;
     private String des;
     private String sit;
     private String owner;
     /**
      * This constructor initializes the property of a shareable book
      * @param imageId image id of the book
-     * @param book_name name of the book
+     * @param bookName name of the book
      * @param des description of the book
      * @param sit status of the book
      * @param bookID id of the book
      * @param owner owner of the book
      */
-    public Share(String bookID,String imageId,String book_name, String des, String sit, String owner) {
+    public Share(String bookID,String imageId,String bookName, String des, String sit, String owner) {
         this.bookID = bookID;
         this.imageId =imageId;
-        this.book_name = book_name;
+        this.bookName = bookName;
         this.des = des;
         this.sit = sit;
         this.owner = owner;
@@ -62,7 +62,7 @@ public class Share implements Serializable {
      * @return image id of a book
      */
     public String getBook_name() {
-        return book_name;
+        return bookName;
     }
     /**
      * This allows the outside to get the description of a book
@@ -88,10 +88,10 @@ public class Share implements Serializable {
     }
     /**
      * This set the description of a book
-     * @param book_name description to be set
+     * @param bookName description to be set
      */
-    public void setBook_name(String book_name) {
-        this.book_name = book_name;
+    public void setBook_name(String bookName) {
+        this.bookName = bookName;
     }
     /**
      * This set the description of a book

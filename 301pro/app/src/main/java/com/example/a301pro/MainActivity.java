@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         un.setText(userName);
 
         // allow user go to the profile page by clicking the head icon
-        Button user_information = headerView.findViewById(R.id.user_self_login);
-        user_information.setOnClickListener(new View.OnClickListener() {
+        Button userInformation = headerView.findViewById(R.id.user_self_login);
+        userInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), ViewUserProfile.class);

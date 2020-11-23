@@ -23,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
  */
 public class sentrequestintent extends AppCompatActivity {
     private User sender;
-    private Share requested_Book;
+    private Share requestedBook;
     protected FirebaseFirestore db;
     public static final String TAG = "SentRequest";
 
@@ -42,14 +42,14 @@ public class sentrequestintent extends AppCompatActivity {
 
         final Bundle bundle = getIntent().getExtras();
         // user has selected a book to edit if bundle if not empty
-        requested_Book = (Share) bundle.getSerializable("R_book");   // get the item
+        requestedBook = (Share) bundle.getSerializable("R_book");   // get the item
         db = FirebaseFirestore.getInstance();
-        Button sent_btn = findViewById(R.id.sent_request);
-        sent_btn.setOnClickListener(new View.OnClickListener() {
+        Button sentBtn = findViewById(R.id.sent_request);
+        sentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendDataToDb(requested_Book);
-                //Toast.makeText(getApplicationContext(),requested_Book.getBook_name(),Toast.LENGTH_SHORT).show();
+                sendDataToDb(requestedBook);
+                //Toast.makeText(getApplicationContext(),requestedBook.getBookname(),Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -66,17 +66,17 @@ public class sentrequestintent extends AppCompatActivity {
 
     /**
      * Update book data to the database
-     * @param R_Book book to be requested
+     * @param RBook book to be requested
      */
-    public void sendDataToDb(final Share R_Book) {
+    public void sendDataToDb(final Share RBook) {
         final CollectionReference CollectRef = db.collection("Users");
         String userID = getUserID();
-        final String bookID = R_Book.getBookID();
+        final String bookID = RBook.getBookID();
         CollectRef
                 .document(userID)
                 .collection("Borrowed")
                 .document(bookID)
-                .set(R_Book)
+                .set(RBook)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

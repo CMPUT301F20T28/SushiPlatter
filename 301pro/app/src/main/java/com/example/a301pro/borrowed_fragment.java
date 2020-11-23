@@ -88,13 +88,13 @@ public class borrowed_fragment extends Fragment {
                 pendDataList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String bookID = doc.getId();
-                    String imageid = (String) doc.getData().get("imageId") ;
+                    String imageId = (String) doc.getData().get("imageId") ;
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
 
-                    pendDataList.add((new Borrowed(bookID,imageid,bookName,description,status,owner)));
+                    pendDataList.add((new Borrowed(bookID,imageId,bookName,description,status,owner)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -116,15 +116,15 @@ public class borrowed_fragment extends Fragment {
                     public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
 
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                            String imageid = (String) doc.getData().get("imageId") ;
-                            String bookid = doc.getId();
+                            String imageId = (String) doc.getData().get("imageId") ;
+                            String bookId = doc.getId();
                             String bookName= (String) doc.getData().get("book_name");
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("sit");
                             String owner = (String) doc.getData().get("owner");
                             if (description.contains(dess) || bookName.contains(dess)) {
 
-                                pendDataList.add((new Borrowed(bookid, imageid, bookName, description, status, owner)));
+                                pendDataList.add((new Borrowed(bookId, imageId, bookName, description, status, owner)));
 
                             }
                         }
