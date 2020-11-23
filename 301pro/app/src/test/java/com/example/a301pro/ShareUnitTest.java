@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-class ShareUnitTest {
+public class ShareUnitTest {
     /**
      * share for testing purpose
      * @return Mock share
@@ -21,7 +21,7 @@ class ShareUnitTest {
     public void testGetImageID(){
         Share mockShare= MockShare();
         assertEquals("1234567",mockShare.getImageId());
-        assertNotEquals("1234567",mockShare.getImageId());
+        assertNotEquals("12345678",mockShare.getImageId());
     }
 
     /**
@@ -31,7 +31,7 @@ class ShareUnitTest {
     public void testSetImageID(){
         Share mockShare= MockShare();
         assertEquals("1234567",mockShare.getImageId());
-        assertNotEquals("1234567",mockShare.getImageId());
+        assertNotEquals("12345678",mockShare.getImageId());
 
         mockShare.setImageId("1234567");
         assertEquals("1234567",mockShare.getImageId());
