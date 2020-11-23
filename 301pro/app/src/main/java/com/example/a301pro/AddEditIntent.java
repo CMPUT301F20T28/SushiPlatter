@@ -93,16 +93,13 @@ public class AddEditIntent extends AppCompatActivity {
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         Button okBtn = findViewById(R.id.book_confirm);
         Button backBtn = findViewById(R.id.add_edit_quit);
-//        Button pickStatus = findViewById(R.id.pick_status);
         camera = findViewById(R.id.scan_description);
         db = FirebaseFirestore.getInstance();
-        final CollectionReference ColRef = db.collection("Mybook");
 
         final Bundle bundle = getIntent().getExtras();
         // user has selected a book to edit if bundle if not empty
         if(bundle != null) {
             myBook = (Book) bundle.getSerializable("BOOK");   // get the item
-            myPos = bundle.getInt("POS");
             setTextBox(myBook);
             imgid = myBook.getImageID();
 
@@ -150,9 +147,7 @@ public class AddEditIntent extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document != null) {
                         userName = document.getString("userName");
-                    } else {
                     }
-                } else {
                 }
             }
         });
@@ -168,31 +163,33 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myStatus = status.getText().toString();
                 status.setText(myStatus);
 
+                String myBookID = generateBookID(getUserID(), myISBN);
                 if(jg == true) {
                     Bitmap bm = ((BitmapDrawable) ((ImageButton) img).getDrawable()).getBitmap();
                     handleUpload(bm);
-                    String myBookID = generateBookID(getUserID(), myISBN);
-                    myBook = new Book(myBookID+".jpeg", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                    imgid = myBookID+".jpeg";
                 }else{
                     if (imgid.equals("default.png")) {
-                        String myBookID = generateBookID(getUserID(), myISBN);
-                        myBook = new Book("default.png", myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
-                    }else{
-                        String myBookID = generateBookID(getUserID(), myISBN);
-                        myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                        imgid = "default.png";
                     }
                 }
 
+                // if user has edit the isbn code, delete the old book from database and replace it with the new one
+                final String old_book_id = myBook.getBook_id();
+                if (!old_book_id.equals(myBookID)) {
+                    removeOldBook(old_book_id);
+                }
                 // validation of book data, book name, author name, and ISBN are required.
                 // send data to update if valid, otherwise to display error message
                 if(!(TextUtils.isEmpty(myBookName)) &&
                         !(TextUtils.isEmpty(myBookAuthor)) &&
-                        !(TextUtils.isEmpty(myISBN))) {
+                        !(TextUtils.isEmpty(myISBN)) &&
+                        (myISBN.length() == 13)) {
 
+                    myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
                     sendDataToDb(myBook);
                     Intent intent = new Intent();
                     intent.putExtra("BOOK", myBook);
-                    intent.putExtra("POS", myPos);
                     setResult(RESULT_OK, intent);
                     finish();
 
@@ -207,19 +204,14 @@ public class AddEditIntent extends AppCompatActivity {
                     if (TextUtils.isEmpty(myISBN)){
                         ISBN.setError("ISBN is required!");
                     }
+                    if (myISBN.length()!= 13){
+                        ISBN.setError("ISBN must be 13 digits");
+                    }
                     Toast.makeText(getApplicationContext(), "Fail. Please fill the required field",
                             Toast.LENGTH_LONG).show();
                 }
             }
         });
-
-        // Select a status from status list
-//        pickStatus.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                showStatusMenu(view);
-//            }
-//        });
 
         // Cancel action, no change will be made1
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -231,6 +223,19 @@ public class AddEditIntent extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * Delete the book with old book id and replace it with the new one if user has edit the isbn code
+     * @param old_book_id book to be removed
+     */
+    public void removeOldBook(String old_book_id){
+        final CollectionReference CollectRef = db.collection("Users");
+        String userID = getUserID();
+        CollectRef.document(userID)
+                .collection("MyBooks")
+                .document(old_book_id)
+                .delete();
     }
 
     /**
