@@ -94,7 +94,7 @@ public class Borrowed {
      * This set the description of a book
      * @param oName description to be set
      */
-    public void setO_name(String oName) {
+    public void setOwner(String oName) {
         this.oName = oName;
     }
 
