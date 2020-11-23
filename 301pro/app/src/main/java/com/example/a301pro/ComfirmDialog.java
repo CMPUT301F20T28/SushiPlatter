@@ -26,6 +26,7 @@ public class ComfirmDialog extends DialogFragment
 {
     private Book book;
     private CollectionReference collectRef;
+    private  CollectionReference LibraryReference;
     final String TAG = "Delete";
 
     /**
@@ -33,9 +34,10 @@ public class ComfirmDialog extends DialogFragment
      * @param book book data passed from AddEditIntent
      * @param collectionReference corresponding collection reference in the database
      */
-    public ComfirmDialog(Book book, CollectionReference collectionReference) {
+    public ComfirmDialog(Book book, CollectionReference collectionReference, CollectionReference LibraryReference) {
         this.book = book;
         this.collectRef = collectionReference;
+        this.LibraryReference = LibraryReference;
     }
 
     /**
@@ -73,6 +75,22 @@ public class ComfirmDialog extends DialogFragment
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.d(TAG, "Data could not be deleted!" + e.toString());
+                            }
+                        });
+
+                LibraryReference
+                        .document(String.valueOf(book.getBook_id()))
+                        .delete()  // delete selected item from database
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Data in library has been deleted successfully!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "Data in library could not be deleted!" + e.toString());
                             }
                         });
             }

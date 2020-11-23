@@ -78,6 +78,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("MyBooks");
+        final CollectionReference LibraryReference = db.collection("Library");
 
         // read book data from database
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -186,7 +187,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Book book = bookAdapter.getItem(position);
-                ComfirmDialog dialog = new ComfirmDialog(book, collectionReference);
+                ComfirmDialog dialog = new ComfirmDialog(book, collectionReference, LibraryReference);
                 dialog.show(getFragmentManager(),"show mes");
                 return true;
             }
