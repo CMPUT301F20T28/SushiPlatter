@@ -11,7 +11,7 @@ class RequestUnitTest {
      * @return Mock share
      */
     // String bookID,String imageId,String bookName, String des, String sit, String owner
-    public Share MockShare() { return new Share("123456","1234567","testBookName","interesting",
+    public Request MockRequest() { return new Request("123456","1234567","testBookName","interesting",
             "Available","testOwnerName");}
 
     /**
@@ -19,9 +19,9 @@ class RequestUnitTest {
      */
     @Test
     public void testGetImageID(){
-        Share mockShare= MockShare();
-        assertEquals("1234567",mockShare.getImageId());
-        assertNotEquals("1234567",mockShare.getImageId());
+        Request mockRequest= MockRequest();
+        assertEquals("1234567",mockRequest.getImageId());
+        assertNotEquals("1234567",mockRequest.getImageId());
     }
 
     /**
@@ -29,13 +29,13 @@ class RequestUnitTest {
      */
     @Test
     public void testSetImageID(){
-        Share mockShare= MockShare();
-        assertEquals("1234567",mockShare.getImageId());
-        assertNotEquals("1234567",mockShare.getImageId());
+        Request mockRequest= MockRequest();
+        assertEquals("1234567",mockRequest.getImageId());
+        assertNotEquals("1234567",mockRequest.getImageId());
 
-        mockShare.setImageId("1234567");
-        assertEquals("1234567",mockShare.getImageId());
-        assertNotEquals("123456",mockShare.getImageId());
+        mockRequest.setImageId("1234567");
+        assertEquals("1234567",mockRequest.getImageId());
+        assertNotEquals("123456",mockRequest.getImageId());
     }
 
     /**
@@ -43,9 +43,9 @@ class RequestUnitTest {
      */
     @Test
     public void testGetBookName(){
-        Share mockBook = MockShare();
-        assertEquals("testBookName",mockBook.getBook_name());
-        assertNotEquals("testBookName1",mockBook.getBook_name());
+        Request mockRequest= MockRequest();
+        assertEquals("testBookName",mockRequest.getBook_name());
+        assertNotEquals("testBookName1",mockRequest.getBook_name());
     }
 
     /**
@@ -53,37 +53,37 @@ class RequestUnitTest {
      */
     @Test
     public void testSetBookName(){
-        Share mockBook = MockShare();
-        assertEquals("testBookName",mockBook.getBook_name());
-        assertNotEquals("testBookName1",mockBook.getBook_name());
+        Request mockRequest= MockRequest();
+        assertEquals("testBookName",mockRequest.getBook_name());
+        assertNotEquals("testBookName1",mockRequest.getBook_name());
 
-        mockBook.setBook_name("testBookName1");
-        assertEquals("testBookName1",mockBook.getBook_name());
-        assertNotEquals("testBookName",mockBook.getBook_name());
+        mockRequest.setBook_name("testBookName1");
+        assertEquals("testBookName1",mockRequest.getBook_name());
+        assertNotEquals("testBookName",mockRequest.getBook_name());
     }
 
     /**
      * Test if it can get correct author name
      */
     @Test
-    public void testGetOwnerName(){
-        Share mockBook = MockShare();
-        assertEquals("testOwnerName",mockBook.getOwner());
-        assertNotEquals("testOwnerName1",mockBook.getOwner());
+    public void testGetRequestForm(){
+        Request mockRequest= MockRequest();
+        assertEquals("testOwnerName",mockRequest.getRequestFrom());
+        assertNotEquals("testOwnerName1",mockRequest.getRequestFrom());
     }
 
     /**
      * Test if it can set an author name
      */
     @Test
-    public void testSetOwnerName(){
-        Share mockBook = MockShare();
-        assertEquals("testOwnerName",mockBook.getOwner());
-        assertNotEquals("testOwnerName1",mockBook.getOwner());
+    public void testSetRequestForm(){
+        Request mockRequest= MockRequest();
+        assertEquals("testOwnerName",mockRequest.getRequestFrom());
+        assertNotEquals("testOwnerName1",mockRequest.getRequestFrom());
 
-        mockBook.setOwner("testAuthorName1");
-        assertEquals("testAuthorName1",mockBook.getOwner());
-        assertNotEquals("testAuthorName",mockBook.getOwner());
+        mockRequest.setRequestFrom("testAuthorName1");
+        assertEquals("testAuthorName1",mockRequest.getRequestFrom());
+        assertNotEquals("testAuthorName",mockRequest.getRequestFrom());
     }
 
 
@@ -93,9 +93,9 @@ class RequestUnitTest {
      */
     @Test
     public void testGetDescription(){
-        Share mockBook = MockShare();
-        assertEquals("interesting",mockBook.getDes());
-        assertNotEquals("boring",mockBook.getDes());
+        Request mockRequest= MockRequest();
+        assertEquals("interesting",mockRequest.getDes());
+        assertNotEquals("boring",mockRequest.getDes());
     }
 
     /**
@@ -103,13 +103,13 @@ class RequestUnitTest {
      */
     @Test
     public void testSetDescription(){
-        Share mockBook = MockShare();
-        assertEquals("interesting",mockBook.getDes());
-        assertNotEquals("boring",mockBook.getDes());
+        Request mockRequest= MockRequest();
+        assertEquals("interesting",mockRequest.getDes());
+        assertNotEquals("boring",mockRequest.getDes());
 
-        mockBook.setDes("boring");
-        assertEquals("boring",mockBook.getDes());
-        assertNotEquals("interesting",mockBook.getDes());
+        mockRequest.setDes("boring");
+        assertEquals("boring",mockRequest.getDes());
+        assertNotEquals("interesting",mockRequest.getDes());
     }
 
     /**
@@ -117,9 +117,9 @@ class RequestUnitTest {
      */
     @Test
     public void testGetStatus(){
-        Share mockBook = MockShare();
-        assertEquals("Available",mockBook.getSit());
-        assertNotEquals("Borrowed",mockBook.getSit());
+        Request mockRequest= MockRequest();
+        assertEquals("Available",mockRequest.getStatus());
+        assertNotEquals("Borrowed",mockRequest.getStatus());
     }
 
     /**
@@ -127,13 +127,13 @@ class RequestUnitTest {
      */
     @Test
     public void testSetStatus(){
-        Share mockBook = MockShare();
-        assertEquals("Available",mockBook.getSit());
-        assertNotEquals("Borrowed",mockBook.getSit());
+        Request mockRequest= MockRequest();
+        assertEquals("Available",mockRequest.getStatus());
+        assertNotEquals("Borrowed",mockRequest.getStatus());
 
-        mockBook.setSit("Borrowed");
-        assertEquals("Borrowed",mockBook.getSit());
-        assertNotEquals("Available",mockBook.getSit());
+        mockRequest.setStatus("Borrowed");
+        assertEquals("Borrowed",mockRequest.getStatus());
+        assertNotEquals("Available",mockRequest.getStatus());
     }
 
     /**
@@ -141,9 +141,9 @@ class RequestUnitTest {
      */
     @Test
     public void testGetBookID(){
-        Share mockBook = MockShare();
-        assertEquals("123456",mockBook.getBookID());
-        assertNotEquals("1234567",mockBook.getBookID());
+        Request mockRequest= MockRequest();
+        assertEquals("123456",mockRequest.getBookID());
+        assertNotEquals("1234567",mockRequest.getBookID());
     }
 
     /**
@@ -151,13 +151,13 @@ class RequestUnitTest {
      */
     @Test
     public void testSetBookID(){
-        Share mockBook = MockShare();
-        assertEquals("123456",mockBook.getBookID());
-        assertNotEquals("1234567",mockBook.getBookID());
+        Request mockRequest= MockRequest();
+        assertEquals("123456",mockRequest.getBookID());
+        assertNotEquals("1234567",mockRequest.getBookID());
 
-        mockBook.setBookID("1234567");
-        assertEquals("1234567",mockBook.getBookID());
-        assertNotEquals("123456",mockBook.getBookID());
+        mockRequest.setBookID("1234567");
+        assertEquals("1234567",mockRequest.getBookID());
+        assertNotEquals("123456",mockRequest.getBookID());
     }
 
 }
