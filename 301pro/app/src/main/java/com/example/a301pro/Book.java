@@ -9,36 +9,36 @@ import java.io.Serializable;
  */
 public class Book implements Serializable {
     private String imageID;
-    private String book_name;
+    private String bookName;
     private String author;
     private String ISBN;
     private String description;
     private String status;
-    private String book_id;
-    private String borrower_name;
+    private String bookId;
+    private String borrowerName;
     private String owner;
 
     /**
      * This constructor initializes the property of a book
      * @param imageID image id of the book
-     * @param book_name name of the book
+     * @param bookName name of the book
      * @param author author of the book
      * @param ISBN ISBN code of the book
      * @param description description of the book
      * @param status status of the book
-     * @param book_id id of the book
-     * @param borrower_name borrower of the book
+     * @param bookId id of the book
+     * @param borrowerName borrower of the book
      * @param owner owner of the book
      */
-    public Book(String imageID, String book_name, String author, String ISBN, String description, String status, String book_id, String borrower_name, String owner) {
+    public Book(String imageID, String bookName, String author, String ISBN, String description, String status, String bookId, String borrowerName, String owner) {
         this.imageID = imageID;
-        this.book_name = book_name;
+        this.bookName = bookName;
         this.author = author;
         this.ISBN = ISBN;
         this.description = description;
         this.status = status;
-        this.book_id = book_id;
-        this.borrower_name = borrower_name;
+        this.bookId = bookId;
+        this.borrowerName = borrowerName;
         this.owner = owner;
     }
 
@@ -63,15 +63,15 @@ public class Book implements Serializable {
      * @return name of a book
      */
     public String getBook_name() {
-        return book_name;
+        return bookName;
     }
 
     /**
      * This set the name of a book
-     * @param book_name name of a book to be set
+     * @param bookName name of a book to be set
      */
-    public void setBook_name(String book_name) {
-        this.book_name = book_name;
+    public void setBook_name(String bookName) {
+        this.bookName = bookName;
     }
 
     /**
@@ -143,15 +143,15 @@ public class Book implements Serializable {
      * @return id of a book
      */
     public String getBook_id() {
-        return book_id;
+        return bookId;
     }
 
     /**
      * This set the id of a book
-     * @param book_id book id to be set
+     * @param bookId book id to be set
      */
-    public void setBook_id(String book_id) {
-        this.book_id = book_id;
+    public void setBook_id(String bookId) {
+        this.bookId = bookId;
     }
 
     /**
@@ -159,15 +159,15 @@ public class Book implements Serializable {
      * @return borrower's name of a book
      */
     public String getBorrower_name() {
-        return borrower_name;
+        return borrowerName;
     }
 
     /**
      * This set the borrower's name of a book
-     * @param borrower_name borrower's name to be set
+     * @param borrowerName borrower's name to be set
      */
-    public void setBorrower_name(String borrower_name) {
-        this.borrower_name = borrower_name;
+    public void setBorrower_name(String borrowerName) {
+        this.borrowerName = borrowerName;
     }
 
     /**
