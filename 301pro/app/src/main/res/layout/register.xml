@@ -49,27 +49,29 @@
 
     <EditText
         android:id="@+id/phone_num"
-        android:layout_below="@id/name_frame"
-        android:gravity="center"
         android:layout_width="300dp"
         android:layout_height="40dp"
+        android:layout_below="@id/name_frame"
+        android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_register_editviewshape"
-        android:layout_centerInParent="true"
         android:drawableLeft="@drawable/phone"
-        android:hint="Phone Number" />
+        android:gravity="center"
+        android:hint="Phone Number"
+        android:inputType="phone" />
 
     <EditText
         android:id="@+id/Email"
-        android:gravity="center"
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/login_register_editviewshape"
         android:layout_below="@id/phone_num"
         android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_register_editviewshape"
         android:drawableLeft="@drawable/email"
-        android:hint="Email" />
+        android:gravity="center"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/text_username"
@@ -134,7 +136,7 @@
             android:text="Already Registered? "
             android:textColor="#FFFFFF" />
 
-        <Button
+        <TextView
             android:id="@+id/login_in_register"
             android:layout_width="99dp"
             android:layout_height="wrap_content"

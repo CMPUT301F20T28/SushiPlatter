@@ -176,7 +176,6 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                 Book myBook = bookAdapter.getItem(position);
                 Intent intent = new Intent(getActivity(),AddEditIntent.class);
                 intent.putExtra("BOOK", myBook);
-                intent.putExtra("POS", position);
                 startActivityForResult(intent, REQUEST_EDIT);
             }
         });
@@ -208,19 +207,8 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_ADD) {
-            if (resultCode == RESULT_OK) {
-                //Book myBook = (Book) data.getSerializableExtra("BOOK");
-                //bookAdapter.add(myBook);
+        if (resultCode == RESULT_OK) {
                 bookAdapter.notifyDataSetChanged();
-            }
-        } else if (requestCode == REQUEST_EDIT) {
-            if (resultCode == RESULT_OK) {
-                //Book myBook = (Book) data.getSerializableExtra("BOOK");
-                //int pos = data.getIntExtra("POS",-1);
-                //bookDataList.set(pos, myBook);
-                bookAdapter.notifyDataSetChanged();
-            }
         }
     }
 

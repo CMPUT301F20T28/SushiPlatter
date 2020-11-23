@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,7 +51,7 @@ public class register extends AppCompatActivity {
     public boolean userExist = false;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Button registerButton;
-    Button login;
+    TextView login;
     Switch mSwitch;
     EditText passwordView;
     EditText passwordViewCheck;
