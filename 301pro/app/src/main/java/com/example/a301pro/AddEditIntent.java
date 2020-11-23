@@ -163,20 +163,21 @@ public class AddEditIntent extends AppCompatActivity {
                 final String myStatus = status.getText().toString();
                 status.setText(myStatus);
 
+                String old_book_id = null;
+                if (myBook != null) {
+                    old_book_id = myBook.getBook_id();
+                }
                 String myBookID = generateBookID(getUserID(), myISBN);
+
                 if(jg == true) {
                     Bitmap bm = ((BitmapDrawable) ((ImageButton) img).getDrawable()).getBitmap();
                     handleUpload(bm);
                     imgid = myBookID+".jpeg";
-                }else{
-                    if (imgid.equals("default.png")) {
-                        imgid = "default.png";
-                    }
                 }
-
+                myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                
                 // if user has edit the isbn code, delete the old book from database and replace it with the new one
-                final String old_book_id = myBook.getBook_id();
-                if (!old_book_id.equals(myBookID)) {
+                if (old_book_id != null && !old_book_id.equals(myBookID)) {
                     removeOldBook(old_book_id);
                 }
                 // validation of book data, book name, author name, and ISBN are required.
@@ -230,11 +231,14 @@ public class AddEditIntent extends AppCompatActivity {
      * @param old_book_id book to be removed
      */
     public void removeOldBook(String old_book_id){
-        final CollectionReference CollectRef = db.collection("Users");
+        final CollectionReference MybookRef = db.collection("Users");
+        final CollectionReference LibaryRef = db.collection("Library");
         String userID = getUserID();
-        CollectRef.document(userID)
+        MybookRef.document(userID)
                 .collection("MyBooks")
                 .document(old_book_id)
+                .delete();
+        LibaryRef.document(old_book_id)
                 .delete();
     }
 
