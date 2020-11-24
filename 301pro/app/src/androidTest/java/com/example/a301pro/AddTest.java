@@ -35,8 +35,12 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.example.a301pro.R.id.book_confirm;
 import static org.hamcrest.Matchers.anything;
@@ -233,6 +237,23 @@ public class AddTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         assertTrue(solo.waitForText("Edit Book Description"));
         assertTrue(solo.waitForText("Edit Book Name"));
+
+        // test cancel in alertdialog
+        onData(anything()).inAdapterView(withId(R.id.my_book_list)).atPosition(0).perform(longClick());
+        onView(withText("Are you sure to delete\"Edit Book Name\"?"))
+                .inRoot(isDialog()) // <---
+                .check(matches(isDisplayed()));
+        onView(withId(android.R.id.button2)).perform(click());
+        Assert.assertEquals(getCountFromList(R.id.my_book_list), 1);
+
+        // test delete book function
+        onData(anything()).inAdapterView(withId(R.id.my_book_list)).atPosition(0).perform(longClick());
+        onView(withText("Are you sure to delete\"Edit Book Name\"?"))
+                .inRoot(isDialog()) // <---
+                .check(matches(isDisplayed()));
+        onView(withId(android.R.id.button1)).perform(click());
+        Assert.assertEquals(getCountFromList(R.id.my_book_list), 0);
+
 
 
     }
