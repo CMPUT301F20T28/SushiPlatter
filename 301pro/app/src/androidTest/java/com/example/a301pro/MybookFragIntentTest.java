@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -81,4 +82,27 @@ public class MybookFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", AddEditIntent.class);
     }
 
+    @Test
+    public void testSearch() {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.clickOnView(solo.getView(R.id.nav_mine));
+        solo.waitForFragmentById(R.id.nav_mine,500);
+        solo.enterText((EditText) solo.getView(R.id.search_method), "cat");
+        solo.waitForText("cat", 1, 1000);
+        solo.clearEditText((EditText) solo.getView(R.id.search_method)); //Clear the EditText
+        solo.enterText((EditText) solo.getView(R.id.search_method), "city");
+        solo.waitForText("", 0, 1000);
+    }
+
+    @Test
+    public void testFilter() {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.clickOnView(solo.getView(R.id.nav_mine));
+        solo.waitForFragmentById(R.id.nav_mine,500);
+        solo.clickOnView(solo.getView(R.id.filter));
+        solo.waitForText("Available", 0, 1000);
+        solo.waitForText("Borrowed", 0, 1000);
+        solo.waitForText("Accepted", 0, 1000);
+        solo.waitForText("Requested", 0, 1000);
+    }
 }
