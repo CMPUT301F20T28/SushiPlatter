@@ -24,11 +24,13 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.action.ViewActions.swipeRight;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.contrib.DrawerMatchers.isOpen;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static java.util.regex.Pattern.matches;
 
@@ -136,20 +138,28 @@ public class profileTest {
         solo.sleep(10000);
 
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-
-//        onView(withId(R.id.nav_view))
-//                .perform(NavigationViewActions.navigateTo(R.id.user_self_login));
+//        getUID();
+        onView(withText("Logout"))
+                .perform(click());
+//        onView(withId(R.id.drawer_layout))
+//                .perform(NavigationViewActions.navigateTo(R.id.nav_view));
 //        solo.waitForActivity("ViewUserProfile", 10000);
 //        solo.assertCurrentActivity("Wrong activity", ViewUserProfile.class);
 //
 //        solo.clickOnButton(R.id.edit_profile);
-        solo.clickOnButton(R.id.logout);
+
         solo.waitForActivity(login.class);
         solo.assertCurrentActivity("Wrong activity", login.class);
         solo.sleep(10000);
 
-
-
+        // relogin to delete user
+        solo.enterText((EditText) solo.getView(R.id.text_username), testUsername);
+        solo.enterText((EditText) solo.getView(R.id.text_password), testPassword);
+        solo.clickOnButton("Login");
+        solo.clickOnButton("Login");
+        solo.waitForActivity("MainActivity", 10000);
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.sleep(10000);
 
 
     }
