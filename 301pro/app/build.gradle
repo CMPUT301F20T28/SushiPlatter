@@ -43,8 +43,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
     implementation 'com.android.support:multidex:1.0.3'
 
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
+
+
     implementation 'com.githang:status-bar-compat:latest.integration'
 
     // Import the BoM for the Firebase platform

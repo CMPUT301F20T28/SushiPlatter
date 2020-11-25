@@ -117,8 +117,6 @@ public class AddTest {
         FirebaseAuth authenticatedUser = FirebaseAuth.getInstance();
         authenticatedUser.signOut();
 
-
-
     }
 
     public static int getCountFromList(@IdRes int listViewId) {
