@@ -6,6 +6,7 @@ package com.example.a301pro;
 public class Borrowed {
     private String bookID;
     private String imageId;
+    private String ISBN;
     private String bookName;
     private String des;
     private String oName;
@@ -19,14 +20,40 @@ public class Borrowed {
      * @param bookID id of the book
      * @param oName owner of the book
      */
-    public Borrowed(String bookID,String imageId,String bookName, String des, String status, String oName) {
+    public Borrowed(String bookID,String imageId,String ISBN,String bookName, String des, String status, String oName) {
         this.bookID = bookID;
         this.imageId = imageId;
+        this.ISBN = ISBN;
         this.bookName = bookName;
         this.des = des;
         this.status = status;
         this.oName = oName;
     }
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public String getoName() {
+        return oName;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public void setoName(String oName) {
+        this.oName = oName;
+    }
+
     /**
      * This allows the outside to get the owner's name of a book
      * @return ID of a book

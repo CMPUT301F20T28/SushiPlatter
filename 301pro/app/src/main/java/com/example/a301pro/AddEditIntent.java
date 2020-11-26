@@ -367,7 +367,8 @@ public class AddEditIntent extends AppCompatActivity {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Book has been updated successfully!");
                         if(myBook.getStatus().equals("Available")) {
-                            new AddBookToLibrary(new Share(bookID,myBook.getImageID(), myBook.getBook_name(), myBook.getDescription(), "Available", userName), bookID);
+                            new AddBookToLibrary(new Share(bookID,myBook.getImageID(),myBook.getISBN(), myBook.getBook_name(), myBook.getDescription(), "Available", userName), bookID);
+
                         }
                     }
                 })
