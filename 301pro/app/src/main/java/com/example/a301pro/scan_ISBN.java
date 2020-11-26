@@ -64,6 +64,7 @@ public class scan_ISBN extends AppCompatActivity implements View.OnClickListener
      * @param resultCode result from Scanning
      * @param data description data
      */
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);

@@ -99,13 +99,14 @@ public class Sharefragment extends Fragment {
 
                     String imageId = (String) doc.getData().get("imageId") ;
                     String bookId = doc.getId();
+                    String ISBN = (String) doc.getData().get("ISBN");
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
 
                     if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
-                        shareDataList.add((new Share(bookId, imageId, bookName, description, status, owner)));
+                        shareDataList.add((new Share(bookId, imageId, ISBN,bookName, description, status, owner)));
 
                     }
 
@@ -132,13 +133,14 @@ public class Sharefragment extends Fragment {
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             String imageId = (String) doc.getData().get("imageId") ;
                             String bookId = doc.getId();
+                            String ISBN = (String) doc.getData().get("ISBN");
                             String bookName= (String) doc.getData().get("book_name");
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("sit");
                             String owner = (String) doc.getData().get("owner");
                             if (description.contains(dess) || bookName.contains(dess) ) {
                                 if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
-                                    shareDataList.add((new Share(bookId, imageId, bookName, description, status, owner)));
+                                    shareDataList.add((new Share(bookId, imageId, ISBN,bookName, description, status, owner)));
                                 }
                             }
                         }

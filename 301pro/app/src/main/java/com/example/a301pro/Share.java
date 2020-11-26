@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Share implements Serializable {
     private String bookID;
     private String imageId;
+    private String ISBN;
     private String bookName;
     private String des;
     private String sit;
@@ -21,14 +22,32 @@ public class Share implements Serializable {
      * @param bookID id of the book
      * @param owner owner of the book
      */
-    public Share(String bookID,String imageId,String bookName, String des, String sit, String owner) {
+    public Share(String bookID,String imageId,String ISBN,String bookName, String des, String sit, String owner) {
         this.bookID = bookID;
         this.imageId =imageId;
+        this.ISBN = ISBN;
         this.bookName = bookName;
         this.des = des;
         this.sit = sit;
         this.owner = owner;
     }
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
     /**
      * This allows the outside to get the owner's name of a book
      * @return ID of a book

@@ -7,6 +7,7 @@ public class Request {
     private String bookID;
     private String imageId;
     private String bookName;
+    private String ISBN;
     private String des;
     private String requestFrom;
     private String status;
@@ -19,14 +20,32 @@ public class Request {
      * @param bookID id of the book
      * @param requestFrom name of the request sender
      */
-    public Request(String bookID,String imageId,String bookName, String des, String status, String requestFrom) {
+    public Request(String bookID,String imageId,String ISBN,String bookName, String des, String status, String requestFrom) {
         this.bookID = bookID;
         this.imageId = imageId;
+        this.ISBN = ISBN;
         this.bookName = bookName;
         this.des = des;
         this.status = status;
         this.requestFrom = requestFrom;
     }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
     /**
      * This allows the outside to get the owner's name of a book
      * @return ID of a book

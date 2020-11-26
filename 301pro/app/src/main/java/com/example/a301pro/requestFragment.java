@@ -89,12 +89,13 @@ public class requestFragment extends Fragment {
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String bookID = doc.getId();
                     String imageId = (String) doc.getData().get("imageId") ;
+                    String ISBN = (String) doc.getData().get("ISBN");
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("status");
                     String requestSender = (String) doc.getData().get("requestFrom");
 
-                    pendDataList.add((new Request(bookID,imageId,bookName,description,status,requestSender)));
+                    pendDataList.add((new Request(bookID,imageId,ISBN,bookName,description,status,requestSender)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -118,13 +119,14 @@ public class requestFragment extends Fragment {
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             String imageId = (String) doc.getData().get("imageId") ;
                             String bookId = doc.getId();
+                            String ISBN = (String) doc.getData().get("ISBN");
                             String bookName= (String) doc.getData().get("book_name");
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("status");
                             String requestSender = (String) doc.getData().get("requestFrom");
                             if (description.contains(dess) || bookName.contains(dess)) {
 
-                                pendDataList.add((new Request(bookId, imageId, bookName, description, status, requestSender)));
+                                pendDataList.add((new Request(bookId, imageId,ISBN, bookName, description, status, requestSender)));
 
                             }
                         }

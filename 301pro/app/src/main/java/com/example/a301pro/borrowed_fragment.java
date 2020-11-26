@@ -89,12 +89,13 @@ public class borrowed_fragment extends Fragment {
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String bookID = doc.getId();
                     String imageId = (String) doc.getData().get("imageId") ;
+                    String ISBN = (String) doc.getData().get("ISBN");
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
 
-                    pendDataList.add((new Borrowed(bookID,imageId,bookName,description,status,owner)));
+                    pendDataList.add((new Borrowed(bookID,imageId,ISBN,bookName,description,status,owner)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -118,13 +119,14 @@ public class borrowed_fragment extends Fragment {
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             String imageId = (String) doc.getData().get("imageId") ;
                             String bookId = doc.getId();
+                            String ISBN = (String) doc.getData().get("ISBN");
                             String bookName= (String) doc.getData().get("book_name");
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("sit");
                             String owner = (String) doc.getData().get("owner");
                             if (description.contains(dess) || bookName.contains(dess)) {
 
-                                pendDataList.add((new Borrowed(bookId, imageId, bookName, description, status, owner)));
+                                pendDataList.add((new Borrowed(bookId, imageId,ISBN, bookName, description, status, owner)));
 
                             }
                         }
@@ -143,8 +145,10 @@ public class borrowed_fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Borrowed selectedBook = pendAdapter.getItem(position);
+
                 if (!selectedBook.getStatus().equals("Requested")){
                     Intent intent = new Intent(getContext(),scan_ISBN.class);
+
                     startActivity(intent);
                 }
             }
