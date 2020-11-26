@@ -34,24 +34,8 @@ public class Borrowed {
         return ISBN;
     }
 
-    public String getBookName() {
-        return bookName;
-    }
-
-    public String getoName() {
-        return oName;
-    }
-
     public void setISBN(String ISBN) {
         this.ISBN = ISBN;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
-
-    public void setoName(String oName) {
-        this.oName = oName;
     }
 
     /**

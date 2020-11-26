@@ -32,7 +32,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
+import static android.app.Activity.RESULT_OK;
 import java.util.ArrayList;
 
 /**
@@ -89,13 +89,13 @@ public class borrowed_fragment extends Fragment {
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String bookID = doc.getId();
                     String imageId = (String) doc.getData().get("imageId") ;
-                    String ISBN = (String) doc.getData().get("ISBN");
+                    String ISBN = (String) doc.getData().get("isbn");
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
 
-                    pendDataList.add((new Borrowed(bookID,imageId,ISBN,bookName,description,status,owner)));
+                    pendDataList.add((new Borrowed(bookID,imageId,ISBN,ISBN,description,status,owner)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -119,7 +119,7 @@ public class borrowed_fragment extends Fragment {
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             String imageId = (String) doc.getData().get("imageId") ;
                             String bookId = doc.getId();
-                            String ISBN = (String) doc.getData().get("ISBN");
+                            String ISBN = (String) doc.getData().get("isbn");
                             String bookName= (String) doc.getData().get("book_name");
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("sit");
@@ -145,11 +145,13 @@ public class borrowed_fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Borrowed selectedBook = pendAdapter.getItem(position);
-
+                String isbn = selectedBook.getISBN();
+                String book_id = selectedBook.getBookID();
                 if (!selectedBook.getStatus().equals("Requested")){
                     Intent intent = new Intent(getContext(),scan_ISBN.class);
-
-                    startActivity(intent);
+                    intent.putExtra("ISBN_CODE",isbn);
+                    intent.putExtra("BOOK_ID",book_id);
+                    startActivityForResult(intent,0);
                 }
             }
         });
@@ -169,6 +171,8 @@ public class borrowed_fragment extends Fragment {
 
         return view;
     }
+
+
 
     /**
      * Popup the menu for picking status
@@ -209,4 +213,6 @@ public class borrowed_fragment extends Fragment {
     protected String getUserName(){
         return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
+
+
 }

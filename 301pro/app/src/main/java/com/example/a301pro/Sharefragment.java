@@ -99,7 +99,7 @@ public class Sharefragment extends Fragment {
 
                     String imageId = (String) doc.getData().get("imageId") ;
                     String bookId = doc.getId();
-                    String ISBN = (String) doc.getData().get("ISBN");
+                    String ISBN = (String) doc.getData().get("isbn");
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("sit");
@@ -133,7 +133,7 @@ public class Sharefragment extends Fragment {
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             String imageId = (String) doc.getData().get("imageId") ;
                             String bookId = doc.getId();
-                            String ISBN = (String) doc.getData().get("ISBN");
+                            String ISBN = (String) doc.getData().get("isbn");
                             String bookName= (String) doc.getData().get("book_name");
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("sit");

@@ -61,8 +61,6 @@ public class sentrequestintent extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 
     /**
@@ -73,7 +71,7 @@ public class sentrequestintent extends AppCompatActivity {
         final CollectionReference CollectRef = db.collection("Users");
         final String userID = getUserID();
         final String bookID = RBook.getBookID();
-        RBook.setSit("Requested");
+        RBook.setSit("Available");
         CollectRef
                 .document(userID)
                 .collection("Borrowed")
