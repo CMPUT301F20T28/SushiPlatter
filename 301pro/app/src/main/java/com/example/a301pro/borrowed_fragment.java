@@ -153,8 +153,6 @@ public class borrowed_fragment extends Fragment {
                     intent.putExtra("BOOK_ID",book_id);
                     startActivityForResult(intent,0);
                 }
-
-
 //                Intent intent = new Intent(getActivity(),SetMapActivity.class);
 //                startActivity(intent);
             }
