@@ -19,7 +19,7 @@
             android:value="@string/google_maps_key">
         </meta-data>
 
-
+        <activity android:name=".SetMapActivity" />
 
         <activity android:name=".ViewUserProfile" />
         <activity
