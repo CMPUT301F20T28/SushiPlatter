@@ -1,30 +1,18 @@
 package com.example.a301pro;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.ArrayList;
-
-import static androidx.test.InstrumentationRegistry.getContext;
 
 
 /**
@@ -82,6 +70,9 @@ public class MybookFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", AddEditIntent.class);
     }
 
+    /**
+     * Test for searching book by keyword
+     */
     @Test
     public void testSearch() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -94,6 +85,9 @@ public class MybookFragIntentTest {
         solo.waitForText("", 0, 1000);
     }
 
+    /**
+     * Test for menu pop up
+     */
     @Test
     public void testFilter() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
