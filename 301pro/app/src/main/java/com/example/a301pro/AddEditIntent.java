@@ -46,7 +46,7 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * This class provides functionality of adding a new book to the collection of the user,
- * and editing the data of a selected own book.
+ * and editing the data of a selected own book.。
  */
 public class AddEditIntent extends AppCompatActivity {
     private EditText bookName;
