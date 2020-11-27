@@ -99,7 +99,7 @@ public class BorrowedFragment extends Fragment {
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
 
-                    pendDataList.add((new Borrowed(bookID,imageId,ISBN,ISBN,description,
+                    pendDataList.add((new Borrowed(bookID, imageId, ISBN, bookName, description,
                             status,owner)));
                 }
                 pendAdapter.notifyDataSetChanged();
@@ -131,7 +131,7 @@ public class BorrowedFragment extends Fragment {
                             String owner = (String) doc.getData().get("owner");
                             if (description.contains(dess) || bookName.contains(dess)) {
 
-                                pendDataList.add((new Borrowed(bookId, imageId,ISBN, bookName,
+                                pendDataList.add((new Borrowed(bookId, imageId, ISBN, bookName,
                                         description, status, owner)));
 
                             }
@@ -155,8 +155,8 @@ public class BorrowedFragment extends Fragment {
                 String book_id = selectedBook.getBookID();
                 if (!selectedBook.getStatus().equals("Requested")){
                     Intent intent = new Intent(getContext(), ScanISBN.class);
-                    intent.putExtra("ISBN_CODE",isbn);
-                    intent.putExtra("BOOK_ID",book_id);
+                    intent.putExtra("ISBN_CODE", isbn);
+                    intent.putExtra("BOOK_ID", book_id);
                     startActivityForResult(intent,0);
                 }
 //                Intent intent = new Intent(getActivity(),SetMapActivity.class);

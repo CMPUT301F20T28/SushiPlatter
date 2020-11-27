@@ -22,7 +22,7 @@ public class Share implements Serializable {
      * @param bookID id of the book
      * @param owner owner of the book
      */
-    public Share(String bookID,String imageId,String ISBN,String bookName, String des,
+    public Share(String bookID, String imageId, String ISBN, String bookName, String des,
                  String sit, String owner) {
         this.bookID = bookID;
         this.imageId =imageId;
