@@ -37,88 +37,59 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 import static java.util.regex.Pattern.matches;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Intent testing for personal profile
+ */
 public class ProfileTest {
     private Solo solo;
-    final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
     @Rule
     public ActivityTestRule<Register> rule =
-            new ActivityTestRule<Register>(Register.class, true, true);
+            new ActivityTestRule<>(Register.class, true, true);
+
+    /**
+     * Set up the start point for activity test
+     */
     @Before
     public void setUp() throws Exception {
         solo = new Solo(getInstrumentation(), rule.getActivity());
-
     }
 
+    /**
+     * Closes the activity after each test
+     * @throws Exception fail message
+     */
     @After
     public void tearDown() throws Exception {
-        getUID();
         solo.finishOpenedActivities();
     }
 
-    public void getUID() {
-
-        String testUsername = "username";
-
-
-        CollectionReference collectionReference = db.collection("userDict");
-        DocumentReference docRef = collectionReference.document(testUsername);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        final String UID = (String) document.getData().get("UID");
-                        deleteUser(UID);
-                    }
-
-                }
-            }
-        });
-
+    /**
+     * Delete the user in the purpose of next testing
+     */
+    public void deleteUser() {
+        String testUsername = "intent_testing";
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currUser.getUid();
+        db.collection("Users").document(uid).delete();
+        db.collection("userDict").document(testUsername).delete();
+        currUser.delete();
     }
 
-    public void deleteUser(String UID){
-        String testFirstName = "firstName";
-        String testLastName = "lastName";
-        String testUsername = "username";
-        final String testEmail = "firstname@uablerta.ca";
-        String testPhone = "1234567890";
-
-        db.collection("userDict").document(testUsername)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                });
-        db.collection("Users").document(UID)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                });
-//
-
-    }
-
-
+    /**
+     * Test if it can edit information of personal profile
+     * @throws Exception fail message
+     */
     @Test
     public void testEditProfile() throws Exception {
-
-
         solo.assertCurrentActivity("Wrong Activity", Register.class);
-
-        String testFirstName = "firstName";
-        String testLastName = "lastName";
-        String testUsername = "username";
-        final String testEmail = "firstname@uablerta.ca";
+        String testFirstName = "intent_testing";
+        String testLastName = "intent_testing";
+        String testUsername = "intent_testing";
+        String testEmail = "intent@testing.ca";
         String testPhone = "1234567890";
-        final String testPassword = "88888888";
-
+        String testPassword = "intent_testing";
 
         solo.enterText((EditText) solo.getView(R.id.first_name), testFirstName);
         solo.enterText((EditText) solo.getView(R.id.last_name), testLastName);
@@ -132,26 +103,23 @@ public class ProfileTest {
 
         solo.waitForActivity(Login.class);
         solo.assertCurrentActivity("Wrong activity", Login.class);
-        solo.sleep(10000);
+        solo.sleep(500);
 
         solo.enterText((EditText) solo.getView(R.id.text_username), testUsername);
         solo.enterText((EditText) solo.getView(R.id.text_password), testPassword);
         solo.clickOnButton("Login");
         solo.waitForActivity("MainActivity", 10000);
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);
-        solo.sleep(10000);
+        solo.sleep(500);
 
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
 
 
         onView(withContentDescription("Navigation header")).perform(click());
-//        onView(withId(R.id.drawer_layout))
-//                .perform(NavigationViewActions.navigateTo(R.id.nav_view));
         solo.waitForActivity("ViewUserProfile", 10000);
         solo.assertCurrentActivity("Wrong activity", ViewUserProfile.class);
 
-        onView(withText("Edit Profile"))
-                .perform(click());
+        onView(withText("Edit Profile")).perform(click());
 
         onView(withId(R.id.user_first_name_display)).perform(clearText());
         onView(withId(R.id.user_last_name_display)).perform(clearText());
@@ -166,33 +134,24 @@ public class ProfileTest {
         assertTrue(solo.waitForText("Edit lastname"));
         assertTrue(solo.waitForText("1987654321"));
         assertTrue(solo.waitForText("edit@ualberta.ca"));
-        onView(withText("Confirm"))
-                .perform(click());
+        onView(withText("Confirm")).perform(click());
 
         solo.waitForActivity("MainActivity", 10000);
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);
-        solo.sleep(10000);
+        solo.sleep(500);
 
-        onView(withText("Logout"))
-                .perform(click());
+        onView(withText("Logout")).perform(click());
         solo.waitForActivity(Login.class);
         solo.assertCurrentActivity("Wrong activity", Login.class);
-        solo.sleep(10000);
+        solo.sleep(500);
 
-        // relogin to delete user
+        // re-login to delete user
         solo.enterText((EditText) solo.getView(R.id.text_username), testUsername);
         solo.enterText((EditText) solo.getView(R.id.text_password), testPassword);
         solo.clickOnButton("Login");
         solo.clickOnButton("Login");
         solo.waitForActivity("MainActivity", 10000);
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);
-        solo.sleep(10000);
-        final FirebaseUser currUser;
-        currUser = FirebaseAuth.getInstance().getCurrentUser();
-        currUser.delete();
-        FirebaseAuth authenticatedUser = FirebaseAuth.getInstance();
-        authenticatedUser.signOut();
-
-
+        deleteUser();
     }
 }

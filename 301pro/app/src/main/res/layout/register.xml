@@ -111,7 +111,7 @@
         android:background="@drawable/login_register_editviewshape"
         android:inputType="textPassword"
         android:drawableLeft="@drawable/lock"
-        android:hint="Comfirm Password" />
+        android:hint="Confirm Password" />
 
     <Button
         android:id="@+id/btn_register"
