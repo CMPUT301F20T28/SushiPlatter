@@ -11,7 +11,8 @@ public class ShareUnitTest {
      * @return Mock share
      */
     // String bookID,String imageId,String bookName, String des, String sit, String owner
-    public Share MockShare() { return new Share("123456","1234567","testBookName","interesting",
+    public Share MockShare() { return new Share("123456","1234567",
+            "testBookName","interesting",
             "Available","testOwnerName");}
 
     /**

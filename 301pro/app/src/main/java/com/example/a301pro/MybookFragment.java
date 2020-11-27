@@ -65,7 +65,8 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_book_fragment,container,false);
-        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
+        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),
+                false);
         bookList = view.findViewById(R.id.my_book_list);
         bookDataList = new ArrayList<>();
         searchList = new ArrayList<>();
@@ -77,7 +78,9 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
         final EditText search = view.findViewById(R.id.search_method);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("MyBooks");
+        final CollectionReference collectionReference = db.collection("Users")
+                .document(getUserID())
+                .collection("MyBooks");
         final CollectionReference LibraryReference = db.collection("Library");
 
         // read book data from database
@@ -97,7 +100,8 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
                     String bookid = doc.getId();
                     String borrower = (String) doc.getData().get("borrower_name");
                     String owner = (String) doc.getData().get("owner");
-                    bookDataList.add((new Book(imageID,bookName,author,ISBN,description,status,bookid,borrower,owner)));
+                    bookDataList.add((new Book(imageID,bookName,author,ISBN,description,status,
+                            bookid,borrower,owner)));
 
                 }
                 bookAdapter.notifyDataSetChanged();
@@ -130,7 +134,8 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
                             String borrower = (String) doc.getData().get("borrower_name");
                             String owner = (String) doc.getData().get("owner");
                             if (description.contains(dess)|| bookName.contains(dess)) {
-                                bookDataList.add((new Book(imageID, bookName, author, ISBN, description, status, bookid, borrower, owner)));
+                                bookDataList.add((new Book(imageID, bookName, author, ISBN,
+                                        description, status, bookid, borrower, owner)));
                             }
                         }
                         bookAdapter.notifyDataSetChanged();

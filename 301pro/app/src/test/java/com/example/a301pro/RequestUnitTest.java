@@ -11,7 +11,8 @@ public class RequestUnitTest {
      * @return Mock share
      */
     // String bookID,String imageId,String bookName, String des, String sit, String owner
-    public Request MockRequest() { return new Request("123456","1234567","testBookName","interesting",
+    public Request MockRequest() { return new Request("123456","1234567",
+            "testBookName","interesting",
             "Available","testOwnerName");}
 
     /**

@@ -74,7 +74,8 @@ public class RequestNotification {
                 }
 
                 if (alreadyReq == true){
-                    Log.d(TAG, "User request failed: " +  requestInfo.getRequestFrom() + "already requested " + bookID);
+                    Log.d(TAG, "User request failed: " +  requestInfo.getRequestFrom()
+                            + "already requested " + bookID);
                     return;
                 };
 
@@ -94,7 +95,8 @@ public class RequestNotification {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 // These are a method which gets executed if there’s any problem
-                                Log.d(TAG, "Request Notification could not be updated!" + e.toString());
+                                Log.d(TAG, "Request Notification could not be updated!"
+                                        + e.toString());
                             }
                         });
             }

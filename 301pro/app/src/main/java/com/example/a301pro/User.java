@@ -24,7 +24,8 @@ class User {
      * @param phoneNumber phone number of the user
      * @param UID unique UID of the user
      */
-    public User(String userName, String email, String password, String firstName, String lastName, String phoneNumber, String UID) {
+    public User(String userName, String email, String password, String firstName, String lastName,
+                String phoneNumber, String UID) {
         this.userName = userName;
         this.email = email;
         this.password = password;

@@ -82,7 +82,9 @@ public class SentRequestIntent extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Book has been updated successfully!");
-                        Request requestInfo = new Request(bookID, RBook.getImageId(), RBook.getISBN(),RBook.getBook_name(), RBook.getDes(), "Pending", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                        Request requestInfo = new Request(bookID, RBook.getImageId(), RBook.getISBN(),
+                                RBook.getBook_name(), RBook.getDes(), "Pending",
+                                FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                         new RequestNotification(requestInfo, CollectRef);
 
                     }
