@@ -69,7 +69,6 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
                         img.setImageBitmap(bitmap);
                     }
                 });
-//        img.setImageResource(pend.getImageId());
         book_name.setText(pend.getBook_name());
         des.setText(pend.getDes());
         sta.setText(pend.getStatus());

@@ -2,7 +2,6 @@ package com.example.a301pro;
 
 import androidx.fragment.app.FragmentActivity;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +18,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ * This class set the meet up location for trading on the map
+ */
 public class SetMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     GoogleMap map;
     private LatLng point = new LatLng(53.5,-113.5);
     private Button setLocation;
-    private Marker meetup;
+    private Marker meetUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,6 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.setMap);
@@ -44,38 +45,37 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("location", meetup.getPosition());
-                Log.d("LOCATION", meetup.getPosition().toString());
+                intent.putExtra("location", meetUp.getPosition());
+                Log.d("LOCATION", meetUp.getPosition().toString());
                 setResult(RESULT_OK, intent);
                 finish();
             }
         });
-
     }
 
+    /**
+     * connect the google map and set a marker on the map
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-//
-//
+
 //        LatLng Edmonton = new LatLng(53.523664, -113.527104);
 //        map.addMarker(new MarkerOptions().position(Edmonton).title("Edmonton"));
 //        map.moveCamera(CameraUpdateFactory.newLatLng(Edmonton));
 
-        meetup = map.addMarker(new MarkerOptions()
+        meetUp = map.addMarker(new MarkerOptions()
                 .position(point)
-                .title("Place Me at meetup point!")
+                .title("Place Me at meet up point!")
                 .draggable(true));
         map.moveCamera(CameraUpdateFactory.zoomTo(15));
         map.moveCamera(CameraUpdateFactory.newLatLng(point));
-
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                meetup.setPosition(latLng);
+                meetUp.setPosition(latLng);
             }
         });
-
-
     }
 }

@@ -38,7 +38,8 @@
             android:layout_height="25dp"
             android:hint="search"
             android:textColor="#212121"
-            android:drawableLeft="@drawable/ic_search_black_24dp" />
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            android:inputType="text" />
 
         <ImageButton
             android:id="@+id/message_center"

@@ -83,7 +83,7 @@
         android:layout_below="@id/Email"
         android:layout_centerInParent="true"
         android:drawableLeft="@drawable/user"
-        android:hint="Uername" />
+        android:hint="Username" />
 
     <EditText
         android:id="@+id/text_password"

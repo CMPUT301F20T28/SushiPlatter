@@ -7,25 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Source;
-
-import java.io.Console;
 
 /**
  * This class builds the basic layout, and controls the functions of each divided fragments
@@ -42,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -84,12 +73,14 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Controller of the fragment navigation bar
      */
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             Fragment selectedFragment = null;
 
-            switch (menuItem.getItemId()){
+            switch (menuItem.getItemId()) {
                 case R.id.nav_share:
                     selectedFragment = new ShareFragment();
                     break;
@@ -108,7 +99,5 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment).commit();
             return true;
         }
-
     };
-
 }

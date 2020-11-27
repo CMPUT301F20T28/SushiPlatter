@@ -79,13 +79,12 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
      * @param resultCode result from Scanning
      * @param data description data
      */
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-        if(result!=null) {
+        if (result != null) {
             if (result.getContents() != null) {
-                if (result.getContents().equals(ISBN) ){
+                if (result.getContents().equals(ISBN)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("You have sucessfully borrowed the book");
                     builder.setTitle("Scanning Result");
@@ -95,6 +94,7 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                             finish();
                         }
                     });
+
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -102,10 +102,10 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                             .document(getUserID())
                             .collection("Borrowed");
                     collectionReference.document(Book_id).update("sit","Borrowed");
-                    //setResult(RESULT_OK);
-                }else{
+
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("Failure borrowed the book"+ISBN);
+                    builder.setMessage("Failure borrowed the book" + ISBN);
                     builder.setTitle("Scanning Result");
                     builder.setPositiveButton("Scan Again", new DialogInterface.OnClickListener() {
                         @Override
@@ -118,19 +118,24 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                             finish();
                         }
                     });
+
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
             } else {
-                    Toast.makeText(this, "No result", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                super.onActivityResult(requestCode, resultCode, data);
+                Toast.makeText(this, "No result", Toast.LENGTH_SHORT).show();
             }
 
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
+
+    /**
+     * Get uid of the current logged in user
+     * @return uid as a string
+     */
     protected String getUserID() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
-
 }

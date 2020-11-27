@@ -31,10 +31,18 @@ public class Request {
         this.requestFrom = requestFrom;
     }
 
+    /**
+     * This allows the outside to get the ISBN code of a book
+     * @return ISBN code of a book
+     */
     public String getISBN() {
         return ISBN;
     }
 
+    /**
+     * This set the ISBN of a book
+     * @param ISBN ISBN to be set
+     */
     public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }
@@ -46,6 +54,7 @@ public class Request {
     public String getBookID() {
         return bookID;
     }
+
     /**
      * This set the image id of a book
      * @param bookID bookid to be set
@@ -53,6 +62,7 @@ public class Request {
     public void setBookID(String bookID) {
         this.bookID = bookID;
     }
+
     /**
      * This allows the outside to get the image id of a book
      * @return image id of a book
@@ -60,6 +70,7 @@ public class Request {
     public String getImageId() {
         return imageId;
     }
+
     /**
      * This set the image id of a book
      * @param imageId image id to be set
@@ -67,6 +78,7 @@ public class Request {
     public void setImageId(String imageId) {
         this.imageId = imageId;
     }
+
     /**
      * This allows the outside to get the image id of a book
      * @return image id of a book
@@ -74,6 +86,7 @@ public class Request {
     public String getBook_name() {
         return bookName;
     }
+
     /**
      * This allows the outside to get the description of a book
      * @return description of a book
@@ -81,6 +94,7 @@ public class Request {
     public String getDes() {
         return des;
     }
+
     /**
      * This allows the outside to get the owner's name of a book
      * @return owner's name of a book
@@ -88,6 +102,7 @@ public class Request {
     public String getRequestFrom() {
         return requestFrom;
     }
+
     /**
      * This allows the outside to get the status of a book
      * @return status of a book
@@ -95,6 +110,7 @@ public class Request {
     public String getStatus() {
         return status;
     }
+
     /**
      * This set the description of a book
      * @param des description to be set
@@ -102,6 +118,7 @@ public class Request {
     public void setDes(String des) {
         this.des = des;
     }
+
     /**
      * This set the description of a book
      * @param requestFrom description to be set
@@ -117,6 +134,7 @@ public class Request {
     public void setStatus(String status) {
         this.status = status;
     }
+
     /**
      * This set the name of a book
      * @param bookName name of a book to be set

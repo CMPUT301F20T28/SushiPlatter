@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.githang.statusbar.StatusBarCompat;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -32,7 +31,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import static android.app.Activity.RESULT_OK;
 
 import java.util.ArrayList;
 
@@ -63,13 +61,13 @@ public class BorrowedFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.pending_fragment, container, false);
         StatusBarCompat.setStatusBarColor(getActivity(),
-                getResources().getColor(R.color.menuBackground),false);
+                getResources().getColor(R.color.menuBackground), false);
         pendList = view.findViewById(R.id.pending_list);
         pendDataList = new ArrayList<>();
         pendAdapter = new CustomListPending(getContext(),pendDataList);
         pendList.setAdapter(pendAdapter);
-        final EditText search = view.findViewById(R.id.search_method_pending);
 
+        final EditText search = view.findViewById(R.id.search_method_pending);
         final Button filterBtn = view.findViewById(R.id.filter_pending);
         // click on filter button to filter out item
         filterBtn.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +82,6 @@ public class BorrowedFragment extends Fragment {
                 .document(getUserID()).collection("Borrowed");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
-
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -115,7 +112,7 @@ public class BorrowedFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                final String dess = s.toString();
+                final String des = s.toString().toLowerCase();
                 pendDataList.clear();
                 collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -129,11 +126,9 @@ public class BorrowedFragment extends Fragment {
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("sit");
                             String owner = (String) doc.getData().get("owner");
-                            if (description.contains(dess) || bookName.contains(dess)) {
-
+                            if (description.contains(des) || bookName.contains(des)) {
                                 pendDataList.add((new Borrowed(bookId, imageId, ISBN, bookName,
                                         description, status, owner)));
-
                             }
                         }
                         pendAdapter.notifyDataSetChanged();
@@ -159,8 +154,6 @@ public class BorrowedFragment extends Fragment {
                     intent.putExtra("BOOK_ID", book_id);
                     startActivityForResult(intent,0);
                 }
-//                Intent intent = new Intent(getActivity(),SetMapActivity.class);
-//                startActivity(intent);
             }
         });
 
@@ -173,17 +166,13 @@ public class BorrowedFragment extends Fragment {
             }
         });
 
-
         pendAdapter = new CustomListPending(getContext(),pendDataList);
         pendList.setAdapter(pendAdapter);
-
         return view;
     }
 
-
-
     /**
-     * Popup the menu for picking status
+     * Popup the menu for filtering book by category
      * @param view view
      */
     private void showPopupMenu(View view) {
@@ -196,13 +185,6 @@ public class BorrowedFragment extends Fragment {
                 return false;
             }
         });
-        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-                Toast.makeText(getContext(), "关闭PopupMenu", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         popupMenu.show();
     }
 
@@ -213,14 +195,5 @@ public class BorrowedFragment extends Fragment {
     protected String getUserID() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
-
-    /**
-     * Get username of the current logged in user
-     * @return username as a string
-     */
-    protected String getUserName(){
-        return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-    }
-
 
 }
