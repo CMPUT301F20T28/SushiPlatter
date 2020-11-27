@@ -147,6 +147,15 @@ public class ShareFragment extends Fragment {
             }
         });
 
+        final Button userInformation = view.findViewById(R.id.userProfile);
+        userInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewUserProfile.class);
+                startActivity(intent);
+            }
+        });
+
         // switch page to send borrowing request to selected book
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -163,6 +172,9 @@ public class ShareFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                Intent intent = new Intent(getContext(), messageCenterIntent.class);
+                startActivity(intent);
+
                 Toast.makeText(getContext(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),
                         Toast.LENGTH_SHORT).show();
             }

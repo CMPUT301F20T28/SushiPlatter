@@ -22,7 +22,7 @@
         <activity android:name=".SetMapActivity" />
 
         <activity android:name=".ViewRequestSender"/>
-
+        <activity android:name=".messageCenterIntent"/>
         <activity android:name=".ViewUserProfile" />
         <activity
             android:name=".AddEditIntent"

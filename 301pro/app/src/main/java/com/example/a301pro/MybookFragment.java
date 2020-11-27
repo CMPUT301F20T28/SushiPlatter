@@ -100,6 +100,15 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
             }
         });
 
+        final Button userInformation = view.findViewById(R.id.userProfile);
+        userInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewUserProfile.class);
+                startActivity(intent);
+            }
+        });
+
         // search book by keyword
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -145,6 +154,8 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                Intent intent = new Intent(getContext(), messageCenterIntent.class);
+                startActivity(intent);
                 Toast.makeText(getContext(),getUserID(),Toast.LENGTH_SHORT).show();
             }
         });

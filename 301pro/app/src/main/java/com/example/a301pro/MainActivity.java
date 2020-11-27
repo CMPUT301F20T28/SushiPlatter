@@ -68,7 +68,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button nav_MyBook = findViewById(R.id.nav_My_book);
+        Button nav_message = findViewById(R.id.nav_Messages);
+        Button nav_shared = findViewById(R.id.nav_shared);
+        Button nav_requested = findViewById(R.id.nav_Requested);
+        Button nav_requests = findViewById(R.id.nav_Requests);
+
     }
+
+
 
     /**
      * Controller of the fragment navigation bar

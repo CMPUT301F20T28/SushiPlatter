@@ -27,7 +27,7 @@ public class SendMessage {
     String TAG = "send a message";
 
 
-    public SendMessage(String senderUserName, String receiverUserName, String message){
+    public SendMessage(final String senderUserName, String receiverUserName, final String message){
         db = FirebaseFirestore.getInstance();
         String receiverUID;
         CollectionReference collectionReference = db.collection("userDict");
@@ -40,7 +40,7 @@ public class SendMessage {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         String UID = (String) document.getData().get("UID");
-                        addMessageToDB(UID);
+                        addMessageToDB(UID ,senderUserName , message);
                     }
                 } else {
                 }
@@ -48,7 +48,7 @@ public class SendMessage {
         });
     }
 
-    public void addMessageToDB(String UID){
+    public void addMessageToDB(String UID, String senderUserName, String message){
         final CollectionReference CollectRef = db.collection("Users");
         Map<String, Object> messgae = new HashMap<>();
         messgae.put("sender", senderUserName);

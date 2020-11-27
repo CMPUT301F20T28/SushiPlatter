@@ -142,6 +142,8 @@ public class BorrowedFragment extends Fragment {
             }
         });
 
+
+
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -163,6 +165,8 @@ public class BorrowedFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                Intent intent = new Intent(getContext(), messageCenterIntent.class);
+                startActivity(intent);
             }
         });
 

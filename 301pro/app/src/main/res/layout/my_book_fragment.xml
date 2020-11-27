@@ -20,7 +20,7 @@
         android:weightSum="10" >
 
         <Button
-            android:id="@+id/userhead"
+            android:id="@+id/userProfile"
             android:layout_gravity="center_vertical"
             android:layout_width="25dp"
             android:layout_height="30dp"
