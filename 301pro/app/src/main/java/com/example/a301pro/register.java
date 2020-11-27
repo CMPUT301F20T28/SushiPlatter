@@ -1,4 +1,5 @@
 package com.example.a301pro;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,13 +38,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class allows user to register an account
+ * This class allows user to Register an account
  */
-public class register extends AppCompatActivity {
+public class Register extends AppCompatActivity {
     private User newUser;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -63,8 +65,6 @@ public class register extends AppCompatActivity {
      * reference: https://firebase.google.com/docs/auth/android/start
      *            https://www.youtube.com/watch?v=Z-RE1QuUWPg&ab_channel=CodeWithMazn
      */
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,31 +91,30 @@ public class register extends AppCompatActivity {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     passwordView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     passwordViewCheck.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
                 else{
-
                     passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     passwordViewCheck.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
             }
         });
 
-        // return to login page without setting up an account
-        login.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent(getBaseContext(), login.class);
+        // return to Login page without setting up an account
+        login.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), Login.class);
                 startActivity(intent);
                 finish();
             }
         });
 
         // set up a new account and send data to database
-        registerButton.setOnClickListener(new View.OnClickListener(){
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 userExist = false;
                 final String firstName = userFirstName.getText().toString();
                 final String lastName = userLastName.getText().toString();
@@ -125,57 +124,58 @@ public class register extends AppCompatActivity {
                 final String password = userPassword.getText().toString();
                 final String passwordCheck = userPasswordRepeat.getText().toString();
 
-                if (TextUtils.isEmpty(firstName)){
+                if (TextUtils.isEmpty(firstName)) {
                     userFirstName.setError("First name is required!");
                     userExist = true;
 
                 }
 
-                if (TextUtils.isEmpty(lastName)){
+                if (TextUtils.isEmpty(lastName)) {
                     userLastName.setError("Last name is required!");
                     userExist = true;
                 }
 
-                if (TextUtils.isEmpty(phoneNumber)){
+                if (TextUtils.isEmpty(phoneNumber)) {
                     userPhone.setError("Phone number is required!");
                     userExist = true;
                 }
 
-                if (TextUtils.isEmpty(userName)){
+                if (TextUtils.isEmpty(userName)) {
                     userUserName.setError("User name is required!");
                     userExist = true;
                 }
 
-                if (TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     userEmail.setError("Email address is required!");
                     userExist = true;
                 }
 
-                if (TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     userPassword.setError("Password is required!");
                     userExist = true;
                 }
 
-                if (TextUtils.isEmpty(passwordCheck)){
+                if (TextUtils.isEmpty(passwordCheck)) {
                     userPasswordRepeat.setError("Please repeat your password!");
                     userExist = true;
                 }
 
-                if (!password.equals(passwordCheck)){
-                    Toast.makeText(register.this, "Passwords are not the same, please try again!", Toast.LENGTH_SHORT).show();
+                if (!password.equals(passwordCheck)) {
+                    Toast.makeText(Register.this,
+                            "Passwords are not the same, please try again!",
+                            Toast.LENGTH_SHORT).show();
                     userPassword.setError("Passwords not match!");
                     userPasswordRepeat.setError("Passwords not match!");
                     userExist = true;
-
-                }else{
-                    if (password.length()<6){
+                } else {
+                    if (password.length() < 6) {
                         userPassword.setError("Password length should be >= 6!");
                         userPasswordRepeat.setError("Password length should be >= 6!");
                         userExist = true;
                     }
                 }
 
-                if (userExist==true){
+                if (userExist){
                     return;
                 }
 
@@ -186,7 +186,6 @@ public class register extends AppCompatActivity {
                                 if (task.getResult().exists()){
                                     userUserName.setError("Username already exists!");
                                     userExist = true;
-                                    return;
                                 }else{
                                     if(userExist == false) {
                                         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -195,31 +194,34 @@ public class register extends AppCompatActivity {
                                                 if (task.isSuccessful()) {
                                                     Log.d(TAG, "createUserWithEmail:success");
                                                     final FirebaseUser user = mAuth.getCurrentUser();
-                                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(userName).build();
+                                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest
+                                                            .Builder()
+                                                            .setDisplayName(userName)
+                                                            .build();
                                                     user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if (task.isSuccessful()) {
-                                                                // Sign up success, go to login
+                                                                // Sign up success, go to Login
                                                                 final String UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                                                 Log.d(TAG, "createUserWithEmail:success");
-                                                                 Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
-                                                                 newUser = new User(userName, email, password, firstName, lastName, phoneNumber, UID);
+                                                                Log.d(TAG, "createUserWithEmail:success");
+                                                                Toast.makeText(Register.this, "User created!", Toast.LENGTH_SHORT).show();
+                                                                newUser = new User(userName, email, password, firstName, lastName, phoneNumber, UID);
                                                                 createAccount(newUser);
-                                                                Intent intent = new Intent(getBaseContext(), login.class);
+                                                                Intent intent = new Intent(getBaseContext(), Login.class);
                                                                 startActivity(intent);
                                                                 finish();
                                                             }
                                                         }
                                                     });
                                                 } else {
-                                                        // If sign up fails, display a message to the user.
-                                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                                        Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                    // If sign up fails, display a message to the user.
+                                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                                    Toast.makeText(Register.this, "Sign up failed: "
+                                                            + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
-
                                     }
                                 }
                             }
@@ -227,9 +229,6 @@ public class register extends AppCompatActivity {
             }
         });
     }
-
-
-
 
     /**
      * Send new user info to FireBase
@@ -241,7 +240,6 @@ public class register extends AppCompatActivity {
         userInfo.put("phoneNumber", newUser.getPhoneNumber());
         userInfo.put("firstName", newUser.getFirstName());
         userInfo.put("lastName", newUser.getLastName());
-//        userInfo.put("password", newUser.getPassword());
         userInfo.put("userName", newUser.getUserName());
         userInfo.put("UID", newUser.getUID());
 
@@ -263,6 +261,10 @@ public class register extends AppCompatActivity {
         Map<String, Object> userDict = new HashMap<>();
         userDict.put("email", newUser.getEmail());
         userDict.put("UID", newUser.getUID());
+        userDict.put("phoneNumber", newUser.getPhoneNumber());
+        userDict.put("firstName", newUser.getFirstName());
+        userDict.put("lastName", newUser.getLastName());
+
         db.collection("userDict").document(newUser.getUserName())
                 .set(userDict)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

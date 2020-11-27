@@ -31,10 +31,16 @@ import java.util.Map;
  * This class allows user to view the personal information as well as change the contact information
  */
 public class ViewUserProfile extends AppCompatActivity {
-    EditText phoneShow, userFirstNameShow, userLastNameShow, emailShow;
+    EditText phoneShow;
+    EditText userFirstNameShow;
+    EditText userLastNameShow;
+    EditText emailShow;
     Button edit, profileQuit;
     String Tag = "ViewUserProfile";
-    String firstName, lastName, phoneNumber, email;
+    String firstName;
+    String lastName;
+    String phoneNumber;
+    String email;
     private FirebaseAuth mAuth;
 
     /**
@@ -73,16 +79,16 @@ public class ViewUserProfile extends AppCompatActivity {
                     if (document != null) {
 
                         firstName = document.getString("firstName").toUpperCase();
-                        Log.i(Tag,"First name"+firstName);
+                        Log.i(Tag, "First name"+firstName);
 
                         lastName = document.getString("lastName").toUpperCase();
-                        Log.i(Tag,"Last name"+lastName);
+                        Log.i(Tag, "Last name"+lastName);
 
                         email = document.getString("email").toUpperCase();
-                        Log.i(Tag,"email"+document.getString("email"));
+                        Log.i(Tag, "email"+document.getString("email"));
 
                         phoneNumber = document.getString("phoneNumber");
-                        Log.i(Tag,"phoneNumber"+document.getString("phoneNumber"));
+                        Log.i(Tag, "phoneNumber"+document.getString("phoneNumber"));
 
                         phoneShow.setText(phoneNumber);
                         emailShow.setText(email);
@@ -104,14 +110,13 @@ public class ViewUserProfile extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!edit.getText().toString().equals("Confirm")){
+                if (!edit.getText().toString().equals("Confirm")) {
                     edit.setText("Confirm");
                     phoneShow.setEnabled(true);
                     userFirstNameShow.setEnabled(true);
                     userLastNameShow.setEnabled(true);
                     emailShow.setEnabled(true);
-
-                }else{
+                } else {
                     final boolean[] profileChangeSuccess = {true};
                     final String newPhoneNumber = phoneShow.getText().toString();
                     String newFirstName = userFirstNameShow.getText().toString();
@@ -119,8 +124,8 @@ public class ViewUserProfile extends AppCompatActivity {
                     final String newEmail = emailShow.getText().toString();
 
                     //Change users' phone number
-                    if(!newPhoneNumber.equals(phoneNumber)){
-                        if (newPhoneNumber.length()>0){
+                    if (!newPhoneNumber.equals(phoneNumber)) {
+                        if (newPhoneNumber.length() > 0) {
                             Map<String, Object> userInfo = new HashMap<>();
                             userInfo.put("phoneNumber", newPhoneNumber);
                             db.collection("Users").document(mAuth.getCurrentUser().getUid())
@@ -128,7 +133,8 @@ public class ViewUserProfile extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Toast.makeText(ViewUserProfile.this,"Phone number successfully updated!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ViewUserProfile.this, "Phone number successfully updated!",
+                                                    Toast.LENGTH_SHORT).show();
                                             Log.d("Change Phone#", "User phone number successfully changed!");
                                         }
                                     })
@@ -140,15 +146,16 @@ public class ViewUserProfile extends AppCompatActivity {
                                             Log.w("Change Phone#", "Error change new user phone number", e);
                                         }
                                     });
-                        }else{
+                        } else {
                             profileChangeSuccess[0] = false;
                             phoneShow.setError("Please enter a new phone number!");
                         }
                     }
 
                     // Change user's full name
-                    if((!newFirstName.toLowerCase().equals(firstName.toLowerCase())) || (!newLastName.toLowerCase().equals(lastName.toLowerCase()))){
-                        if ((newFirstName.length()>0) && (newLastName.length()>0)){
+                    if((!newFirstName.toLowerCase().equals(firstName.toLowerCase())) ||
+                            (!newLastName.toLowerCase().equals(lastName.toLowerCase()))){
+                        if ((newFirstName.length() > 0) && (newLastName.length()>0)){
                             Map<String, Object> userName = new HashMap<>();
                             userName.put("firstName", newFirstName.toLowerCase());
                             userName.put("lastName", newLastName.toLowerCase());
@@ -157,7 +164,8 @@ public class ViewUserProfile extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Toast.makeText(ViewUserProfile.this,"User's full name successfully updated!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ViewUserProfile.this,"User's full name successfully updated!",
+                                                    Toast.LENGTH_SHORT).show();
                                             Log.d("Change full name#", "User's full name successfully changed!");
                                         }
                                     })
@@ -168,22 +176,20 @@ public class ViewUserProfile extends AppCompatActivity {
                                             Log.w("Change full name#", "Error change user's full name", e);
                                         }
                                     });
-                        }else{
+                        } else {
                             profileChangeSuccess[0] = false;
-                            if ((newLastName.length() == 0)){
+                            if ((newLastName.length() == 0)) {
                                 userLastNameShow.setError("Your last name cannot be empty!");
-
                             }
-                            if((newFirstName.length() == 0)){
+                            if ((newFirstName.length() == 0)) {
                                 userFirstNameShow.setError("Your first name cannot be empty!");
                             }
                         }
                     }
 
-
                     //Change users' email
-                    if (!newEmail.toLowerCase().equals(email.toLowerCase())){
-                        if (newEmail.length()>0){
+                    if (!newEmail.toLowerCase().equals(email.toLowerCase())) {
+                        if (newEmail.length() > 0) {
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             user.updateEmail(newEmail.toLowerCase())
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -193,29 +199,40 @@ public class ViewUserProfile extends AppCompatActivity {
                                                 Map<String, Object> userEmail = new HashMap<>();
 
                                                 userEmail.put("email", newEmail.toLowerCase());
-                                                db.collection("Users").document(mAuth.getCurrentUser().getUid()).update(userEmail);
-                                                db.collection("userDict").document(mAuth.getCurrentUser().getDisplayName()).update(userEmail);
-                                                Toast.makeText(ViewUserProfile.this,"User's email successfully updated!", Toast.LENGTH_SHORT).show();
+                                                String curUID = mAuth.getCurrentUser().getUid();
+                                                db.collection("Users")
+                                                        .document(curUID)
+                                                        .update(userEmail);
+
+                                                userEmail.put("firstName", firstName.toLowerCase());
+                                                userEmail.put("lastName", lastName.toLowerCase());
+                                                userEmail.put("phoneNumber", phoneNumber);
+                                                userEmail.put("UID", curUID);
+                                                db.collection("userDict")
+                                                        .document(mAuth.getCurrentUser().getDisplayName())
+                                                        .update(userEmail);
+                                                Toast.makeText(ViewUserProfile.this, "User's email successfully updated!",
+                                                        Toast.LENGTH_SHORT).show();
                                                 Log.d("Change email#", "User's email successfully changed!");
-                                            }else{
+                                            } else {
                                                 profileChangeSuccess[0] = false;
                                                 emailShow.setError("Email existed, try another one!");
-                                                Toast.makeText(ViewUserProfile.this,"Email existed, try another one!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(ViewUserProfile.this, "Email existed, try another one!",
+                                                        Toast.LENGTH_SHORT).show();
                                                 Log.w("Change email#", "Error change user's email");
                                             }
                                         }
                                     });
-
-                        }else{
+                        } else {
                             profileChangeSuccess[0] = false;
                             emailShow.setError("Your email address cannot be empty!");
                         }
                     }
 
-                    if(profileChangeSuccess[0] == true){
+                    if(profileChangeSuccess[0]){
                         edit.setText("EDIT PROFILE");
                         finish();
-                    };
+                    }
                 }
             }
         });
@@ -227,8 +244,8 @@ public class ViewUserProfile extends AppCompatActivity {
                 finish();
             }
         });
-
     }
+
     /**
      * Get uid of the current logged in user
      * @return uid as a string

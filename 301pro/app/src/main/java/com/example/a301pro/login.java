@@ -2,7 +2,6 @@ package com.example.a301pro;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -18,9 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.githang.statusbar.StatusBarCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,16 +28,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
- * This class allows user to login
+ * This class allows user to Login
  */
-public class login extends AppCompatActivity {
-    private User loginUser;
+public class Login extends AppCompatActivity {
     protected FirebaseAuth mAuth;
     Switch mSwitch;
     EditText passwordView;
 
     /**
-     * User login: when log in successfully jump to the main activity
+     * User Login: when log in successfully jump to the main activity
      * @param savedInstanceState data of previous instance
      */
     @Override
@@ -64,7 +60,6 @@ public class login extends AppCompatActivity {
                     passwordView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
                 else{
-
                     passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
             }
@@ -81,14 +76,14 @@ public class login extends AppCompatActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(),register.class);
+                Intent intent = new Intent(getBaseContext(), Register.class);
                 startActivity(intent);
             }
         });
     }
 
     /**
-     * User login: handle entered username and password
+     * User Login: handle entered username and password
      * reference: https://firebase.google.com/docs/auth/android/start
      */
     public void logIn() {
@@ -99,10 +94,9 @@ public class login extends AppCompatActivity {
         final String password = passwordView.getText().toString();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(login.this, "Please ensure you have " +
+            Toast.makeText(Login.this, "Please ensure you have " +
                     "filled out all the fields.", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             CollectionReference collectionReference = db.collection("userDict");
             DocumentReference docRef = collectionReference.document(username);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -112,24 +106,20 @@ public class login extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             String email = (String) document.getData().get("email");
-
                             validate(email, password, usernameView, passwordView);
-
                         } else {
-                            Toast.makeText(login.this,
+                            Toast.makeText(Login.this,
                                     "Login failed. Please check your Username and try again.",
                                     Toast.LENGTH_SHORT).show();
                             usernameView.setText("");
                             passwordView.setText("");
-
                         }
                     } else {
-                        Toast.makeText(login.this,
+                        Toast.makeText(Login.this,
                                 "Login failed. Please check your info and try again.",
                                 Toast.LENGTH_SHORT).show();
                         usernameView.setText("");
                         passwordView.setText("");
-
                     }
                 }
             });
@@ -137,7 +127,7 @@ public class login extends AppCompatActivity {
     }
 
     /**
-     * User login: check whether the username and password are consistent with that in recorded in fire store
+     * User Login: check whether the username and password are consistent with that in recorded in fire store
      * @param Email searched by username
      * @param Password, user's input
      * @param usernameView if user enter wrong information, empty the edit text
@@ -150,14 +140,13 @@ public class login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(login.this,
+                            Toast.makeText(Login.this,
                                     "Login Successful.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getBaseContext(),MainActivity.class);
                             startActivity(intent);
                             finish();
-
                         } else {
-                            Toast.makeText(login.this,
+                            Toast.makeText(Login.this,
                                     "Login failed. Please check your info and try again.",
                                     Toast.LENGTH_SHORT).show();
                             usernameView.setText("");
@@ -166,6 +155,4 @@ public class login extends AppCompatActivity {
                     }
                 });
     }
-
-
 }

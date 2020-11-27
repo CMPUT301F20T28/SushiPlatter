@@ -1,7 +1,5 @@
 package com.example.a301pro;
 
-import java.util.ArrayList;
-
 /**
  * This class initializes the property of a user as well as gets the data of a user
  */
@@ -18,13 +16,14 @@ class User {
      * This constructor initializes the property of a user
      * @param userName username of the user
      * @param email email of the user
-     * @param password login password of the user
+     * @param password Login password of the user
      * @param firstName first name of the user
      * @param lastName last name of the user
      * @param phoneNumber phone number of the user
      * @param UID unique UID of the user
      */
-    public User(String userName, String email, String password, String firstName, String lastName, String phoneNumber, String UID) {
+    public User(String userName, String email, String password, String firstName, String lastName,
+                String phoneNumber, String UID) {
         this.userName = userName;
         this.email = email;
         this.password = password;
@@ -32,9 +31,6 @@ class User {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.UID = UID;
-    }
-
-    public User() {
     }
 
     /**

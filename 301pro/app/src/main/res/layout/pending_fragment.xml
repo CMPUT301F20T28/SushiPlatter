@@ -32,7 +32,8 @@
             android:layout_height="25dp"
             android:hint="search"
             android:textColor="#123"
-            android:drawableLeft="@drawable/ic_search_black_24dp" />
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            android:inputType="text" />
 
         <ImageButton
             android:id="@+id/message_center_pending"
@@ -56,8 +57,11 @@
 
     </LinearLayout>
     <ListView
+        android:descendantFocusability="blocksDescendants"
         android:id="@+id/pending_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent">
+
+    </ListView>
 
 </LinearLayout>

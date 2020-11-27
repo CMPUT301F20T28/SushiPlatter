@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_item" >
+
+    <TextView
+        android:id="@+id/requestSenderUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:ems="8"
+        android:inputType="textPersonName"
+        android:text="Username"
+        android:textColor="@color/menuBackground"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/requestSenderName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:text="Full Name" />
+
+        <TextView
+            android:id="@+id/requestSenderEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="5dp"
+            android:text="Email" />
+
+        <TextView
+            android:id="@+id/requestSenderPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="5dp"
+            android:text="Phone" />
+
+    </LinearLayout>
+</LinearLayout>

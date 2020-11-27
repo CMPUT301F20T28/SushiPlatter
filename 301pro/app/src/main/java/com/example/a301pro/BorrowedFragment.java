@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.githang.statusbar.StatusBarCompat;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -38,33 +37,35 @@ import java.util.ArrayList;
 /**
  * This fragment class allows user to borrow a book
  */
-public class RequestFragment extends Fragment {
+public class BorrowedFragment extends Fragment {
     ListView pendList;
-    ArrayAdapter<Request> pendAdapter;
-    ArrayList<Request> pendDataList;
+    ArrayAdapter<Borrowed> pendAdapter;
+    ArrayList<Borrowed> pendDataList;
 
     /**
      * Default constructor
      */
-    public RequestFragment() {
+    public BorrowedFragment() {
     }
 
     /**
-     * Provide functionality for requesting a book
+     * Provide functionality for borrowing a book
      * @param inflater layout of the view
      * @param container layout container of view object
      * @param savedInstanceState data of previous instance
      * @return layout of the fragment
      */
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.pending_fragment, container, false);
-        StatusBarCompat.setStatusBarColor(getActivity(), getResources().getColor(R.color.menuBackground),
-                false);
+        StatusBarCompat.setStatusBarColor(getActivity(),
+                getResources().getColor(R.color.menuBackground), false);
         pendList = view.findViewById(R.id.pending_list);
         pendDataList = new ArrayList<>();
-        pendAdapter = new CustomListPendingRequest(getContext(), pendDataList);
+        pendAdapter = new CustomListPending(getContext(),pendDataList);
         pendList.setAdapter(pendAdapter);
 
         final EditText search = view.findViewById(R.id.search_method_pending);
@@ -79,11 +80,9 @@ public class RequestFragment extends Fragment {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users")
-                .document(getUserID())
-                .collection("Request");
+                .document(getUserID()).collection("Borrowed");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
-
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -92,14 +91,14 @@ public class RequestFragment extends Fragment {
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String bookID = doc.getId();
                     String imageId = (String) doc.getData().get("imageId") ;
-                    String ISBN = (String) doc.getData().get("ISBN");
+                    String ISBN = (String) doc.getData().get("isbn");
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
-                    String status = (String) doc.getData().get("status");
-                    String requestSender = (String) doc.getData().get("requestFrom");
+                    String status = (String) doc.getData().get("sit");
+                    String owner = (String) doc.getData().get("owner");
 
-                    pendDataList.add((new Request(bookID,imageId,ISBN,bookName,
-                            description,status,requestSender)));
+                    pendDataList.add((new Borrowed(bookID, imageId, ISBN, bookName, description,
+                            status,owner)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -123,16 +122,14 @@ public class RequestFragment extends Fragment {
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             String imageId = (String) doc.getData().get("imageId") ;
                             String bookId = doc.getId();
-                            String ISBN = (String) doc.getData().get("ISBN");
+                            String ISBN = (String) doc.getData().get("isbn");
                             String bookName= (String) doc.getData().get("book_name");
                             String description = (String) doc.getData().get("des");
-                            String status = (String) doc.getData().get("status");
-                            String requestSender = (String) doc.getData().get("requestFrom");
-
+                            String status = (String) doc.getData().get("sit");
+                            String owner = (String) doc.getData().get("owner");
                             if (description.contains(des) || bookName.contains(des)) {
-                                pendDataList.add((new Request(bookId, imageId,ISBN,
-                                        bookName, description, status, requestSender)));
-
+                                pendDataList.add((new Borrowed(bookId, imageId, ISBN, bookName,
+                                        description, status, owner)));
                             }
                         }
                         pendAdapter.notifyDataSetChanged();
@@ -146,16 +143,12 @@ public class RequestFragment extends Fragment {
             }
         });
 
-        // selected a book to view all request senders
+
+
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Request selectedBook = pendAdapter.getItem(position);
-                if (!selectedBook.getStatus().equals("Requested")){
-                    Intent intent = new Intent(getContext(), ViewRequestSender.class);
-                    intent.putExtra("REQUEST_SENDERS", selectedBook.getRequestFrom());
-                    startActivity(intent);
-                }
+                Toast.makeText(getContext(),"11111111111123",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -170,9 +163,8 @@ public class RequestFragment extends Fragment {
             }
         });
 
-        pendAdapter = new CustomListPendingRequest(getContext(),pendDataList);
+        pendAdapter = new CustomListPending(getContext(),pendDataList);
         pendList.setAdapter(pendAdapter);
-
         return view;
     }
 

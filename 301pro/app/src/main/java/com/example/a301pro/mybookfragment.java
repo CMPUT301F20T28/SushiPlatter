@@ -1,8 +1,5 @@
 package com.example.a301pro;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,18 +30,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import static android.app.Activity.RESULT_OK;
 
 /**
  * This fragment class allows user to add/edit/delete a book, as well as view all the owned book.
  */
-public class mybookfragment extends Fragment implements ComfirmDialog.OnFragmentInteractionListenerComfirm {
+public class MybookFragment extends Fragment implements ComfirmDialog.OnFragmentInteractionListenerComfirm {
     ListView bookList;
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> bookDataList;
@@ -64,12 +56,13 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
      */
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.my_book_fragment,container,false);
-        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
+        View view = inflater.inflate(R.layout.my_book_fragment, container, false);
+        StatusBarCompat.setStatusBarColor(getActivity(), getResources().getColor(R.color.menuBackground),
+                false);
         bookList = view.findViewById(R.id.my_book_list);
         bookDataList = new ArrayList<>();
         searchList = new ArrayList<>();
-        bookAdapter = new CustomList_mybook(getContext(),bookDataList);
+        bookAdapter = new CustomListMybook(getContext(),bookDataList);
         bookList.setAdapter(bookAdapter);
         final Button filterBtn = view.findViewById(R.id.filter);
         final ImageButton mesBtn = view.findViewById(R.id.message_center);
@@ -77,7 +70,9 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         final EditText search = view.findViewById(R.id.search_method);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("MyBooks");
+        final CollectionReference collectionReference = db.collection("Users")
+                .document(getUserID())
+                .collection("MyBooks");
         final CollectionReference LibraryReference = db.collection("Library");
 
         // read book data from database
@@ -85,7 +80,6 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 bookDataList.clear();
-                //bookAdapter.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
                     String imageID = (String) doc.getData().get("imageID");
@@ -97,10 +91,20 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                     String bookid = doc.getId();
                     String borrower = (String) doc.getData().get("borrower_name");
                     String owner = (String) doc.getData().get("owner");
-                    bookDataList.add((new Book(imageID,bookName,author,ISBN,description,status,bookid,borrower,owner)));
+                    bookDataList.add((new Book(imageID, bookName, author, ISBN, description, status,
+                            bookid, borrower, owner)));
 
                 }
                 bookAdapter.notifyDataSetChanged();
+            }
+        });
+
+        final Button userInformation = view.findViewById(R.id.userProfile);
+        userInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewUserProfile.class);
+                startActivity(intent);
             }
         });
 
@@ -113,13 +117,12 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                final String dess = s.toString();
+                final String des = s.toString().toLowerCase();
                 bookDataList.clear();
                 collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-
                             String imageID = (String) doc.getData().get("imageID");
                             String bookName= (String) doc.getData().get("book_name");
                             String author = (String) doc.getData().get("author");
@@ -129,8 +132,9 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                             String bookid = doc.getId();
                             String borrower = (String) doc.getData().get("borrower_name");
                             String owner = (String) doc.getData().get("owner");
-                            if (description.contains(dess)|| bookName.contains(dess)) {
-                                bookDataList.add((new Book(imageID, bookName, author, ISBN, description, status, bookid, borrower, owner)));
+                            if (description.contains(des)|| bookName.contains(des)) {
+                                bookDataList.add((new Book(imageID, bookName, author, ISBN,
+                                        description, status, bookid, borrower, owner)));
                             }
                         }
                         bookAdapter.notifyDataSetChanged();
@@ -149,6 +153,8 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                Intent intent = new Intent(getContext(), messageCenterIntent.class);
+                startActivity(intent);
                 Toast.makeText(getContext(),getUserID(),Toast.LENGTH_SHORT).show();
             }
         });
@@ -191,7 +197,6 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
                 return true;
             }
         });
-
         return view;
     }
 
@@ -209,7 +214,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-                bookAdapter.notifyDataSetChanged();
+            bookAdapter.notifyDataSetChanged();
         }
     }
 
@@ -222,16 +227,38 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
+            public boolean onMenuItemClick(final MenuItem item) {
+                //Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
 
-        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-                Toast.makeText(getContext(), "关闭PopupMenu", Toast.LENGTH_SHORT).show();
+                final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                final CollectionReference collectionReference = db.collection("Users")
+                        .document(getUserID())
+                        .collection("MyBooks");
+                bookDataList.clear();
+                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots,
+                                        @Nullable FirebaseFirestoreException error) {
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                            String imageID = (String) doc.getData().get("imageID");
+                            String bookName= (String) doc.getData().get("book_name");
+                            String author = (String) doc.getData().get("author");
+                            String ISBN =  (String) doc.getData().get("isbn");
+                            String description = (String) doc.getData().get("description");
+                            String status = (String) doc.getData().get("status");
+                            String bookid = doc.getId();
+                            String borrower = (String) doc.getData().get("borrower_name");
+                            String owner = (String) doc.getData().get("owner");
+                            if (status.equals(item.getTitle())) {
+                                bookDataList.add((new Book(imageID, bookName, author, ISBN,
+                                        description, status, bookid, borrower, owner)));
+                            }
+                        }
+                        bookAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                return false;
             }
         });
 
@@ -262,7 +289,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
      * @return unique id of the book, which is uid followed by isbn
      */
     protected String generateBookID(String uid, String isbn) {
-        return uid +"-"+isbn;
+        return uid + "-" + isbn;
     }
 
 }

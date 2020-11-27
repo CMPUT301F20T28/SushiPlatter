@@ -20,7 +20,7 @@
         android:weightSum="10" >
 
         <Button
-            android:id="@+id/userhead"
+            android:id="@+id/userProfile"
             android:layout_gravity="center_vertical"
             android:layout_width="25dp"
             android:layout_height="30dp"
@@ -38,7 +38,8 @@
             android:layout_height="25dp"
             android:hint="search"
             android:textColor="#212121"
-            android:drawableLeft="@drawable/ic_search_black_24dp" />
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            android:inputType="text" />
 
         <ImageButton
             android:id="@+id/message_center"
@@ -58,9 +59,7 @@
             android:layout_marginLeft="15dp"
             android:background="@color/menuBackground"
             style="?android:attr/borderlessButtonStyle"
-            android:drawableLeft="@drawable/ic_baseline_filter_list_24"
-            />
-
+            android:drawableLeft="@drawable/ic_baseline_filter_list_24" />
 
     </LinearLayout>
     <ListView

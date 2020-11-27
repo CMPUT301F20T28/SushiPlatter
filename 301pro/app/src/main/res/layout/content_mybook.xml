@@ -20,19 +20,21 @@
             android:id="@+id/name_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="8dp"
             android:autoSizeMaxTextSize="26dp"
-            android:autoSizeStepGranularity="2dp" />
+            android:autoSizeMinTextSize="8dp"
+            android:autoSizeStepGranularity="2dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:text="Book Name" />
     </LinearLayout>
 
     <TextView
-        android:layout_marginHorizontal="10dp"
         android:id="@+id/des_text"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp"
         android:layout_weight="1.7"
+        android:text="Des"
         android:textSize="15sp" />
 
     <LinearLayout
@@ -45,7 +47,8 @@
             android:id="@+id/status_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FF0000"
+            android:text="Status"
+            android:textColor="#4CAF50"
             android:textSize="15sp"></TextView>
 
         <TextView

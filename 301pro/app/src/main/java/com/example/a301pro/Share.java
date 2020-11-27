@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Share implements Serializable {
     private String bookID;
     private String imageId;
+    private String ISBN;
     private String bookName;
     private String des;
     private String sit;
@@ -21,14 +22,49 @@ public class Share implements Serializable {
      * @param bookID id of the book
      * @param owner owner of the book
      */
-    public Share(String bookID,String imageId,String bookName, String des, String sit, String owner) {
+    public Share(String bookID, String imageId, String ISBN, String bookName, String des,
+                 String sit, String owner) {
         this.bookID = bookID;
         this.imageId =imageId;
+        this.ISBN = ISBN;
         this.bookName = bookName;
         this.des = des;
         this.sit = sit;
         this.owner = owner;
     }
+
+    /**
+     * This allows the outside to get the ISBN code of a book
+     * @return ISBN of a book
+     */
+    public String getISBN() {
+        return ISBN;
+    }
+
+    /**
+     * This set the ISBN code of a book
+     * @param ISBN ISBN to be set
+     */
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    /**
+     * This allows the outside to get the name of a book
+     * @return name of a book
+     */
+    public String getBookName() {
+        return bookName;
+    }
+
+    /**
+     * This set the name of a book
+     * @param bookName name of a book to be set
+     */
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
     /**
      * This allows the outside to get the owner's name of a book
      * @return ID of a book
@@ -36,6 +72,7 @@ public class Share implements Serializable {
     public String getBookID() {
         return bookID;
     }
+
     /**
      * This set the image id of a book
      * @param bookID bookid to be set
@@ -43,6 +80,7 @@ public class Share implements Serializable {
     public void setBookID(String bookID) {
         this.bookID = bookID;
     }
+
     /**
      * This allows the outside to get the image id of a book
      * @return image id of a book
@@ -50,6 +88,7 @@ public class Share implements Serializable {
     public String getImageId() {
         return imageId;
     }
+
     /**
      * This set the image id of a book
      * @param imageId image id to be set
@@ -57,6 +96,7 @@ public class Share implements Serializable {
     public void setImageId(String imageId) {
         this.imageId = imageId;
     }
+
     /**
      * This allows the outside to get the image id of a book
      * @return image id of a book
@@ -64,14 +104,15 @@ public class Share implements Serializable {
     public String getBook_name() {
         return bookName;
     }
+
     /**
      * This allows the outside to get the description of a book
      * @return description of a book
      */
-
     public String getDes() {
         return des;
     }
+
     /**
      * This allows the outside to get the owner's name of a book
      * @return owner's name of a book
@@ -79,6 +120,7 @@ public class Share implements Serializable {
     public String getSit() {
         return sit;
     }
+
     /**
      * This allows the outside to get the status of a book
      * @return status of a book
@@ -86,6 +128,7 @@ public class Share implements Serializable {
     public String getOwner() {
         return owner;
     }
+
     /**
      * This set the description of a book
      * @param bookName description to be set
@@ -93,6 +136,7 @@ public class Share implements Serializable {
     public void setBook_name(String bookName) {
         this.bookName = bookName;
     }
+
     /**
      * This set the description of a book
      * @param des description to be set
@@ -100,6 +144,7 @@ public class Share implements Serializable {
     public void setDes(String des) {
         this.des = des;
     }
+
     /**
      * This set the status of a book
      * @param sit status to be set
@@ -107,6 +152,7 @@ public class Share implements Serializable {
     public void setSit(String sit) {
         this.sit = sit;
     }
+
     /**
      * This set the name of a book
      * @param owner name of a book to be set

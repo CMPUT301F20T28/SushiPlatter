@@ -1,7 +1,5 @@
 package com.example.a301pro;
 
-import android.widget.ImageView;
-
 import java.io.Serializable;
 
 /**
@@ -30,7 +28,8 @@ public class Book implements Serializable {
      * @param borrowerName borrower of the book
      * @param owner owner of the book
      */
-    public Book(String imageID, String bookName, String author, String ISBN, String description, String status, String bookId, String borrowerName, String owner) {
+    public Book(String imageID, String bookName, String author, String ISBN, String description,
+                String status, String bookId, String borrowerName, String owner) {
         this.imageID = imageID;
         this.bookName = bookName;
         this.author = author;

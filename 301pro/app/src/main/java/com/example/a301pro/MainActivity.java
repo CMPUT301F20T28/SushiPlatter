@@ -7,25 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Source;
-
-import java.io.Console;
 
 /**
  * This class builds the basic layout, and controls the functions of each divided fragments
@@ -42,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        //隐藏title
         AppCompatAcitiviy:getSupportActionBar().hide();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new mybookfragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new MybookFragment()).commit();
         //StatusBarCompat.setStatusBarColor(this,R.color.menuBackground);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -67,46 +57,56 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // allow user to logout current account and re-login
+        // allow user to logout current account and re-Login
         Button logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                Intent intent = new Intent(getBaseContext(), login.class);
+                Intent intent = new Intent(getBaseContext(), Login.class);
                 startActivity(intent);
             }
         });
+
+        Button nav_MyBook = findViewById(R.id.nav_My_book);
+        Button nav_message = findViewById(R.id.nav_Messages);
+        Button nav_shared = findViewById(R.id.nav_shared);
+        Button nav_requested = findViewById(R.id.nav_Requested);
+        Button nav_requests = findViewById(R.id.nav_Requests);
+
     }
+
+
 
     /**
      * Controller of the fragment navigation bar
      */
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             Fragment selectedFragment = null;
 
-            switch (menuItem.getItemId()){
+            switch (menuItem.getItemId()) {
                 case R.id.nav_share:
-                    selectedFragment = new Sharefragment();
+                    selectedFragment = new ShareFragment();
                     break;
                 case R.id.nav_mine:
-                    selectedFragment = new mybookfragment();
+                    selectedFragment = new MybookFragment();
                     break;
                 case R.id.nav_bo:
-                    selectedFragment = new borrowed_fragment();
+                    selectedFragment = new BorrowedFragment();
                     break;
                 case R.id.nav_request:
-                    selectedFragment = new requestFragment();
+                    selectedFragment = new RequestFragment();
                     break;
             }
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    selectedFragment).commit();
             return true;
         }
-
     };
-
 }
