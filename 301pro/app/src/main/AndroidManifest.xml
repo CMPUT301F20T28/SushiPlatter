@@ -21,6 +21,8 @@
 
         <activity android:name=".SetMapActivity" />
 
+        <activity android:name=".ViewRequestSender"/>
+
         <activity android:name=".ViewUserProfile" />
         <activity
             android:name=".AddEditIntent"
