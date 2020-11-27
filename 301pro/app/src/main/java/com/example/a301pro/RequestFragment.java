@@ -151,7 +151,7 @@ public class RequestFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Request selectedBook = pendAdapter.getItem(position);
                 if (!selectedBook.getStatus().equals("Requested")){
-                    Intent intent = new Intent(getContext(), ScanISBN.class);
+                    Intent intent = new Intent(getContext(), ViewRequestSender.class);
                     startActivity(intent);
                 }
             }
