@@ -1,5 +1,6 @@
 package com.example.a301pro;
 
+import android.content.Intent;
 import com.example.a301pro.Utilities.RequestNotification;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

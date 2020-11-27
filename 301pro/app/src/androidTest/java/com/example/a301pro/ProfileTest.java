@@ -4,6 +4,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.test.espresso.contrib.DrawerActions;
+import androidx.test.espresso.contrib.NavigationViewActions;
 import androidx.test.rule.ActivityTestRule;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,11 +26,15 @@ import org.junit.Test;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.swipeLeft;
+import static androidx.test.espresso.action.ViewActions.swipeRight;
+import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.contrib.DrawerMatchers.isOpen;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static java.util.regex.Pattern.matches;
 import static org.junit.Assert.assertTrue;
 
 public class ProfileTest {
@@ -137,7 +142,7 @@ public class ProfileTest {
         solo.sleep(10000);
 
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-//        getUID();
+
 
         onView(withContentDescription("Navigation header")).perform(click());
 //        onView(withId(R.id.drawer_layout))
