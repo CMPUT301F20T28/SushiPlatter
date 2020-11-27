@@ -227,8 +227,37 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
         popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+            public boolean onMenuItemClick(final MenuItem item) {
+                //Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+
+                final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                final CollectionReference collectionReference = db.collection("Users")
+                        .document(getUserID())
+                        .collection("MyBooks");
+                bookDataList.clear();
+                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots,
+                                        @Nullable FirebaseFirestoreException error) {
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                            String imageID = (String) doc.getData().get("imageID");
+                            String bookName= (String) doc.getData().get("book_name");
+                            String author = (String) doc.getData().get("author");
+                            String ISBN =  (String) doc.getData().get("isbn");
+                            String description = (String) doc.getData().get("description");
+                            String status = (String) doc.getData().get("status");
+                            String bookid = doc.getId();
+                            String borrower = (String) doc.getData().get("borrower_name");
+                            String owner = (String) doc.getData().get("owner");
+                            if (status.equals(item.getTitle())) {
+                                bookDataList.add((new Book(imageID, bookName, author, ISBN,
+                                        description, status, bookid, borrower, owner)));
+                            }
+                        }
+                        bookAdapter.notifyDataSetChanged();
+                    }
+                });
+
                 return false;
             }
         });

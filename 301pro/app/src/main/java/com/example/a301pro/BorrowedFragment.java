@@ -55,6 +55,7 @@ public class BorrowedFragment extends Fragment {
      * @param savedInstanceState data of previous instance
      * @return layout of the fragment
      */
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -147,15 +148,7 @@ public class BorrowedFragment extends Fragment {
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Borrowed selectedBook = pendAdapter.getItem(position);
-                String isbn = selectedBook.getISBN();
-                String book_id = selectedBook.getBookID();
-                if (!selectedBook.getStatus().equals("Requested")){
-                    Intent intent = new Intent(getContext(), ScanISBN.class);
-                    intent.putExtra("ISBN_CODE", isbn);
-                    intent.putExtra("BOOK_ID", book_id);
-                    startActivityForResult(intent,0);
-                }
+                Toast.makeText(getContext(),"11111111111123",Toast.LENGTH_SHORT).show();
             }
         });
 
