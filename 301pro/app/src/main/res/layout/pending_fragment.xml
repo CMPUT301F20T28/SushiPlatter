@@ -57,6 +57,7 @@
 
     </LinearLayout>
     <ListView
+        android:descendantFocusability="blocksDescendants"
         android:id="@+id/pending_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -68,7 +68,7 @@ public class SentRequestIntent extends AppCompatActivity {
         final CollectionReference CollectRef = db.collection("Users");
         final String userID = getUserID();
         final String bookID = RBook.getBookID();
-        RBook.setSit("Available");
+        RBook.setSit("Requested");
         CollectRef
                 .document(userID)
                 .collection("Borrowed")
