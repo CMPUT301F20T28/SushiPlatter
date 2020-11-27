@@ -2,7 +2,6 @@ package com.example.a301pro;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -18,9 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.githang.statusbar.StatusBarCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +31,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * This class allows user to Login
  */
 public class Login extends AppCompatActivity {
-    private User loginUser;
     protected FirebaseAuth mAuth;
     Switch mSwitch;
     EditText passwordView;
@@ -64,7 +60,6 @@ public class Login extends AppCompatActivity {
                     passwordView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
                 else{
-
                     passwordView.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
             }
@@ -101,8 +96,7 @@ public class Login extends AppCompatActivity {
         if (username.isEmpty() || password.isEmpty()) {
             Toast.makeText(Login.this, "Please ensure you have " +
                     "filled out all the fields.", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             CollectionReference collectionReference = db.collection("userDict");
             DocumentReference docRef = collectionReference.document(username);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -112,16 +106,13 @@ public class Login extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             String email = (String) document.getData().get("email");
-
                             validate(email, password, usernameView, passwordView);
-
                         } else {
                             Toast.makeText(Login.this,
                                     "Login failed. Please check your Username and try again.",
                                     Toast.LENGTH_SHORT).show();
                             usernameView.setText("");
                             passwordView.setText("");
-
                         }
                     } else {
                         Toast.makeText(Login.this,
@@ -129,7 +120,6 @@ public class Login extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                         usernameView.setText("");
                         passwordView.setText("");
-
                     }
                 }
             });
@@ -155,7 +145,6 @@ public class Login extends AppCompatActivity {
                             Intent intent = new Intent(getBaseContext(),MainActivity.class);
                             startActivity(intent);
                             finish();
-
                         } else {
                             Toast.makeText(Login.this,
                                     "Login failed. Please check your info and try again.",
@@ -166,6 +155,4 @@ public class Login extends AppCompatActivity {
                     }
                 });
     }
-
-
 }

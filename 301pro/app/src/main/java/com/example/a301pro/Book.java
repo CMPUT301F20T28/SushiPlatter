@@ -1,7 +1,5 @@
 package com.example.a301pro;
 
-import android.widget.ImageView;
-
 import java.io.Serializable;
 
 /**

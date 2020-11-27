@@ -51,7 +51,7 @@ public class BorrowedFragIntentTest {
     }
 
     /**
-     * Test for switching to the Mybook fragment
+     * Test for switching to the Borrow fragment
      */
     @Test
     public void testBottomNavigation() {
@@ -96,7 +96,7 @@ public class BorrowedFragIntentTest {
         solo.clickOnView(solo.getView(R.id.nav_bo));
         solo.waitForFragmentById(R.id.nav_bo,500);
         solo.clickInList(1);
-        solo.assertCurrentActivity("Wrong Activity", scan_ISBN.class);
+        solo.assertCurrentActivity("Wrong Activity", ScanISBN.class);
     }
 
     /**
@@ -108,7 +108,7 @@ public class BorrowedFragIntentTest {
         solo.clickOnView(solo.getView(R.id.nav_bo));
         solo.waitForFragmentById(R.id.nav_bo,500);
         solo.clickInList(1);
-        solo.assertCurrentActivity("Wrong Activity", scan_ISBN.class);
+        solo.assertCurrentActivity("Wrong Activity", ScanISBN.class);
         solo.clickOnView(solo.getView((R.id.scanBtn)));
         solo.sendKey(KeyEvent.KEYCODE_CAMERA);
     }

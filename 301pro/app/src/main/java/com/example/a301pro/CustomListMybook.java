@@ -77,5 +77,4 @@ public class CustomListMybook extends ArrayAdapter<Book> {
 
         return view;
     }
-
 }

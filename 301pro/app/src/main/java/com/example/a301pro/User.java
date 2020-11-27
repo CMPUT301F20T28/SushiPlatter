@@ -1,7 +1,5 @@
 package com.example.a301pro;
 
-import java.util.ArrayList;
-
 /**
  * This class initializes the property of a user as well as gets the data of a user
  */
@@ -33,9 +31,6 @@ class User {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.UID = UID;
-    }
-
-    public User() {
     }
 
     /**

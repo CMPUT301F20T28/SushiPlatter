@@ -31,10 +31,18 @@ public class Borrowed {
         this.oName = oName;
     }
 
+    /**
+     * This allows the outside to get the ISBN code of a book
+     * @return ISBN code of a book
+     */
     public String getISBN() {
         return ISBN;
     }
 
+    /**
+     * This set the ISBN code of a book
+     * @param ISBN ISBN code to be set
+     */
     public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }

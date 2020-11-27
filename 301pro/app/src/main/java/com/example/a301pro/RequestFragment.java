@@ -60,14 +60,14 @@ public class RequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.pending_fragment, container, false);
-        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),
+        StatusBarCompat.setStatusBarColor(getActivity(), getResources().getColor(R.color.menuBackground),
                 false);
         pendList = view.findViewById(R.id.pending_list);
         pendDataList = new ArrayList<>();
-        pendAdapter = new CustomListPendingRequest(getContext(),pendDataList);
+        pendAdapter = new CustomListPendingRequest(getContext(), pendDataList);
         pendList.setAdapter(pendAdapter);
-        final EditText search = view.findViewById(R.id.search_method_pending);
 
+        final EditText search = view.findViewById(R.id.search_method_pending);
         final Button filterBtn = view.findViewById(R.id.filter_pending);
         // click on filter button to filter out item
         filterBtn.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +114,7 @@ public class RequestFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                final String dess = s.toString();
+                final String des = s.toString().toLowerCase();
                 pendDataList.clear();
                 collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -128,8 +128,8 @@ public class RequestFragment extends Fragment {
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("status");
                             String requestSender = (String) doc.getData().get("requestFrom");
-                            if (description.contains(dess) || bookName.contains(dess)) {
 
+                            if (description.contains(des) || bookName.contains(des)) {
                                 pendDataList.add((new Request(bookId, imageId,ISBN,
                                         bookName, description, status, requestSender)));
 
@@ -162,11 +162,9 @@ public class RequestFragment extends Fragment {
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mesBtn.setImageDrawable(getResources()
-                        .getDrawable(R.drawable.ic_baseline_announcement_24));
+                mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
             }
         });
-
 
         pendAdapter = new CustomListPendingRequest(getContext(),pendDataList);
         pendList.setAdapter(pendAdapter);
@@ -175,7 +173,7 @@ public class RequestFragment extends Fragment {
     }
 
     /**
-     * Popup the menu for picking status
+     * Popup the menu for filtering book by category
      * @param view view
      */
     private void showPopupMenu(View view) {
@@ -188,13 +186,6 @@ public class RequestFragment extends Fragment {
                 return false;
             }
         });
-        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-                Toast.makeText(getContext(), "关闭PopupMenu", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         popupMenu.show();
     }
 
@@ -206,11 +197,4 @@ public class RequestFragment extends Fragment {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
-    /**
-     * Get username of the current logged in user
-     * @return username as a string
-     */
-    protected String getUserName(){
-        return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-    }
 }

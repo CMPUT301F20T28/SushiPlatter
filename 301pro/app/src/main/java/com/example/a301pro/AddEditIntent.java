@@ -6,21 +6,17 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,19 +34,15 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.example.a301pro.Utilities.AddBookToLibrary;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 
 /**
  * This class provides functionality of adding a new book to the collection of the user,
@@ -65,7 +57,6 @@ public class AddEditIntent extends AppCompatActivity {
     private ImageButton img;
     public static final String TAG = "AddEdit";
     protected FirebaseFirestore db;
-    private int myPos;
     private Book myBook;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_TO_TEXT = 2;
@@ -73,8 +64,6 @@ public class AddEditIntent extends AppCompatActivity {
     private String imgid;
     Button camera;
     private String userName;
-
-    //private Bitmap bb;
 
     /**
      * User event listener of all features
@@ -132,7 +121,7 @@ public class AddEditIntent extends AppCompatActivity {
 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},110);
             takingPhoto();
             itot();
@@ -172,21 +161,21 @@ public class AddEditIntent extends AppCompatActivity {
                 }
                 String myBookID = generateBookID(getUserID(), myISBN);
 
-                if(jg == true) {
+                if (jg) {
                     Bitmap bm = ((BitmapDrawable) ((ImageButton) img).getDrawable()).getBitmap();
                     handleUpload(bm);
                     imgid = myBookID+".jpeg";
                 }
                 myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus,
                         myBookID, null, userName);
-                
+
                 // if user has edit the isbn code, delete the old book from database and replace it with the new one
                 if (old_book_id != null && !old_book_id.equals(myBookID)) {
                     removeOldBook(old_book_id);
                 }
                 // validation of book data, book name, author name, and ISBN are required.
                 // send data to update if valid, otherwise to display error message
-                if(!(TextUtils.isEmpty(myBookName)) &&
+                if (!(TextUtils.isEmpty(myBookName)) &&
                         !(TextUtils.isEmpty(myBookAuthor)) &&
                         !(TextUtils.isEmpty(myISBN)) &&
                         (myISBN.length() == 13)) {
@@ -292,7 +281,6 @@ public class AddEditIntent extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             img.setImageBitmap(imageBitmap);
-            //handleUpload(imageBitmap);
             jg = true;
         }
         if (requestCode == REQUEST_IMAGE_TO_TEXT && resultCode == RESULT_OK) {
@@ -310,7 +298,6 @@ public class AddEditIntent extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
 
-        //String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String myBookID = generateBookID(getUserID(),ISBN.getText().toString());
         final StorageReference reference = FirebaseStorage.getInstance().getReference()
                 .child(myBookID+".jpeg");
@@ -319,13 +306,13 @@ public class AddEditIntent extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         //getDownload(reference);
-                        Toast.makeText(AddEditIntent.this,"11111",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEditIntent.this,"11111", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG,"onFailure",e.getCause());
+                        Log.e(TAG, "onFailure", e.getCause());
                     }
                 });
     }
@@ -334,20 +321,19 @@ public class AddEditIntent extends AppCompatActivity {
      * Get the text in the image using the moblie vision API
      * @param bitmap the image taken from camera
      */
-    private void getTextFromImage(Bitmap bitmap){
+    private void getTextFromImage(Bitmap bitmap) {
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
-        if (!textRecognizer.isOperational()){
-            Toast.makeText(getApplicationContext(),"Could not get the Text",Toast.LENGTH_SHORT).show();
+        if (!textRecognizer.isOperational()) {
+            Toast.makeText(getApplicationContext(), "Could not get the Text", Toast.LENGTH_SHORT).show();
         }
         else{
             Frame frame = new Frame.Builder().setBitmap(bitmap).build();
             SparseArray<TextBlock> items = textRecognizer.detect(frame);
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i <items.size();i++){
+            for(int i = 0; i < items.size(); i++){
                 TextBlock myItem = items.valueAt(i);
                 sb.append(myItem.getValue());
                 sb.append("\n");
-
             }
             description.setText(sb.toString());
         }
@@ -372,10 +358,9 @@ public class AddEditIntent extends AppCompatActivity {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Book has been updated successfully!");
                         if(myBook.getStatus().equals("Available")) {
-                            new AddBookToLibrary(new Share(bookID,myBook.getImageID(),myBook.getISBN()
-                                    , myBook.getBook_name(), myBook.getDescription(),
+                            new AddBookToLibrary(new Share(bookID, myBook.getImageID(),
+                                    myBook.getISBN(), myBook.getBook_name(), myBook.getDescription(),
                                     "Available", userName), bookID);
-
                         }
                     }
                 })
@@ -403,7 +388,7 @@ public class AddEditIntent extends AppCompatActivity {
      * @return unique id of the book, which is uid followed by isbn
      */
     protected String generateBookID(String uid, String isbn) {
-        return uid +"-"+isbn;
+        return uid + "-" + isbn;
     }
 
     /**
@@ -417,31 +402,4 @@ public class AddEditIntent extends AppCompatActivity {
         description.setText(myBook.getDescription());
         status.setText(myBook.getStatus());
     }
-
-    /**
-     * Popup the menu for picking status
-     * @param view view
-     */
-    public void showStatusMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
-        // click item in menu
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                status.setText(item.getTitle());
-                return false;
-            }
-        });
-        // close the menu
-        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-
-            }
-        });
-        popupMenu.show();
-    }
-
-
 }

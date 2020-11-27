@@ -1,6 +1,5 @@
 package com.example.a301pro;
 
-
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -44,33 +43,41 @@ import static com.example.a301pro.R.id.book_confirm;
 import static org.hamcrest.Matchers.anything;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Intent test for adding or editing a book
+ */
 public class AddTest {
-
     private Solo solo;
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
     @Rule
     public ActivityTestRule<Register> rule =
             new ActivityTestRule<Register>(Register.class, true, true);
 
+    /**
+     * Set up the start point for activity test
+     */
     @Before
     public void setUp() throws Exception {
         solo = new Solo(getInstrumentation(), rule.getActivity());
 
     }
 
+    /**
+     * Closes the activity after each test
+     * @throws Exception
+     */
     @After
     public void tearDown() throws Exception {
         getUID();
         solo.finishOpenedActivities();
     }
 
+    /**
+     * get the corresponding user id
+     */
     public void getUID() {
-
         String testUsername = "username";
-
-
         CollectionReference collectionReference = db.collection("userDict");
         DocumentReference docRef = collectionReference.document(testUsername);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -82,13 +89,15 @@ public class AddTest {
                         final String UID = (String) document.getData().get("UID");
                         deleteUser(UID);
                     }
-
                 }
             }
         });
-
     }
 
+    /**
+     * delete a user after test
+     * @param UID user id
+     */
     public void deleteUser(String UID){
         String testFirstName = "firstName";
         String testLastName = "lastName";
@@ -117,9 +126,13 @@ public class AddTest {
 
     }
 
+    /**
+     * get match items as a list
+     * @param listViewId list view of items
+     * @return number of matched items
+     */
     public static int getCountFromList(@IdRes int listViewId) {
         final int[] count = {0};
-
         Matcher matcher = new TypeSafeMatcher<View>() {
             @Override
             protected boolean matchesSafely(View item) {
@@ -139,19 +152,19 @@ public class AddTest {
         return result;
     }
 
+    /**
+     * test to add book without updating the book image
+     * @throws Exception fail message
+     */
     @Test
     public void testAddWithoutImages() throws Exception {
-
-
         solo.assertCurrentActivity("Wrong Activity", Register.class);
-
         String testFirstName = "firstName";
         String testLastName = "lastName";
         String testUsername = "username";
         final String testEmail = "firstname@uablerta.ca";
         String testPhone = "1234567890";
         final String testPassword = "88888888";
-
 
         solo.enterText((EditText) solo.getView(R.id.first_name), testFirstName);
         solo.enterText((EditText) solo.getView(R.id.last_name), testLastName);
@@ -249,13 +262,5 @@ public class AddTest {
                 .check(matches(isDisplayed()));
         onView(withId(android.R.id.button1)).perform(click());
         Assert.assertEquals(getCountFromList(R.id.my_book_list), 0);
-
-
-
     }
 }
-
-
-
-
-

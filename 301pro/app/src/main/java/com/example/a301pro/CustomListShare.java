@@ -70,7 +70,6 @@ public class CustomListShare extends ArrayAdapter<Share> {
                     }
                 });
 
-        //img.setImageResource(share.getImageId());
         bookName.setText(share.getBook_name());
         des.setText(share.getDes());
         sta.setText(share.getSit());
