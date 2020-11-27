@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.example.a301pro.Request;
 import com.example.a301pro.Register;
-import com.example.a301pro.Sentrequestintent;
+import com.example.a301pro.SentRequestIntent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
