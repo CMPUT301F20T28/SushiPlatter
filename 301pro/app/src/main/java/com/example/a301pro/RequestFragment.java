@@ -50,7 +50,7 @@ public class RequestFragment extends Fragment {
     }
 
     /**
-     * Provide functionality for borrowing a book
+     * Provide functionality for requesting a book
      * @param inflater layout of the view
      * @param container layout container of view object
      * @param savedInstanceState data of previous instance
@@ -146,12 +146,14 @@ public class RequestFragment extends Fragment {
             }
         });
 
+        // selected a book to view all request senders
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Request selectedBook = pendAdapter.getItem(position);
                 if (!selectedBook.getStatus().equals("Requested")){
                     Intent intent = new Intent(getContext(), ViewRequestSender.class);
+                    intent.putExtra("REQUEST_SENDERS", selectedBook.getRequestFrom());
                     startActivity(intent);
                 }
             }

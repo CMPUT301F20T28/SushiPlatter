@@ -80,7 +80,6 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 bookDataList.clear();
-                //bookAdapter.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
                     String imageID = (String) doc.getData().get("imageID");
