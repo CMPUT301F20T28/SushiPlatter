@@ -33,7 +33,7 @@ public class Borrowed {
 
     /**
      * This allows the outside to get the ISBN code of a book
-     * @return ISBN code of a book
+     * @return ISBN code of a book。
      */
     public String getISBN() {
         return ISBN;
