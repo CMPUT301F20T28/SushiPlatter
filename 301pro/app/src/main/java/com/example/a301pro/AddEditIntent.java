@@ -244,7 +244,7 @@ public class AddEditIntent extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
+                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
                 }
@@ -260,7 +260,7 @@ public class AddEditIntent extends AppCompatActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//用来打开相机的Intent
+                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePhotoIntent, REQUEST_IMAGE_TO_TEXT);
                 }
@@ -306,7 +306,7 @@ public class AddEditIntent extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         //getDownload(reference);
-                        Toast.makeText(AddEditIntent.this,"11111", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEditIntent.this,"Success", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -21,8 +21,8 @@ import org.junit.Test;
 public class MybookFragIntentTest {
     private Solo solo;
     @Rule
-    public ActivityTestRule<MainActivity> rule =
-            new ActivityTestRule<>(MainActivity.class, true, true);
+    public ActivityTestRule<Login> rule =
+            new ActivityTestRule<>(Login.class, true, true);
 
     /**
      * Set up the start point for activity test
@@ -34,10 +34,10 @@ public class MybookFragIntentTest {
 
     /**
      * Closes the activity after each test
-     * @throws Exception
+     * @throws Exception fail message
      */
     @After
-    public void tearDown() throws Exception{
+    public void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }
 
@@ -46,7 +46,7 @@ public class MybookFragIntentTest {
      * @throws Exception fail message
      */
     @Test
-    public void start() throws Exception{
+    public void start() throws Exception {
         Activity activity = rule.getActivity();
     }
 
@@ -55,9 +55,10 @@ public class MybookFragIntentTest {
      */
     @Test
     public void testBottomNavigation() {
+        login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_mine));
-        solo.waitForFragmentById(R.id.nav_mine,500);
+        solo.waitForFragmentById(R.id.nav_mine,1000);
     }
 
     /**
@@ -65,8 +66,8 @@ public class MybookFragIntentTest {
      */
     @Test
     public void testAddBook() {
-        View add_btn = rule.getActivity().findViewById(R.id.add_book_button);
-        solo.clickOnView(add_btn);
+        login();
+        solo.clickOnView(solo.getView(R.id.add_book_button));
         solo.assertCurrentActivity("Wrong Activity", AddEditIntent.class);
     }
 
@@ -75,12 +76,15 @@ public class MybookFragIntentTest {
      */
     @Test
     public void testSearch() {
+        login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_mine));
-        solo.waitForFragmentById(R.id.nav_mine,500);
+        solo.waitForFragmentById(R.id.nav_mine,1000);
         solo.enterText((EditText) solo.getView(R.id.search_method), "cat");
         solo.waitForText("cat", 1, 1000);
+        solo.sleep(500);
         solo.clearEditText((EditText) solo.getView(R.id.search_method)); //Clear the EditText
+        solo.sleep(500);
         solo.enterText((EditText) solo.getView(R.id.search_method), "city");
         solo.waitForText("", 0, 1000);
     }
@@ -90,13 +94,26 @@ public class MybookFragIntentTest {
      */
     @Test
     public void testFilter() {
+        login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_mine));
-        solo.waitForFragmentById(R.id.nav_mine,500);
+        solo.waitForFragmentById(R.id.nav_mine,1000);
         solo.clickOnView(solo.getView(R.id.filter));
         solo.waitForText("Available", 0, 1000);
         solo.waitForText("Borrowed", 0, 1000);
         solo.waitForText("Accepted", 0, 1000);
         solo.waitForText("Requested", 0, 1000);
+    }
+
+    /**
+     * login tool for some tests
+     */
+    public void login() {
+        String loginInfo = "mockuser";
+        solo.enterText((EditText) solo.getView(R.id.text_username), loginInfo);
+        solo.enterText((EditText) solo.getView(R.id.text_password), loginInfo);
+        solo.clickOnButton("Login");
+        solo.waitForActivity("MainActivity", 10000);
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
     }
 }

@@ -20,8 +20,8 @@ import org.junit.Test;
 public class ShareFragIntentTest {
     private Solo solo;
     @Rule
-    public ActivityTestRule<MainActivity> rule =
-            new ActivityTestRule<>(MainActivity.class, true, true);
+    public ActivityTestRule<Login> rule =
+            new ActivityTestRule<>(Login.class, true, true);
 
     /**
      * Set up the start point for activity test
@@ -33,10 +33,10 @@ public class ShareFragIntentTest {
 
     /**
      * Closes the activity after each test
-     * @throws Exception
+     * @throws Exception fail message
      */
     @After
-    public void tearDown() throws Exception{
+    public void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }
 
@@ -45,7 +45,7 @@ public class ShareFragIntentTest {
      * @throws Exception fail message
      */
     @Test
-    public void start() throws Exception{
+    public void start() throws Exception {
         Activity activity = rule.getActivity();
     }
 
@@ -54,9 +54,10 @@ public class ShareFragIntentTest {
      */
     @Test
     public void testBottomNavigation() {
+        login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_share));
-        solo.waitForFragmentById(R.id.nav_share,500);
+        solo.waitForFragmentById(R.id.nav_share,1000);
     }
 
     /**
@@ -64,11 +65,13 @@ public class ShareFragIntentTest {
      */
     @Test
     public void testSearch() {
+        login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_share));
-        solo.waitForFragmentById(R.id.nav_share,500);
+        solo.waitForFragmentById(R.id.nav_share,1000);
         solo.enterText((EditText) solo.getView(R.id.search_method), "a");
         solo.waitForText("a", 1, 1000);
+        solo.sleep(500);
     }
 
     /**
@@ -76,9 +79,10 @@ public class ShareFragIntentTest {
      */
     @Test
     public void testFilter() {
+        login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_share));
-        solo.waitForFragmentById(R.id.nav_mine,500);
+        solo.waitForFragmentById(R.id.nav_mine,1000);
         solo.clickOnView(solo.getView(R.id.filter));
         solo.waitForText("Computer", 0, 1000);
     }
@@ -88,11 +92,12 @@ public class ShareFragIntentTest {
      */
     @Test
     public void testRequestIntent() {
+        login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_share));
-        solo.waitForFragmentById(R.id.nav_share,500);
+        solo.waitForFragmentById(R.id.nav_share,1000);
         solo.clickInList(1);
-        solo.waitForFragmentById(R.id.sent_request,500);
+        solo.waitForFragmentById(R.id.sent_request,1000);
     }
 
     /**
@@ -100,12 +105,25 @@ public class ShareFragIntentTest {
      */
     @Test
     public void testBackButton() {
+        login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_share));
-        solo.waitForFragmentById(R.id.nav_share,500);
+        solo.waitForFragmentById(R.id.nav_share,1000);
         solo.clickInList(1);
-        solo.waitForFragmentById(R.id.sent_request,500);
+        solo.waitForFragmentById(R.id.sent_request,1000);
         solo.clickOnView(solo.getView(R.id.back_sent_request));
-        solo.waitForFragmentById(R.id.nav_share,500);
+        solo.waitForFragmentById(R.id.nav_share,1000);
+    }
+
+    /**
+     * login tool for some tests
+     */
+    public void login() {
+        String loginInfo = "mockuser";
+        solo.enterText((EditText) solo.getView(R.id.text_username), loginInfo);
+        solo.enterText((EditText) solo.getView(R.id.text_password), loginInfo);
+        solo.clickOnButton("Login");
+        solo.waitForActivity("MainActivity", 10000);
+        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
     }
 }
