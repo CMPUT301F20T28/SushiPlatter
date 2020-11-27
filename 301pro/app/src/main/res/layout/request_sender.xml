@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="102dp">
+
+        <TextView
+            android:id="@+id/requestSenderUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="User name"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/requestSenderName"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:text="Full Name" />
+
+            <TextView
+                android:id="@+id/requestSenderEmail"
+                android:layout_width="match_parent"
+                android:layout_height="31dp"
+                android:text="Email" />
+
+            <TextView
+                android:id="@+id/requestSenderPhone"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:text="Phone" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
