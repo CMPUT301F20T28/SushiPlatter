@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.githang.statusbar.StatusBarCompat;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -36,21 +35,24 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 /**
- * This fragment class allows user to borrow a book
+ * This fragment class allows user to view all shareable book and selects a book for trading
  */
-public class requestFragment extends Fragment {
-    ListView pendList;
-    ArrayAdapter<Request> pendAdapter;
-    ArrayList<Request> pendDataList;
+public class ShareFragment extends Fragment {
+
+    ListView shareList;
+    ArrayAdapter<Share> shareAdapter;
+    ArrayList<Share> shareDataList;
+    public static final int REQUEST_REQUEST = 3;
+    protected FirebaseFirestore db;
 
     /**
      * Default constructor
      */
-    public requestFragment() {
+    public ShareFragment() {
     }
 
     /**
-     * Provide functionality for borrowing a book
+     * Provide functionality for all shareable books
      * @param inflater layout of the view
      * @param container layout container of view object
      * @param savedInstanceState data of previous instance
@@ -59,45 +61,47 @@ public class requestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.pending_fragment, container, false);
+        View view = inflater.inflate(R.layout.share_fragment,container,false);
         StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
-        pendList = view.findViewById(R.id.pending_list);
-        pendDataList = new ArrayList<>();
-        pendAdapter = new CustomList_pending_request(getContext(),pendDataList);
-        pendList.setAdapter(pendAdapter);
-        final EditText search = view.findViewById(R.id.search_method_pending);
-
-        final Button filterBtn = view.findViewById(R.id.filter_pending);
-        // click on filter button to filter out item
-        filterBtn.setOnClickListener(new View.OnClickListener() {
+        shareList = view.findViewById(R.id.search_list);
+        shareDataList = new ArrayList<>();
+        shareAdapter = new CustomListShare(getContext(),shareDataList);
+        shareList.setAdapter(shareAdapter);
+        final Button filter_btn = view.findViewById(R.id.filter);
+        filter_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupMenu(filterBtn);
+                showPopupMenu(filter_btn);
             }
         });
-
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("Request");
+        final CollectionReference collectionReference = db.collection("Library");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
-
+        final EditText search = view.findViewById(R.id.search_method);
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                pendDataList.clear();
+                shareDataList.clear();
+
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    String bookID = doc.getId();
+
                     String imageId = (String) doc.getData().get("imageId") ;
-                    String ISBN = (String) doc.getData().get("ISBN");
+                    String bookId = doc.getId();
+                    String ISBN = (String) doc.getData().get("isbn");
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
-                    String status = (String) doc.getData().get("status");
-                    String requestSender = (String) doc.getData().get("requestFrom");
+                    String status = (String) doc.getData().get("sit");
+                    String owner = (String) doc.getData().get("owner");
 
-                    pendDataList.add((new Request(bookID,imageId,ISBN,bookName,description,status,requestSender)));
+                    if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
+                        shareDataList.add((new Share(bookId, imageId, ISBN,bookName, description, status, owner)));
+
+                    }
+
                 }
-                pendAdapter.notifyDataSetChanged();
+                shareAdapter.notifyDataSetChanged();
             }
         });
 
@@ -111,7 +115,7 @@ public class requestFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 final String dess = s.toString();
-                pendDataList.clear();
+                shareDataList.clear();
                 collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -119,18 +123,18 @@ public class requestFragment extends Fragment {
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             String imageId = (String) doc.getData().get("imageId") ;
                             String bookId = doc.getId();
-                            String ISBN = (String) doc.getData().get("ISBN");
+                            String ISBN = (String) doc.getData().get("isbn");
                             String bookName= (String) doc.getData().get("book_name");
                             String description = (String) doc.getData().get("des");
-                            String status = (String) doc.getData().get("status");
-                            String requestSender = (String) doc.getData().get("requestFrom");
-                            if (description.contains(dess) || bookName.contains(dess)) {
-
-                                pendDataList.add((new Request(bookId, imageId,ISBN, bookName, description, status, requestSender)));
-
+                            String status = (String) doc.getData().get("sit");
+                            String owner = (String) doc.getData().get("owner");
+                            if (description.contains(dess) || bookName.contains(dess) ) {
+                                if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
+                                    shareDataList.add((new Share(bookId, imageId, ISBN,bookName, description, status, owner)));
+                                }
                             }
                         }
-                        pendAdapter.notifyDataSetChanged();
+                        shareAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -141,29 +145,28 @@ public class requestFragment extends Fragment {
             }
         });
 
-        pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        // switch page to send borrowing request to selected book
+        shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Request selectedBook = pendAdapter.getItem(position);
-                if (!selectedBook.getStatus().equals("Requested")){
-                    Intent intent = new Intent(getContext(),scan_ISBN.class);
-                    startActivity(intent);
-                }
+                Share RBook = shareAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(), SentRequestIntent.class);
+                intent.putExtra("R_book",RBook);
+                startActivityForResult(intent,REQUEST_REQUEST);
             }
         });
 
-        // click on message button to check message
-        final ImageButton mesBtn = view.findViewById(R.id.message_center_pending);
+        final ImageButton mesBtn = view.findViewById(R.id.message_center);
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                Toast.makeText(getContext(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),Toast.LENGTH_SHORT).show();
             }
         });
 
-
-        pendAdapter = new CustomList_pending_request(getContext(),pendDataList);
-        pendList.setAdapter(pendAdapter);
+        shareAdapter = new CustomListShare(getContext(),shareDataList);
+        shareList.setAdapter(shareAdapter);
 
         return view;
     }
@@ -185,7 +188,7 @@ public class requestFragment extends Fragment {
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
-                Toast.makeText(getContext(), "关闭PopupMenu", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "shut done PopupMenu", Toast.LENGTH_SHORT).show();
             }
         });
 

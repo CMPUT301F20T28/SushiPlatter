@@ -26,7 +26,7 @@ import com.google.zxing.integration.android.IntentResult;
  * This class allows user to scan the ISBN code of the book to get description
  * as well as for the confirmation of book trading
  */
-public class scan_ISBN extends AppCompatActivity implements View.OnClickListener {
+public class ScanISBN extends AppCompatActivity implements View.OnClickListener {
 
     Button scanBtn;
     private Book newBook;

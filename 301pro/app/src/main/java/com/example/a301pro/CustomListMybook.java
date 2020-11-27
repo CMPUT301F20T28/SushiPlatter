@@ -20,21 +20,21 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 /**
- * This class control the data view of shareable book list
+ * This class control the data view of mybook list
  */
-public class CustomList_Share extends ArrayAdapter<Share> {
-    private ArrayList<Share> shares;
+public class CustomListMybook extends ArrayAdapter<Book> {
+    private ArrayList<Book> books;
     private Context context;
     final FirebaseStorage storage = FirebaseStorage.getInstance();
 
     /**
      * Constructor
      * @param context context of view
-     * @param shares list of shareable book
+     * @param books list of owned book
      */
-    public CustomList_Share(@NonNull Context context, ArrayList<Share> shares) {
-        super(context,0,shares);
-        this.shares = shares;
+    public CustomListMybook(@NonNull Context context, ArrayList<Book> books) {
+        super(context,0,books);
+        this.books = books;
         this.context = context;
     }
 
@@ -50,32 +50,32 @@ public class CustomList_Share extends ArrayAdapter<Share> {
         View view = convertView;
 
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.content_share, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.content_mybook, parent, false);
         }
 
-        Share share = shares.get(position);
-        final ImageView img = view.findViewById(R.id.book_image_share);
-        TextView bookName = view.findViewById(R.id.name_text_share);
-        TextView des = view.findViewById(R.id.des_text_share);
-        TextView sta = view.findViewById(R.id.status_text_share);
-        TextView bor = view.findViewById(R.id.borrower_text_share);
+        Book book = books.get(position);
 
-        StorageReference imageRef = storage.getReference().child(share.getImageId());
+        final ImageView imageView = view.findViewById(R.id.book_image);
+        TextView book_name = view.findViewById(R.id.name_text);
+        TextView des = view.findViewById(R.id.des_text);
+        TextView sta = view.findViewById(R.id.status_text);
+        TextView bor = view.findViewById(R.id.borrower_text);
+        StorageReference imageRef = storage.getReference().child(book.getImageID());
         imageRef.getBytes(1024 * 1024)
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override
                     public void onSuccess(byte[] bytes) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        img.setImageBitmap(bitmap);
+                        imageView.setImageBitmap(bitmap);
                     }
                 });
 
-        //img.setImageResource(share.getImageId());
-        bookName.setText(share.getBook_name());
-        des.setText(share.getDes());
-        sta.setText(share.getSit());
-        bor.setText(share.getOwner());
+        book_name.setText(book.getBook_name());
+        des.setText(book.getDescription());
+        sta.setText(book.getStatus());
+        bor.setText(book.getBorrower_name());
 
         return view;
     }
+
 }
