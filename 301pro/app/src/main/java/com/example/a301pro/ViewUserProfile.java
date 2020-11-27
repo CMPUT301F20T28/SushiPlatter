@@ -199,9 +199,15 @@ public class ViewUserProfile extends AppCompatActivity {
                                                 Map<String, Object> userEmail = new HashMap<>();
 
                                                 userEmail.put("email", newEmail.toLowerCase());
+                                                String curUID = mAuth.getCurrentUser().getUid();
                                                 db.collection("Users")
-                                                        .document(mAuth.getCurrentUser().getUid())
+                                                        .document(curUID)
                                                         .update(userEmail);
+
+                                                userEmail.put("firstName", firstName.toLowerCase());
+                                                userEmail.put("lastName", lastName.toLowerCase());
+                                                userEmail.put("phoneNumber", phoneNumber);
+                                                userEmail.put("UID", curUID);
                                                 db.collection("userDict")
                                                         .document(mAuth.getCurrentUser().getDisplayName())
                                                         .update(userEmail);
