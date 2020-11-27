@@ -29,11 +29,12 @@ public class RequestNotification {
     protected FirebaseFirestore db;
     public static final String TAG = "Request Notification";
 
-    public RequestNotification(final Request requestInfo, final CollectionReference CollectRef){
+    public RequestNotification(final Request requestInfo, final CollectionReference CollectRef, final String bookOwner){
 
         final String bookID = requestInfo.getBookID();
         String[] bookIDSplit = bookID.split("-");
         final String OwnerID = bookIDSplit[0];
+        final String bookName = requestInfo.getBook_name();
         final String existingRequestSender = "";
 
         DocumentReference docRef = CollectRef
@@ -79,6 +80,10 @@ public class RequestNotification {
                             + "already requested " + bookID);
                     return;
                 };
+
+                String senderUserName = requestInfo.getRequestFrom();
+                String message = senderUserName + "wants to borrow <" + bookName + "> from you.";
+                new SendMessage(senderUserName, bookOwner, message);
 
                 CollectRef
                         .document(OwnerID)

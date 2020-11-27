@@ -82,7 +82,7 @@ public class SentRequestIntent extends AppCompatActivity {
                         Request requestInfo = new Request(bookID, RBook.getImageId(), RBook.getISBN(),
                                 RBook.getBook_name(), RBook.getDes(), "Pending",
                                 FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-                        new RequestNotification(requestInfo, CollectRef);
+                        new RequestNotification(requestInfo, CollectRef, RBook.getOwner());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
