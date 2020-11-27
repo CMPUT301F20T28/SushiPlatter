@@ -22,8 +22,8 @@ import java.util.ArrayList;
 /**
  * This class control the data view of book pending list
  */
-public class CustomList_pending_request extends ArrayAdapter<Request> {
-    private ArrayList<Request> pends;
+public class CustomListPending extends ArrayAdapter<Borrowed> {
+    private ArrayList<Borrowed> pends;
     private Context context;
     final FirebaseStorage storage = FirebaseStorage.getInstance();
 
@@ -32,7 +32,7 @@ public class CustomList_pending_request extends ArrayAdapter<Request> {
      * @param context context of view
      * @param pends list of pending book
      */
-    public CustomList_pending_request(@NonNull Context context, ArrayList<Request> pends) {
+    public CustomListPending(@NonNull Context context, ArrayList<Borrowed> pends) {
         super(context,0,pends);
         this.pends = pends;
         this.context = context;
@@ -53,7 +53,7 @@ public class CustomList_pending_request extends ArrayAdapter<Request> {
             view = LayoutInflater.from(context).inflate(R.layout.content_pending, parent, false);
         }
 
-        Request pend = pends.get(position);
+        Borrowed pend = pends.get(position);
         final ImageView img = view.findViewById(R.id.book_image_pending);
         TextView book_name = view.findViewById(R.id.name_text_pending);
         TextView des = view.findViewById(R.id.des_text_pending);
@@ -73,7 +73,7 @@ public class CustomList_pending_request extends ArrayAdapter<Request> {
         book_name.setText(pend.getBook_name());
         des.setText(pend.getDes());
         sta.setText(pend.getStatus());
-        own.setText(pend.getRequestFrom());
+        own.setText(pend.getO_name());
 
         return view;
     }

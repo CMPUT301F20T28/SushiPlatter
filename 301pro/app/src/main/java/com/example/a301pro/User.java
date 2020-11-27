@@ -18,7 +18,7 @@ class User {
      * This constructor initializes the property of a user
      * @param userName username of the user
      * @param email email of the user
-     * @param password login password of the user
+     * @param password Login password of the user
      * @param firstName first name of the user
      * @param lastName last name of the user
      * @param phoneNumber phone number of the user

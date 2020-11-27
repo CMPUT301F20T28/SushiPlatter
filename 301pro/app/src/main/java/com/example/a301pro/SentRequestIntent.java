@@ -1,14 +1,12 @@
 package com.example.a301pro;
 
-import android.content.Intent;
-import com.example.a301pro.Utilities.requestNotification;
+import com.example.a301pro.Utilities.RequestNotification;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 /**
  * This class allow user to send a book request in the purpose of book trading
  */
-public class sentrequestintent extends AppCompatActivity {
+public class SentRequestIntent extends AppCompatActivity {
     private User sender;
     private Share requestedBook;
     protected FirebaseFirestore db;
@@ -83,7 +81,7 @@ public class sentrequestintent extends AppCompatActivity {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Book has been updated successfully!");
                         Request requestInfo = new Request(bookID, RBook.getImageId(), RBook.getISBN(),RBook.getBook_name(), RBook.getDes(), "Pending", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-                        new requestNotification(requestInfo, CollectRef);
+                        new RequestNotification(requestInfo, CollectRef);
 
                     }
                 })

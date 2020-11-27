@@ -4,7 +4,6 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.test.espresso.contrib.DrawerActions;
-import androidx.test.espresso.contrib.NavigationViewActions;
 import androidx.test.rule.ActivityTestRule;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,25 +25,21 @@ import org.junit.Test;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.swipeLeft;
-import static androidx.test.espresso.action.ViewActions.swipeRight;
-import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.contrib.DrawerMatchers.isOpen;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static java.util.regex.Pattern.matches;
 import static org.junit.Assert.assertTrue;
 
-public class profileTest {
+public class ProfileTest {
     private Solo solo;
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Rule
-    public ActivityTestRule<register> rule =
-            new ActivityTestRule<register>(register.class, true, true);
+    public ActivityTestRule<Register> rule =
+            new ActivityTestRule<Register>(Register.class, true, true);
     @Before
     public void setUp() throws Exception {
         solo = new Solo(getInstrumentation(), rule.getActivity());
@@ -110,7 +105,7 @@ public class profileTest {
     public void testEditProfile() throws Exception {
 
 
-        solo.assertCurrentActivity("Wrong Activity", register.class);
+        solo.assertCurrentActivity("Wrong Activity", Register.class);
 
         String testFirstName = "firstName";
         String testLastName = "lastName";
@@ -130,8 +125,8 @@ public class profileTest {
 
         solo.clickOnButton("DONE REGISTER");
 
-        solo.waitForActivity(login.class);
-        solo.assertCurrentActivity("Wrong activity", login.class);
+        solo.waitForActivity(Login.class);
+        solo.assertCurrentActivity("Wrong activity", Login.class);
         solo.sleep(10000);
 
         solo.enterText((EditText) solo.getView(R.id.text_username), testUsername);
@@ -175,8 +170,8 @@ public class profileTest {
 
         onView(withText("Logout"))
                 .perform(click());
-        solo.waitForActivity(login.class);
-        solo.assertCurrentActivity("Wrong activity", login.class);
+        solo.waitForActivity(Login.class);
+        solo.assertCurrentActivity("Wrong activity", Login.class);
         solo.sleep(10000);
 
         // relogin to delete user

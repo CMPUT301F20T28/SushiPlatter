@@ -19,8 +19,8 @@ import org.junit.Test;
 public class RegisterTest {
     private Solo solo;
     @Rule
-    public ActivityTestRule<register> rule =
-            new ActivityTestRule<register>(register.class, true, true);
+    public ActivityTestRule<Register> rule =
+            new ActivityTestRule<Register>(Register.class, true, true);
 
     /**
      * Set up the start point for activity test
@@ -40,14 +40,14 @@ public class RegisterTest {
     }
 
     /**
-     * Test if the login button in Register class actually work
+     * Test if the Login button in Register class actually work
      */
     @Test
     public void checkLoginSwitch() {
-        solo.assertCurrentActivity("Wrong activity",register.class);
+        solo.assertCurrentActivity("Wrong activity", Register.class);
         solo.clickOnButton("Login");
-        solo.waitForActivity("login",10000);
-        solo.assertCurrentActivity("Wrong activity",login.class);
+        solo.waitForActivity("Login",10000);
+        solo.assertCurrentActivity("Wrong activity", Login.class);
         solo.sleep(10000);
 
     }
@@ -58,7 +58,7 @@ public class RegisterTest {
     // bug: need to delete the test account before each test runs
     @Test
     public void checkDoRegisterButton() {
-        solo.assertCurrentActivity("Wrong activity",register.class);
+        solo.assertCurrentActivity("Wrong activity", Register.class);
 
         solo.enterText((EditText)solo.getView(R.id.first_name),"intent_testing1");
         solo.enterText((EditText)solo.getView(R.id.last_name),"intent_testing1");
@@ -73,21 +73,21 @@ public class RegisterTest {
 
         solo.clickOnButton("DONE REGISTER");
 
-        solo.waitForActivity("login",10000);
-        solo.assertCurrentActivity("Wrong activity",login.class);
+        solo.waitForActivity("Login",10000);
+        solo.assertCurrentActivity("Wrong activity", Login.class);
         solo.sleep(10000);
 
     }
 
 
     /**
-     * Test if user can switch back to login page without creating an account
+     * Test if user can switch back to Login page without creating an account
      */
     @Test
     public void checkRegSwitchLog() {
-        solo.assertCurrentActivity("Wrong activity",register.class);
+        solo.assertCurrentActivity("Wrong activity", Register.class);
         solo.clickOnButton("Login");
-        solo.assertCurrentActivity("Wrong activity",login.class);
+        solo.assertCurrentActivity("Wrong activity", Login.class);
     }
 
     /**

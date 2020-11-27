@@ -45,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * This fragment class allows user to add/edit/delete a book, as well as view all the owned book.
  */
-public class mybookfragment extends Fragment implements ComfirmDialog.OnFragmentInteractionListenerComfirm {
+public class MybookFragment extends Fragment implements ComfirmDialog.OnFragmentInteractionListenerComfirm {
     ListView bookList;
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> bookDataList;
@@ -69,7 +69,7 @@ public class mybookfragment extends Fragment implements ComfirmDialog.OnFragment
         bookList = view.findViewById(R.id.my_book_list);
         bookDataList = new ArrayList<>();
         searchList = new ArrayList<>();
-        bookAdapter = new CustomList_mybook(getContext(),bookDataList);
+        bookAdapter = new CustomListMybook(getContext(),bookDataList);
         bookList.setAdapter(bookAdapter);
         final Button filterBtn = view.findViewById(R.id.filter);
         final ImageButton mesBtn = view.findViewById(R.id.message_center);

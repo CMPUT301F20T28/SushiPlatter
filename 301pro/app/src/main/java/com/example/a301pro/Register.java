@@ -20,30 +20,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Text;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class allows user to register an account
+ * This class allows user to Register an account
  */
-public class register extends AppCompatActivity {
+public class Register extends AppCompatActivity {
     private User newUser;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -103,10 +94,10 @@ public class register extends AppCompatActivity {
             }
         });
 
-        // return to login page without setting up an account
+        // return to Login page without setting up an account
         login.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent = new Intent(getBaseContext(), login.class);
+                Intent intent = new Intent(getBaseContext(), Login.class);
                 startActivity(intent);
                 finish();
             }
@@ -162,7 +153,7 @@ public class register extends AppCompatActivity {
                 }
 
                 if (!password.equals(passwordCheck)){
-                    Toast.makeText(register.this, "Passwords are not the same, please try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, "Passwords are not the same, please try again!", Toast.LENGTH_SHORT).show();
                     userPassword.setError("Passwords not match!");
                     userPasswordRepeat.setError("Passwords not match!");
                     userExist = true;
@@ -200,13 +191,13 @@ public class register extends AppCompatActivity {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if (task.isSuccessful()) {
-                                                                // Sign up success, go to login
+                                                                // Sign up success, go to Login
                                                                 final String UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                                                  Log.d(TAG, "createUserWithEmail:success");
-                                                                 Toast.makeText(register.this, "User created!", Toast.LENGTH_SHORT).show();
+                                                                 Toast.makeText(Register.this, "User created!", Toast.LENGTH_SHORT).show();
                                                                  newUser = new User(userName, email, password, firstName, lastName, phoneNumber, UID);
                                                                 createAccount(newUser);
-                                                                Intent intent = new Intent(getBaseContext(), login.class);
+                                                                Intent intent = new Intent(getBaseContext(), Login.class);
                                                                 startActivity(intent);
                                                                 finish();
                                                             }
@@ -215,7 +206,7 @@ public class register extends AppCompatActivity {
                                                 } else {
                                                         // If sign up fails, display a message to the user.
                                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                                        Toast.makeText(register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
