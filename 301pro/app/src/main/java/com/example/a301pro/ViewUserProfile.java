@@ -31,10 +31,16 @@ import java.util.Map;
  * This class allows user to view the personal information as well as change the contact information
  */
 public class ViewUserProfile extends AppCompatActivity {
-    EditText phoneShow, userFirstNameShow, userLastNameShow, emailShow;
+    EditText phoneShow;
+    EditText userFirstNameShow;
+    EditText userLastNameShow;
+    EditText emailShow;
     Button edit, profileQuit;
     String Tag = "ViewUserProfile";
-    String firstName, lastName, phoneNumber, email;
+    String firstName;
+    String lastName;
+    String phoneNumber;
+    String email;
     private FirebaseAuth mAuth;
 
     /**

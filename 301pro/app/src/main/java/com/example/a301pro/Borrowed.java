@@ -20,7 +20,7 @@ public class Borrowed {
      * @param bookID id of the book
      * @param oName owner of the book
      */
-    public Borrowed(String bookID,String imageId,String ISBN,String bookName, String des,
+    public Borrowed(String bookID, String imageId, String ISBN, String bookName, String des,
                     String status, String oName) {
         this.bookID = bookID;
         this.imageId = imageId;

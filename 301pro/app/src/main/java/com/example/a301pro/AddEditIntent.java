@@ -57,7 +57,10 @@ import java.util.HashMap;
  * and editing the data of a selected own book.
  */
 public class AddEditIntent extends AppCompatActivity {
-    private EditText bookName, authorName, ISBN, description;
+    private EditText bookName;
+    private EditText authorName;
+    private EditText  ISBN;
+    private EditText description;
     private TextView status;
     private ImageButton img;
     public static final String TAG = "AddEdit";
@@ -174,7 +177,8 @@ public class AddEditIntent extends AppCompatActivity {
                     handleUpload(bm);
                     imgid = myBookID+".jpeg";
                 }
-                myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus,
+                        myBookID, null, userName);
                 
                 // if user has edit the isbn code, delete the old book from database and replace it with the new one
                 if (old_book_id != null && !old_book_id.equals(myBookID)) {
@@ -187,7 +191,8 @@ public class AddEditIntent extends AppCompatActivity {
                         !(TextUtils.isEmpty(myISBN)) &&
                         (myISBN.length() == 13)) {
 
-                    myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus, myBookID, null, userName);
+                    myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus,
+                            myBookID, null, userName);
                     sendDataToDb(myBook);
                     Intent intent = new Intent();
                     intent.putExtra("BOOK", myBook);

@@ -40,6 +40,7 @@ public class RequestNotification {
                 .document(OwnerID)
                 .collection("Request")
                 .document(bookID);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -101,7 +102,5 @@ public class RequestNotification {
                         });
             }
         });
-
-
     }
 }
