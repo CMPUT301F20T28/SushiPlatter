@@ -25,26 +25,27 @@
 
         <EditText
             android:id="@+id/first_name"
-            android:gravity="center"
             android:layout_width="140dp"
             android:layout_height="40dp"
-            android:layout_marginRight="10dp"
             android:layout_centerInParent="true"
-            android:drawableLeft="@drawable/user"
+            android:layout_marginRight="10dp"
             android:background="@drawable/login_register_editviewshape"
-            android:hint="First Name" >
-        </EditText>
+            android:drawableLeft="@drawable/user"
+            android:gravity="center"
+            android:hint="First Name"
+            android:inputType="textPersonName|text"></EditText>
+
         <EditText
             android:id="@+id/last_name"
-            android:gravity="center"
             android:layout_width="140dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
             android:layout_centerInParent="true"
-            android:drawableLeft="@drawable/user"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/login_register_editviewshape"
-            android:hint="Last Name" >
-        </EditText>
+            android:drawableLeft="@drawable/user"
+            android:gravity="center"
+            android:hint="Last Name"
+            android:inputType="textPersonName"></EditText>
     </LinearLayout>
 
     <EditText
@@ -75,15 +76,16 @@
 
     <EditText
         android:id="@+id/text_username"
-        android:gravity="center"
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/login_register_editviewshape"
         android:layout_below="@id/Email"
         android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_register_editviewshape"
         android:drawableLeft="@drawable/user"
-        android:hint="Username" />
+        android:gravity="center"
+        android:hint="Username"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/text_password"
