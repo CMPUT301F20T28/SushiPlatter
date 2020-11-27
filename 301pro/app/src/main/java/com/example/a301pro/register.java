@@ -263,6 +263,10 @@ public class register extends AppCompatActivity {
         Map<String, Object> userDict = new HashMap<>();
         userDict.put("email", newUser.getEmail());
         userDict.put("UID", newUser.getUID());
+        userDict.put("phoneNumber", newUser.getPhoneNumber());
+        userDict.put("firstName", newUser.getFirstName());
+        userDict.put("lastName", newUser.getLastName());
+
         db.collection("userDict").document(newUser.getUserName())
                 .set(userDict)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
