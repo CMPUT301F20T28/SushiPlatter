@@ -35,7 +35,8 @@ public class ComfirmDialog extends DialogFragment
      * @param book book data passed from AddEditIntent
      * @param collectionReference corresponding collection reference in the database
      */
-    public ComfirmDialog(Book book, CollectionReference collectionReference, CollectionReference LibraryReference) {
+    public ComfirmDialog(Book book, CollectionReference collectionReference,
+                         CollectionReference LibraryReference) {
         this.book = book;
         this.collectRef = collectionReference;
         this.LibraryReference = LibraryReference;
@@ -100,7 +101,8 @@ public class ComfirmDialog extends DialogFragment
                         });
             }
             else{
-                Toast.makeText(getContext(), "Fail. Only the Available book can be deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Fail. Only the Available book can be deleted",
+                        Toast.LENGTH_SHORT).show();
             }
             }
         });

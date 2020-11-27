@@ -128,7 +128,8 @@ public class ViewUserProfile extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Toast.makeText(ViewUserProfile.this,"Phone number successfully updated!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ViewUserProfile.this,"Phone number successfully updated!",
+                                                    Toast.LENGTH_SHORT).show();
                                             Log.d("Change Phone#", "User phone number successfully changed!");
                                         }
                                     })
@@ -157,7 +158,8 @@ public class ViewUserProfile extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Toast.makeText(ViewUserProfile.this,"User's full name successfully updated!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ViewUserProfile.this,"User's full name successfully updated!",
+                                                    Toast.LENGTH_SHORT).show();
                                             Log.d("Change full name#", "User's full name successfully changed!");
                                         }
                                     })
@@ -193,14 +195,20 @@ public class ViewUserProfile extends AppCompatActivity {
                                                 Map<String, Object> userEmail = new HashMap<>();
 
                                                 userEmail.put("email", newEmail.toLowerCase());
-                                                db.collection("Users").document(mAuth.getCurrentUser().getUid()).update(userEmail);
-                                                db.collection("userDict").document(mAuth.getCurrentUser().getDisplayName()).update(userEmail);
-                                                Toast.makeText(ViewUserProfile.this,"User's email successfully updated!", Toast.LENGTH_SHORT).show();
+                                                db.collection("Users")
+                                                        .document(mAuth.getCurrentUser().getUid())
+                                                        .update(userEmail);
+                                                db.collection("userDict")
+                                                        .document(mAuth.getCurrentUser().getDisplayName())
+                                                        .update(userEmail);
+                                                Toast.makeText(ViewUserProfile.this,"User's email successfully updated!",
+                                                        Toast.LENGTH_SHORT).show();
                                                 Log.d("Change email#", "User's email successfully changed!");
                                             }else{
                                                 profileChangeSuccess[0] = false;
                                                 emailShow.setError("Email existed, try another one!");
-                                                Toast.makeText(ViewUserProfile.this,"Email existed, try another one!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(ViewUserProfile.this,"Email existed, try another one!",
+                                                        Toast.LENGTH_SHORT).show();
                                                 Log.w("Change email#", "Error change user's email");
                                             }
                                         }

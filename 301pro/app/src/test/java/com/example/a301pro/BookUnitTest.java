@@ -24,8 +24,10 @@ public class BookUnitTest {
      * book for testing purpose
      * @return Mock book
      */
-    public Book MockBook() { return new Book("123456","testBookName","testAuthorName","123123",
-            "interesting","Available","123456","testBorrowerName","testOwner");}
+    public Book MockBook() { return new Book("123456","testBookName",
+            "testAuthorName","123123",
+            "interesting","Available","123456",
+            "testBorrowerName","testOwner");}
 
     /**
      * Test if it can get correct image id

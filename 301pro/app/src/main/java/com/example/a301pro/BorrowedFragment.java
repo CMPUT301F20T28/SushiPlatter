@@ -58,10 +58,12 @@ public class BorrowedFragment extends Fragment {
      * @return layout of the fragment
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.pending_fragment, container, false);
-        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
+        StatusBarCompat.setStatusBarColor(getActivity(),
+                getResources().getColor(R.color.menuBackground),false);
         pendList = view.findViewById(R.id.pending_list);
         pendDataList = new ArrayList<>();
         pendAdapter = new CustomListPending(getContext(),pendDataList);
@@ -78,7 +80,8 @@ public class BorrowedFragment extends Fragment {
         });
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("Borrowed");
+        final CollectionReference collectionReference = db.collection("Users")
+                .document(getUserID()).collection("Borrowed");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
 
@@ -96,7 +99,8 @@ public class BorrowedFragment extends Fragment {
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
 
-                    pendDataList.add((new Borrowed(bookID,imageId,ISBN,ISBN,description,status,owner)));
+                    pendDataList.add((new Borrowed(bookID,imageId,ISBN,ISBN,description,
+                            status,owner)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -127,7 +131,8 @@ public class BorrowedFragment extends Fragment {
                             String owner = (String) doc.getData().get("owner");
                             if (description.contains(dess) || bookName.contains(dess)) {
 
-                                pendDataList.add((new Borrowed(bookId, imageId,ISBN, bookName, description, status, owner)));
+                                pendDataList.add((new Borrowed(bookId, imageId,ISBN, bookName,
+                                        description, status, owner)));
 
                             }
                         }

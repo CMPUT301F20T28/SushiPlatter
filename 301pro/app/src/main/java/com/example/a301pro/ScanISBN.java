@@ -98,7 +98,9 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("Borrowed");
+                    final CollectionReference collectionReference = db.collection("Users")
+                            .document(getUserID())
+                            .collection("Borrowed");
                     collectionReference.document(Book_id).update("sit","Borrowed");
                     //setResult(RESULT_OK);
                 }else{

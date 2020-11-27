@@ -60,7 +60,8 @@ public class RequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.pending_fragment, container, false);
-        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
+        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),
+                false);
         pendList = view.findViewById(R.id.pending_list);
         pendDataList = new ArrayList<>();
         pendAdapter = new CustomListPendingRequest(getContext(),pendDataList);
@@ -77,7 +78,9 @@ public class RequestFragment extends Fragment {
         });
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Users").document(getUserID()).collection("Request");
+        final CollectionReference collectionReference = db.collection("Users")
+                .document(getUserID())
+                .collection("Request");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
 
@@ -95,7 +98,8 @@ public class RequestFragment extends Fragment {
                     String status = (String) doc.getData().get("status");
                     String requestSender = (String) doc.getData().get("requestFrom");
 
-                    pendDataList.add((new Request(bookID,imageId,ISBN,bookName,description,status,requestSender)));
+                    pendDataList.add((new Request(bookID,imageId,ISBN,bookName,
+                            description,status,requestSender)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -126,7 +130,8 @@ public class RequestFragment extends Fragment {
                             String requestSender = (String) doc.getData().get("requestFrom");
                             if (description.contains(dess) || bookName.contains(dess)) {
 
-                                pendDataList.add((new Request(bookId, imageId,ISBN, bookName, description, status, requestSender)));
+                                pendDataList.add((new Request(bookId, imageId,ISBN,
+                                        bookName, description, status, requestSender)));
 
                             }
                         }
@@ -157,7 +162,8 @@ public class RequestFragment extends Fragment {
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                mesBtn.setImageDrawable(getResources()
+                        .getDrawable(R.drawable.ic_baseline_announcement_24));
             }
         });
 

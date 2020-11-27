@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MybookFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new MybookFragment()).commit();
         //StatusBarCompat.setStatusBarColor(this,R.color.menuBackground);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -103,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    selectedFragment).commit();
             return true;
         }
 

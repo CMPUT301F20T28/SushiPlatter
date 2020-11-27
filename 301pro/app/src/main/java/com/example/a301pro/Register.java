@@ -163,7 +163,9 @@ public class Register extends AppCompatActivity {
                 }
 
                 if (!password.equals(passwordCheck)){
-                    Toast.makeText(Register.this, "Passwords are not the same, please try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this,
+                            "Passwords are not the same, please try again!",
+                            Toast.LENGTH_SHORT).show();
                     userPassword.setError("Passwords not match!");
                     userPasswordRepeat.setError("Passwords not match!");
                     userExist = true;
@@ -196,7 +198,10 @@ public class Register extends AppCompatActivity {
                                                 if (task.isSuccessful()) {
                                                     Log.d(TAG, "createUserWithEmail:success");
                                                     final FirebaseUser user = mAuth.getCurrentUser();
-                                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(userName).build();
+                                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest
+                                                            .Builder()
+                                                            .setDisplayName(userName)
+                                                            .build();
                                                     user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
@@ -216,7 +221,8 @@ public class Register extends AppCompatActivity {
                                                 } else {
                                                         // If sign up fails, display a message to the user.
                                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                                        Toast.makeText(Register.this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Register.this, "Sign up failed: "
+                                                                + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });

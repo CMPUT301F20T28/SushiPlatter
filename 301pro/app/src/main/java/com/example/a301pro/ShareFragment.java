@@ -72,7 +72,8 @@ public class ShareFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.share_fragment,container,false);
-        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground),false);
+        StatusBarCompat.setStatusBarColor(getActivity(),getResources().getColor(R.color.menuBackground)
+                ,false);
         shareList = view.findViewById(R.id.search_list);
         shareDataList = new ArrayList<>();
         shareAdapter = new CustomListShare(getContext(),shareDataList);
@@ -106,7 +107,8 @@ public class ShareFragment extends Fragment {
                     String owner = (String) doc.getData().get("owner");
 
                     if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
-                        shareDataList.add((new Share(bookId, imageId, ISBN,bookName, description, status, owner)));
+                        shareDataList.add((new Share(bookId, imageId, ISBN,bookName,
+                                description, status, owner)));
 
                     }
 
@@ -140,7 +142,8 @@ public class ShareFragment extends Fragment {
                             String owner = (String) doc.getData().get("owner");
                             if (description.contains(dess) || bookName.contains(dess) ) {
                                 if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
-                                    shareDataList.add((new Share(bookId, imageId, ISBN,bookName, description, status, owner)));
+                                    shareDataList.add((new Share(bookId, imageId, ISBN,bookName,
+                                            description, status, owner)));
                                 }
                             }
                         }
@@ -171,7 +174,8 @@ public class ShareFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
-                Toast.makeText(getContext(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

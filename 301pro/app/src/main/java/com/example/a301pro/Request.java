@@ -20,7 +20,8 @@ public class Request {
      * @param bookID id of the book
      * @param requestFrom name of the request sender
      */
-    public Request(String bookID,String imageId,String ISBN,String bookName, String des, String status, String requestFrom) {
+    public Request(String bookID,String imageId,String ISBN,String bookName, String des,
+                   String status, String requestFrom) {
         this.bookID = bookID;
         this.imageId = imageId;
         this.ISBN = ISBN;
