@@ -142,7 +142,7 @@ public class ProfileTest {
         solo.sleep(10000);
 
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-//        getUID();
+
 
         onView(withContentDescription("Navigation header")).perform(click());
 //        onView(withId(R.id.drawer_layout))
