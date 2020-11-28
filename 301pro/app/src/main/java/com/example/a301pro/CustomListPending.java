@@ -64,11 +64,23 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
         final TextView sta = view.findViewById(R.id.status_text_pending);
         final TextView own = view.findViewById(R.id.owner_text_pending);
         final Button map = view.findViewById(R.id.map);
-        Button scan = view.findViewById(R.id.scan_isbn);
+        final Button scan = view.findViewById(R.id.scan_isbn);
 
+        // open the owner profile
+        own.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewUserProfile.class);
+                intent.putExtra("OWNER", own.getText().toString());
+                context.startActivity(intent);
+            }
+        });
+
+        // open the map
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (pend.getStatus().equals("Accepted")) {
                     //Toast.makeText(getContext(),"111111111111",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), ViewMapActivity.class);
@@ -77,12 +89,10 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
 //                ((Activity)(context)).startActivityForResult(intent,MAP_SET);
                 }else{
                     Toast.makeText(getContext(),"The book do not be accepted by the owner",Toast.LENGTH_SHORT).show();
-                }
-            }
+                }       
         });
 
-
-
+        // open camera to scan code
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
