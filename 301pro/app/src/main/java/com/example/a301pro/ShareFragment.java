@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.a301pro.Utilities.GetUserFromDB;
 import com.githang.statusbar.StatusBarCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -169,7 +170,12 @@ public class ShareFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+
                 Intent intent = new Intent(getContext(), MessageCenterIntent.class);
+
+                Intent intent = new Intent(getContext(), ViewMessages.class);
+                intent.putExtra("userUID", GetUserFromDB.getUserID());
+
                 startActivity(intent);
 
                 Toast.makeText(getContext(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),

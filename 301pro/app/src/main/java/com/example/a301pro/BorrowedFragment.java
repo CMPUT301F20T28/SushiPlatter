@@ -35,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+
 /**
  * This fragment class allows user to borrow a book
  */

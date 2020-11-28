@@ -22,6 +22,7 @@
 
         <activity android:name=".SetMapActivity" />
         <activity android:name=".ViewMapActivity" />
+        <activity android:name=".ViewMessages" />
 
         <activity android:name=".ViewRequestSender"/>
         <activity android:name=".MessageCenterIntent"/>
