@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -64,7 +65,8 @@ public class ViewMessages extends AppCompatActivity {
                     String sender = (String) doc.getData().get("sender");
                     String message = (String) doc.getData().get("message");
                     String timeMST = (String) doc.getData().get("time");
-                    String timeStamp = (String) doc.getData().get("timestamp");
+                    String timeStamp = (String) doc.getData().get("timeStamp");
+
                     String receiver = (String) doc.getData().get("receiver");
                     messageDataList.add((new Message(timeStamp, timeMST, message, sender,receiver)));
                 }
