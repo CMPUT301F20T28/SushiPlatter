@@ -12,6 +12,9 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * This class control the data list view of all requesting senders of a book
+ */
 public class CustomListRequestSender extends ArrayAdapter<User> {
     private ArrayList<User> senders;
     private Context context;
@@ -19,7 +22,7 @@ public class CustomListRequestSender extends ArrayAdapter<User> {
     /**
      * Constructor
      * @param context context of view
-     * @param senders list of owned book
+     * @param senders list of request sender of a book
      */
     public CustomListRequestSender(@NonNull Context context, ArrayList<User> senders) {
         super(context,0, senders);

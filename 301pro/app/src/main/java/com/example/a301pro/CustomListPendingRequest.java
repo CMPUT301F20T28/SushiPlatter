@@ -22,7 +22,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 /**
- * This class control the data view of book pending list
+ * This class control the data list view of book requesting
  */
 public class CustomListPendingRequest extends ArrayAdapter<Request> {
     private ArrayList<Request> pends;
@@ -32,7 +32,7 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
     /**
      * Constructor
      * @param context context of view
-     * @param pends list of pending book
+     * @param pends list of books that have requests
      */
     public CustomListPendingRequest(@NonNull Context context, ArrayList<Request> pends) {
         super(context,0, pends);

@@ -20,7 +20,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 /**
- * This class control the data view of mybook list
+ * This class control the data list view of owned book
  */
 public class CustomListMybook extends ArrayAdapter<Book> {
     private ArrayList<Book> books;

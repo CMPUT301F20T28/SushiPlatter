@@ -24,7 +24,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 /**
- * This class control the data view of book pending list
+ * This class control the data list view of book pending list
  */
 public class CustomListPending extends ArrayAdapter<Borrowed> {
     private ArrayList<Borrowed> pends;
