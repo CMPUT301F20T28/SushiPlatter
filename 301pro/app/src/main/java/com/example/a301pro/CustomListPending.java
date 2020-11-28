@@ -71,6 +71,7 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
             public void onClick(View v) {
                 //Toast.makeText(getContext(),"111111111111",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(),SetMapActivity.class);
+                intent.putExtra("BOOKID",pend.getBookID());
                 context.startActivity(intent);
 //                ((Activity)(context)).startActivityForResult(intent,MAP_SET);
 

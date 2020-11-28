@@ -17,6 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * This class set the meet up location for trading on the map
@@ -44,10 +45,11 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
         setLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("location", meetUp.getPosition());
-                Log.d("LOCATION", meetUp.getPosition().toString());
-                setResult(RESULT_OK, intent);
+                //Intent intent = new Intent();
+                //intent.putExtra("location", meetUp.getPosition());
+                //Log.d("LOCATION", meetUp.getPosition().toString());
+                //setResult(RESULT_OK, intent);
+
                 finish();
             }
         });
@@ -77,5 +79,8 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
                 meetUp.setPosition(latLng);
             }
         });
+    }
+    protected String getUserID() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 }
