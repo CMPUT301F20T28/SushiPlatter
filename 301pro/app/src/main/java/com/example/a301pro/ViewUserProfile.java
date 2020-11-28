@@ -32,7 +32,10 @@ public class ViewUserProfile extends AppCompatActivity {
     EditText userFirstNameShow;
     EditText userLastNameShow;
     EditText emailShow;
-    Button edit, profileQuit;
+    Button edit;
+    Button profileQuit;
+    Button lent;
+    Button deny;
     String Tag = "ViewUserProfile";
     String firstName;
     String lastName;
@@ -58,15 +61,23 @@ public class ViewUserProfile extends AppCompatActivity {
         emailShow = findViewById(R.id.user_email_display);
         edit = findViewById(R.id.edit_profile);
         profileQuit = findViewById(R.id.profile_quit);
+        lent = findViewById(R.id.lent);
+        deny = findViewById(R.id.deny);
+
 
         // get the username of current user
         username = GetUserFromDB.getUsername();
-
         // get the username of other user, and disable profile edition
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             username = bundle.getString("USERNAME");
             edit.setVisibility(View.GONE);
+
+        }else{
+            lent.setVisibility(View.GONE);
+            lent.setEnabled(false);
+            deny.setVisibility(View.GONE);
+            deny.setEnabled(false);
         }
         DocumentReference docRef = db.collection("userDict").document(username);
 
@@ -74,6 +85,20 @@ public class ViewUserProfile extends AppCompatActivity {
         userFirstNameShow.setEnabled(false);
         userLastNameShow.setEnabled(false);
         emailShow.setEnabled(false);
+
+        lent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        deny.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         // get user data
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
