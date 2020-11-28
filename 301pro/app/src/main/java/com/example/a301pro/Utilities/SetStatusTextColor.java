@@ -7,9 +7,15 @@ import android.view.View;
 import com.example.a301pro.R;
 
 /**
- * This class controls the color of the text display of the status
+ * This is tool class for setting the color of the text base on status
  */
 public class SetStatusTextColor {
+    /**
+     * Set the color of the text
+     * @param view layout
+     * @param display text view of the status
+     * @param status status as a string
+     */
     public static void setTextColor(View view, TextView display, String status) {
         Context context = view.getContext();
         switch (status) {

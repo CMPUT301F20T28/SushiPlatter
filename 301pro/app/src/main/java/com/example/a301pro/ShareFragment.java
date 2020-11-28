@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -60,11 +60,11 @@ public class ShareFragment extends Fragment {
      * @return layout of the fragment
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.share_fragment, container, false);
-        StatusBarCompat.setStatusBarColor(getActivity(), getResources().getColor(R.color.menuBackground)
-                ,false);
+        StatusBarCompat.setStatusBarColor(getActivity(),
+                getResources().getColor(R.color.menuBackground),false);
         shareList = view.findViewById(R.id.search_list);
         shareDataList = new ArrayList<>();
         shareAdapter = new CustomListShare(getContext(), shareDataList);
@@ -74,6 +74,7 @@ public class ShareFragment extends Fragment {
         final CollectionReference collectionReference = db.collection("Library");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
+
         final EditText search = view.findViewById(R.id.search_method);
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -92,7 +93,7 @@ public class ShareFragment extends Fragment {
                     String owner = (String) doc.getData().get("owner");
 
                     if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())) {
-                        shareDataList.add((new Share(bookId, imageId, ISBN,bookName,
+                        shareDataList.add((new Share(bookId, imageId, ISBN, bookName,
                                 description, status, owner)));
 
                     }
@@ -152,42 +153,39 @@ public class ShareFragment extends Fragment {
             }
         });
 
-        final Button userInformation = view.findViewById(R.id.userhead);
-        userInformation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), ViewUserProfile.class);
-                startActivity(intent);
-            }
-        });
-
         // switch page to send borrowing request to selected book
         shareList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Share rBook = shareAdapter.getItem(position);
                 Intent intent = new Intent(getActivity(), SentRequestIntent.class);
-                intent.putExtra("R_book",rBook);
-                startActivityForResult(intent,REQUEST_REQUEST);
+                intent.putExtra("R_BOOK", rBook);
+                startActivityForResult(intent, REQUEST_REQUEST);
             }
         });
+
 
         final ImageButton mesBtn = view.findViewById(R.id.message_center);
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+
+                Intent intent = new Intent(getContext(), MessageCenterIntent.class);
+
                 Intent intent = new Intent(getContext(), ViewMessages.class);
                 intent.putExtra("userUID", GetUserFromDB.getUserID());
+
                 startActivity(intent);
 
-                Toast.makeText(getContext(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),
+                Toast.makeText(getContext(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),
                         Toast.LENGTH_SHORT).show();
             }
         });
 
-        shareAdapter = new CustomListShare(getContext(),shareDataList);
+        shareAdapter = new CustomListShare(getContext(), shareDataList);
         shareList.setAdapter(shareAdapter);
         return view;
     }
+
 }
