@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,8 +20,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -38,13 +44,14 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
     private Button setLocation;
     private Marker meetUp;
     private String Book_id;
+    private String borrower;
     protected FirebaseFirestore db;
+    public String temp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_set);
-
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
@@ -55,7 +62,7 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
         //get bookID
         Intent intent = getIntent();
         Book_id = intent.getStringExtra("BOOKID");
-
+        borrower = intent.getStringExtra("BORROWER");
         //transform LatLng to GeoPoint format
 //        LatLng test = meetUp.getPosition();
 //        double lat = test.latitude;
@@ -84,28 +91,20 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
                 double lng = test.longitude;
 
                 final GeoPoint point1 = new GeoPoint(lat,lng);
+
                 collectionReference.document(Book_id).update("location",point1);
 
-//                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-//                        pendDataList.clear();
-//                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-//                            String bookID = doc.getId();
-//                            String imageId = (String) doc.getData().get("imageId") ;
-//                            String ISBN = (String) doc.getData().get("ISBN");
-//                            String bookName= (String) doc.getData().get("book_name");
-//                            String description = (String) doc.getData().get("des");
-//                            String status = (String) doc.getData().get("status");
-//                            String requestSender = (String) doc.getData().get("requestFrom");
-//
-//                            pendDataList.add((new Request(bookID,imageId,ISBN,bookName,
-//                                    description,status,requestSender)));
-//                        }
-//                        pendAdapter.notifyDataSetChanged();
-//                    }
-//                });
-
+                DocumentReference collectionReference2 = db.collection("userDict").document(borrower);
+                collectionReference2.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        temp = documentSnapshot.getString("UID").toString();
+                        final CollectionReference collectionReference1 = db.collection("Users")
+                                .document(temp)
+                                .collection("Borrowed");
+                        collectionReference1.document(Book_id).update("location",point1);
+                    }
+                });
 
                 finish();
             }

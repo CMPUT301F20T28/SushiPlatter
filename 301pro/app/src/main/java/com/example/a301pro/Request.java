@@ -14,25 +14,10 @@ public class Request {
     private String des;
     private String requestFrom;
     private String status;
-//    private String location;
     private GeoPoint location;
 
-//    public String getLocation() {
-//        return location;
-//    }
-//
-//    public void setLocation(String location) {
-//        this.location = location;
-//    }
 
 
-    public GeoPoint getLocation() {
-        return location;
-    }
-
-    public void setLocation(GeoPoint location) {
-        this.location = location;
-    }
 
     /**
      * This constructor initializes the property of a borrowed book
@@ -54,6 +39,16 @@ public class Request {
         this.requestFrom = requestFrom;
         this.location = location;
     }
+
+
+    public GeoPoint getLocation() {
+        return location;
+    }
+
+    public void setLocation(GeoPoint location) {
+        this.location = location;
+    }
+
 
     /**
      * This allows the outside to get the ISBN code of a book

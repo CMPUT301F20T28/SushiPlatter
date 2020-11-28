@@ -44,6 +44,7 @@ public class ShareFragment extends Fragment {
     public static final int REQUEST_REQUEST = 3;
     protected FirebaseFirestore db;
 
+
     /**
      * Default constructor
      */

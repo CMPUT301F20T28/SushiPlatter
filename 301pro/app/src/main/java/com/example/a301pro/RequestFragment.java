@@ -85,23 +85,22 @@ public class RequestFragment extends Fragment {
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
 
-
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 pendDataList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    String bookID = doc.getId();
                     String imageId = (String) doc.getData().get("imageId") ;
+                    String bookId = doc.getId();
                     String ISBN = (String) doc.getData().get("ISBN");
                     String bookName= (String) doc.getData().get("book_name");
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("status");
                     String requestSender = (String) doc.getData().get("requestFrom");
-                    GeoPoint location = (GeoPoint) doc.getData().get("location");
+                    GeoPoint location = doc.getGeoPoint("location");
 
-                    pendDataList.add((new Request(bookID,imageId,ISBN,bookName,
-                            description,status,requestSender,location)));
+                    pendDataList.add((new Request(bookId, imageId, ISBN, bookName, description,
+                            status,requestSender,location)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -130,7 +129,7 @@ public class RequestFragment extends Fragment {
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("status");
                             String requestSender = (String) doc.getData().get("requestFrom");
-                            GeoPoint location = (GeoPoint) doc.getData().get("location");
+                            GeoPoint location = doc.getGeoPoint("location");
 
                             if (description.contains(des) || bookName.contains(des)) {
                                 pendDataList.add((new Request(bookId,imageId,ISBN,bookName,
