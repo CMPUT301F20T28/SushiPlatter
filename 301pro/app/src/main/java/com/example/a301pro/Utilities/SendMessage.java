@@ -61,7 +61,7 @@ public class SendMessage {
         final CollectionReference CollectRef = db.collection("Users");
         Map<String, Object> messageMap = new HashMap<>();
 
-        Timestamp ts=new Timestamp(System.currentTimeMillis());
+        Timestamp ts = new Timestamp(System.currentTimeMillis());
         String mstTime = ts.toString();
         String timeStamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
 
