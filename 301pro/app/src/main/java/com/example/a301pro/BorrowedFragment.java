@@ -171,7 +171,7 @@ public class BorrowedFragment extends Fragment {
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
                 Intent intent = new Intent(getContext(), ViewMessages.class);
-                intent.putExtra("userUID", getUserID());
+                intent.putExtra("userUID", GetUserFromDB.getUserID());
                 startActivity(intent);
             }
         });

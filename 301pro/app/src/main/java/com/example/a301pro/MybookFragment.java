@@ -56,8 +56,8 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_book_fragment, container, false);
-        StatusBarCompat.setStatusBarColor(getActivity(),
-                getResources().getColor(R.color.menuBackground), false);
+        StatusBarCompat.setStatusBarColor(getActivity(), getResources().getColor(R.color.menuBackground),
+                false);
         bookList = view.findViewById(R.id.my_book_list);
         bookDataList = new ArrayList<>();
         searchList = new ArrayList<>();
@@ -153,8 +153,7 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
-                Intent intent = new Intent(getContext(), ViewMessages.class);
-                intent.putExtra("userUID", getUserID());
+                Intent intent = new Intent(getContext(), MessageCenterIntent.class);
                 startActivity(intent);
                 Toast.makeText(getContext(), GetUserFromDB.getUserID(),Toast.LENGTH_SHORT).show();
             }
@@ -229,6 +228,8 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(final MenuItem item) {
+                //Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+
                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Users")
                         .document(GetUserFromDB.getUserID())
