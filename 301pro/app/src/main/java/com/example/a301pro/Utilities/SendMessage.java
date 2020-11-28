@@ -40,9 +40,8 @@ public class SendMessage {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         String UID = (String) document.getData().get("UID");
-                        addMessageToDB(UID ,senderUserName , message);
+                        addMessageToDB(UID, senderUserName, message);
                     }
-                } else {
                 }
             }
         });
@@ -72,6 +71,4 @@ public class SendMessage {
                     }
                 });
     }
-
-
 }
