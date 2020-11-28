@@ -1,6 +1,5 @@
 package com.example.a301pro;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -113,6 +111,24 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
         sta.setText(pend.getStatus());
         own.setText(pend.getO_name());
 
+        // change the color of the text of status
+        switch (pend.getStatus()) {
+            case "Accepted":
+                sta.setTextColor(context.getResources().getColor(R.color.staAccepted));
+                break;
+            case "Available":
+                sta.setTextColor(context.getResources().getColor(R.color.staAvailable));
+                break;
+            case "Borrowed":
+                sta.setTextColor(context.getResources().getColor(R.color.staBorrowed));
+                break;
+            case "Requested":
+                sta.setTextColor(context.getResources().getColor(R.color.staRequested));
+                break;
+            case "Pending":
+                sta.setTextColor(context.getResources().getColor(R.color.staPending));
+                break;
+        }
         return view;
     }
 }

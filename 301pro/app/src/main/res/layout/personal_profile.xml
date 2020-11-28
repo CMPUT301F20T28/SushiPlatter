@@ -2,47 +2,49 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background" >
-    
+    android:background="@drawable/gradient_background">
+
     <TextView
         android:id="@+id/title_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_marginVertical="15dp"
-        android:text="Personal Profile"
+        android:layout_marginVertical="20dp"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:textColor="#FFFFFFFF" >
+        android:text="Profile"
+        android:textColor="#FFFFFFFF"
+        android:textSize="30sp">
+
     </TextView>
+
+    <Button
+        android:id="@+id/user_self_login"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_below="@+id/title_profile"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1.05"
+        android:background="@drawable/circle_shape"
+        android:drawableBottom="@drawable/ic_account_circle_blackfix_24dp" />
 
     <LinearLayout
         android:id="@+id/profile_bar"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_self_login"
+        android:layout_margin="30dp"
         android:orientation="horizontal"
-        android:layout_below="@+id/title_profile"
-        android:weightSum="3"
-        android:layout_marginVertical="20dp" >
-
-        <Button
-            android:id="@+id/user_self_login"
-            android:layout_weight="1.07"
-            android:layout_width="0dp"
-            android:layout_height="140dp"
-            android:background="@drawable/circle_shape"
-            android:drawableBottom = "@drawable/ic_account_circle_blackfix_24dp"
-            android:layout_marginTop="20dp" />
+        android:weightSum="3">
 
         <LinearLayout
-            android:layout_weight="2"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="3" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="43sp"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:orientation="horizontal">
 
@@ -50,49 +52,50 @@
                     android:id="@+id/user_first_name_display"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="0.5"
-                    android:gravity="start|center_vertical"
-                    android:hint="Last Name"
-                    android:paddingHorizontal="15dp"
-                    android:text="first name"
+                    android:gravity="center"
+                    android:hint="First Name"
+                    android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp"></EditText>
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/user_last_name_display"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="0.5"
-                    android:gravity="start|center_vertical"
-                    android:hint="First Name"
-                    android:text="Last name"
+                    android:gravity="center"
+                    android:hint="Last Name"
+                    android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/user_email_display"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_weight="0.5"
-                android:gravity="bottom|start|center_vertical"
+                android:gravity="center"
                 android:hint="Email"
-                android:paddingHorizontal="15dp"
-                android:text="email@ual.ca"
+                android:inputType="textEmailAddress"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"></EditText>
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/phone_num_display"
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_weight="0.5"
-                android:gravity="bottom|start"
+                android:gravity="center"
                 android:hint="Phone number"
-                android:paddingHorizontal="15dp"
-                android:text="587XXXXXXX"
+                android:inputType="phone"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp"></EditText>
+                android:textSize="18sp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -103,25 +106,24 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_bar"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/positive_button"
         android:gravity="center"
         android:text="Edit Profile"
         android:textColor="#FFFFFFFF"
-        android:textSize="14sp" >
-    </Button>
+        android:textSize="14sp"></Button>
+
     <Button
         android:id="@+id/profile_quit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_profile"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/negative_button"
         android:gravity="center"
         android:text="Back"
         android:textColor="@color/colorAccent"
-        android:textSize="14sp" >
-    </Button>
+        android:textSize="14sp"></Button>
 
 </RelativeLayout>

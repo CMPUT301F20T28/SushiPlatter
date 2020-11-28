@@ -8,12 +8,12 @@
         android:id="@+id/title_add_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_marginVertical="15dp"
-        android:text="Add/Edit Books"
+        android:layout_marginVertical="20dp"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:textColor="#FFFFFFFF" >
-    </TextView>
+        android:text="Add/Edit Book"
+        android:textColor="#FFFFFFFF"
+        android:textSize="30sp"></TextView>
 
     <ImageButton
         android:id="@+id/add_edit_image"
@@ -62,7 +62,9 @@
         android:background="@color/componentBackground"
         android:hint="ISBN"
         android:inputType="number"
-        android:paddingHorizontal="10dp"></EditText>
+        android:paddingHorizontal="10dp">
+
+    </EditText>
 
     <EditText
         android:id="@+id/description"
