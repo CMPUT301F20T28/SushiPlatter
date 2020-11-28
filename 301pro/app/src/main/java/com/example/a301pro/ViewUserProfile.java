@@ -42,6 +42,7 @@ public class ViewUserProfile extends AppCompatActivity {
     String phoneNumber;
     String email;
     String username;
+    String bookid;
 
     /**
      * Provide functionality viewing and editing personal profile
@@ -71,6 +72,7 @@ public class ViewUserProfile extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             username = bundle.getString("USERNAME");
+            bookid = bundle.getString("BOOKID");
             edit.setVisibility(View.GONE);
 
         }else{
@@ -89,14 +91,41 @@ public class ViewUserProfile extends AppCompatActivity {
         lent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db.collection("Users")
+                        .document( GetUserFromDB.getUserID())
+                        .collection("Request")
+                        .document(bookid)
+                        .update("status","Accepted");
 
+                db.collection("Users")
+                        .document( GetUserFromDB.getUserID())
+                        .collection("MyBooks")
+                        .document(bookid)
+                        .update("status","Accepted");
+
+                db.collection("userDict")
+                        .document(username).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                String temp = documentSnapshot.getString("UID").toString();
+                                db.collection("Users")
+                                        .document(temp)
+                                        .collection("Borrowed")
+                                        .document(bookid)
+                                        .update("sit", "Accepted");
+                            }
+                        });
+
+                db.collection("Library").document(bookid).update("sit","Borrowed");
             }
         });
+
 
         deny.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                db.collection("Users").document( GetUserFromDB.getUserID()).collection("Request").document(bookid).delete();
             }
         });
 

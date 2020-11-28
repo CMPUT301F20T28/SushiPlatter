@@ -42,6 +42,7 @@ public class ViewRequestSender extends AppCompatActivity {
         senderList.setAdapter(senderAdapter);
 
         final String allSenders = getIntent().getExtras().getString("REQUEST_SENDERS");
+        final String Bookid = getIntent().getExtras().getString("BOOKID");
         String[] senderArr = splitUser(String.valueOf(allSenders));
 
         for (String s : senderArr) {
@@ -55,6 +56,7 @@ public class ViewRequestSender extends AppCompatActivity {
                 User user = senderAdapter.getItem(position);
                 Intent intent = new Intent(getBaseContext(), ViewUserProfile.class);
                 intent.putExtra("USERNAME", user.getUserName());
+                intent.putExtra("BOOKID",Bookid);
                 startActivity(intent);
             }
         });
