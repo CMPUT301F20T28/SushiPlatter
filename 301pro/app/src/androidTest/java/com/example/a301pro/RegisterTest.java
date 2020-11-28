@@ -68,6 +68,7 @@ public class RegisterTest {
         // in the purpose to test the button without registering a real account
         solo.enterText((EditText)solo.getView(R.id.text_password),"123456");
         solo.enterText((EditText)solo.getView(R.id.text_password_check),"123456");
+        solo.sleep(500);
         solo.clickOnView(solo.getView(R.id.btn_register));
         solo.assertCurrentActivity("Wrong activity", Register.class);
     }

@@ -21,7 +21,7 @@ public class LoginTest {
 
     @Rule
     public ActivityTestRule<Login> rule =
-            new ActivityTestRule<Login>(Login.class, true, true);
+            new ActivityTestRule<>(Login.class, true, true);
 
     /**
      * Set up the start point for activity test
@@ -50,7 +50,7 @@ public class LoginTest {
         solo.clickOnText("Sign Up");
         solo.waitForActivity("Register",10000);
         solo.assertCurrentActivity("Wrong activity", Register.class);
-        solo.sleep(10000);
+        solo.sleep(500);
     }
 
     /**
@@ -63,13 +63,13 @@ public class LoginTest {
         solo.clickOnButton("Login");
         solo.assertCurrentActivity("Wrong activity", Login.class);
 
-        solo.sleep(10000);
-        solo.enterText((EditText) solo.getView(R.id.text_username),"intent_testing1");
-        solo.enterText((EditText) solo.getView(R.id.text_password),"123456");
+        solo.sleep(500);
+        solo.enterText((EditText) solo.getView(R.id.text_username),"mockuser");
+        solo.enterText((EditText) solo.getView(R.id.text_password),"mockuser");
         solo.clickOnButton("Login");
         solo.waitForActivity("MainActivity",10000);
         solo.assertCurrentActivity("Wrong activity",MainActivity.class);
-        solo.sleep(10000);
+        solo.sleep(500);
 
     }
 
@@ -80,13 +80,13 @@ public class LoginTest {
     public void checkLoginInput() {
         solo.assertCurrentActivity("Wrong activity", Login.class);
 
-        solo.enterText((EditText) solo.getView(R.id.text_username),"intent_testing1");
+        solo.enterText((EditText) solo.getView(R.id.text_username),"mockuser");
         solo.clickOnButton("Login");
         solo.assertCurrentActivity("Wrong activity", Login.class);
         solo.clearEditText((EditText)solo.getView(R.id.text_username));
-        solo.sleep(10000);
+        solo.sleep(500);
 
-        solo.enterText((EditText) solo.getView(R.id.text_password),"123456");
+        solo.enterText((EditText) solo.getView(R.id.text_password),"mockuser");
         solo.clickOnButton("Login");
         solo.assertCurrentActivity("Wrong activity", Login.class);
     }
