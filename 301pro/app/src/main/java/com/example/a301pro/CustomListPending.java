@@ -1,5 +1,6 @@
 package com.example.a301pro;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -71,8 +72,12 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
                 //Toast.makeText(getContext(),"111111111111",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(),SetMapActivity.class);
                 context.startActivity(intent);
+//                ((Activity)(context)).startActivityForResult(intent,MAP_SET);
+
             }
         });
+
+
 
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
