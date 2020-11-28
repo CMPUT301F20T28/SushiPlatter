@@ -1,5 +1,7 @@
 package com.example.a301pro;
 
+import com.google.firebase.firestore.GeoPoint;
+
 /**
  * This class initializes the property of a borrowed book as well as gets the data of a book
  */
@@ -11,6 +13,7 @@ public class Borrowed {
     private String des;
     private String oName;
     private String status;
+    private GeoPoint location;
     /**
      * This constructor initializes the property of a borrowed book
      * @param imageId image id of the book
@@ -21,7 +24,7 @@ public class Borrowed {
      * @param oName owner of the book
      */
     public Borrowed(String bookID, String imageId, String ISBN, String bookName, String des,
-                    String status, String oName) {
+                    String status, String oName, GeoPoint location) {
         this.bookID = bookID;
         this.imageId = imageId;
         this.ISBN = ISBN;
@@ -29,6 +32,15 @@ public class Borrowed {
         this.des = des;
         this.status = status;
         this.oName = oName;
+        this.location = location;
+    }
+
+    public GeoPoint getLocation() {
+        return location;
+    }
+
+    public void setLocation(GeoPoint location) {
+        this.location = location;
     }
 
     /**
