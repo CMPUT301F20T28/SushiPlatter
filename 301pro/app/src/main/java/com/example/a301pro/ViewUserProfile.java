@@ -3,6 +3,7 @@ package com.example.a301pro;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.core.utilities.Utilities;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -114,10 +116,12 @@ public class ViewUserProfile extends AppCompatActivity {
                                         .collection("Borrowed")
                                         .document(bookid)
                                         .update("sit", "Accepted");
+
                             }
                         });
-
                 db.collection("Library").document(bookid).update("sit","Borrowed");
+                //在这加addmessage
+                finish();
             }
         });
 
@@ -126,6 +130,22 @@ public class ViewUserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 db.collection("Users").document( GetUserFromDB.getUserID()).collection("Request").document(bookid).delete();
+
+                db.collection("userDict")
+                        .document(username).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                String temp = documentSnapshot.getString("UID").toString();
+                                db.collection("Users")
+                                        .document(temp)
+                                        .collection("Borrowed")
+                                        .document(bookid)
+                                        .delete();
+                            }
+                        });
+                //在这加addmessage
+                finish();
             }
         });
 
