@@ -1,6 +1,7 @@
 package com.example.a301pro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -33,7 +34,7 @@ public class CustomListShare extends ArrayAdapter<Share> {
      * @param shares list of shareable book
      */
     public CustomListShare(@NonNull Context context, ArrayList<Share> shares) {
-        super(context,0,shares);
+        super(context,0, shares);
         this.shares = shares;
         this.context = context;
     }
@@ -55,10 +56,10 @@ public class CustomListShare extends ArrayAdapter<Share> {
 
         Share share = shares.get(position);
         final ImageView img = view.findViewById(R.id.book_image_share);
-        TextView bookName = view.findViewById(R.id.name_text_share);
-        TextView des = view.findViewById(R.id.des_text_share);
-        TextView sta = view.findViewById(R.id.status_text_share);
-        TextView bor = view.findViewById(R.id.owner_text_share);
+        final TextView bookName = view.findViewById(R.id.name_text_share);
+        final TextView des = view.findViewById(R.id.des_text_share);
+        final TextView sta = view.findViewById(R.id.status_text_share);
+        final TextView own = view.findViewById(R.id.owner_text_share);
 
         StorageReference imageRef = storage.getReference().child(share.getImageId());
         imageRef.getBytes(1024 * 1024)
@@ -70,10 +71,20 @@ public class CustomListShare extends ArrayAdapter<Share> {
                     }
                 });
 
+        // open the owner profile
+        own.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewUserProfile.class);
+                intent.putExtra("OWNER", own.getText().toString());
+                context.startActivity(intent);
+            }
+        });
+
         bookName.setText(share.getBook_name());
         des.setText(share.getDes());
         sta.setText(share.getSit());
-        bor.setText(share.getOwner());
+        own.setText(share.getOwner());
 
         sta.setTextColor(context.getResources().getColor(R.color.staAvailable));
         return view;
