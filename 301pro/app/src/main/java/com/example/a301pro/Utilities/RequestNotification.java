@@ -78,11 +78,12 @@ public class RequestNotification {
                 if (alreadyReq == true){
                     Log.d(TAG, "User request failed: " +  requestInfo.getRequestFrom()
                             + "already requested " + bookID);
+
                     return;
                 };
 
                 String senderUserName = requestInfo.getRequestFrom();
-                String message = senderUserName + "wants to borrow <" + bookName + "> from you.";
+                String message = senderUserName + " wants to borrow <" + bookName + "> from you.";
                 new SendMessage(senderUserName, bookOwner, message);
 
                 CollectRef

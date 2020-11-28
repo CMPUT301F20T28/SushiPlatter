@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -78,10 +79,10 @@ public class SentRequestIntent extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // These are a method which gets executed when the task is succeeded
-                        Log.d(TAG, "Book has been updated successfully!");
                         Request requestInfo = new Request(bookID, RBook.getImageId(), RBook.getISBN(),
-                                RBook.getBook_name(), RBook.getDes(), "Pending",
+                                RBook.getBook_name(), RBook.getDes(), "Requested",
                                 FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
                         new RequestNotification(requestInfo, CollectRef, RBook.getOwner());
                     }
                 })
