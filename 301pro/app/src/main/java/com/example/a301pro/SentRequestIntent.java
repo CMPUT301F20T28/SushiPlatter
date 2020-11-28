@@ -81,7 +81,7 @@ public class SentRequestIntent extends AppCompatActivity {
                         // These are a method which gets executed when the task is succeeded
                         Request requestInfo = new Request(bookID, RBook.getImageId(), RBook.getISBN(),
                                 RBook.getBook_name(), RBook.getDes(), "Pending",
-                                FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),new GeoPoint(53.5,-113.5));
+                                FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                         new RequestNotification(requestInfo, CollectRef, RBook.getOwner());
                     }
                 })
