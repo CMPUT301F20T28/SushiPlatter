@@ -158,6 +158,7 @@ public class ShareFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Share rBook = shareAdapter.getItem(position);
+                //Toast.makeText(getContext(),rBook.getBookID(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), SentRequestIntent.class);
                 intent.putExtra("R_BOOK", rBook);
                 startActivityForResult(intent, REQUEST_REQUEST);
