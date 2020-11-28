@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.githang.statusbar.StatusBarCompat;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -165,7 +164,7 @@ public class RequestFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
-                Intent intent = new Intent(getContext(), messageCenterIntent.class);
+                Intent intent = new Intent(getContext(), MessageCenterIntent.class);
                 startActivity(intent);
             }
         });

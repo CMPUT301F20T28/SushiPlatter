@@ -153,7 +153,7 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public void onClick(View v) {
                 mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
-                Intent intent = new Intent(getContext(), messageCenterIntent.class);
+                Intent intent = new Intent(getContext(), MessageCenterIntent.class);
                 startActivity(intent);
                 Toast.makeText(getContext(),getUserID(),Toast.LENGTH_SHORT).show();
             }
