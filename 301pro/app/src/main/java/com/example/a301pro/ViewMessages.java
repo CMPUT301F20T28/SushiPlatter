@@ -7,22 +7,12 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -47,7 +37,7 @@ public class ViewMessages extends AppCompatActivity {
         messageList = findViewById(R.id.messages_list);
         messageDataList = new ArrayList<>();
 
-        messageAdapter = new CostumeListMessages(getApplicationContext(), messageDataList);
+        messageAdapter = new CostumeListMessages(getBaseContext(), messageDataList);
 
         messageList.setAdapter(messageAdapter);
 
@@ -66,7 +56,6 @@ public class ViewMessages extends AppCompatActivity {
                     String message = (String) doc.getData().get("message");
                     String timeMST = (String) doc.getData().get("time");
                     String timeStamp = (String) doc.getData().get("timeStamp");
-
                     String receiver = (String) doc.getData().get("receiver");
                     messageDataList.add((new Message(timeStamp, timeMST, message, sender,receiver)));
                 }

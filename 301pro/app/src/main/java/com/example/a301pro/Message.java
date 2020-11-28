@@ -1,7 +1,4 @@
 package com.example.a301pro;
-
-import java.sql.Timestamp;
-
 public class Message {
     private String timeStamp;
     private String timeMST;
@@ -9,7 +6,7 @@ public class Message {
     private String sender;
     private String receiver;
 
-    public Message(String timeStamp, String timeMSTT, String message, String sender, String receiver) {
+    public Message(String timeStamp, String timeMST, String message, String sender, String receiver) {
         this.timeStamp = timeStamp;
         this.timeMST = timeMST;
         this.message = message;
@@ -25,11 +22,11 @@ public class Message {
         this.timeStamp = timeStamp;
     }
 
-    public String getTimeMSTT() {
+    public String getTimeMST() {
         return timeMST;
     }
 
-    public void setTimeMSTT(String timeMSTT) {
+    public void setTimeMST(String timeMSTT) {
         this.timeMST = timeMSTT;
     }
 
