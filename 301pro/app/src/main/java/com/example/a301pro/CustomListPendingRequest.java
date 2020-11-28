@@ -72,6 +72,7 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
                 //Toast.makeText(getContext(),"111111111111",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(),SetMapActivity.class);
                 intent.putExtra("BOOKID",pend.getBookID());
+                intent.putExtra("BORROWER",pend.getRequestFrom());
                 context.startActivity(intent);
 //                ((Activity)(context)).startActivityForResult(intent,MAP_SET);
 
