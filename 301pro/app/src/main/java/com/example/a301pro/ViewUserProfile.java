@@ -3,7 +3,6 @@ package com.example.a301pro;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.core.utilities.Utilities;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -44,7 +42,6 @@ public class ViewUserProfile extends AppCompatActivity {
     String phoneNumber;
     String email;
     String username;
-    String bookid;
 
     /**
      * Provide functionality viewing and editing personal profile
@@ -73,10 +70,16 @@ public class ViewUserProfile extends AppCompatActivity {
         // get the username of other user, and disable profile edition
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            username = bundle.getString("USERNAME");
-            bookid = bundle.getString("BOOKID");
             edit.setVisibility(View.GONE);
-
+            username = bundle.getString("USERNAME");
+            // determine if it is the user or owner
+            if (bundle.getString("OWNER") != null) {
+                username = bundle.getString("OWNER");
+                lent.setVisibility(View.GONE);
+                lent.setEnabled(false);
+                deny.setVisibility(View.GONE);
+                deny.setEnabled(false);
+            }
         }else{
             lent.setVisibility(View.GONE);
             lent.setEnabled(false);
@@ -93,59 +96,14 @@ public class ViewUserProfile extends AppCompatActivity {
         lent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.collection("Users")
-                        .document( GetUserFromDB.getUserID())
-                        .collection("Request")
-                        .document(bookid)
-                        .update("status","Accepted");
 
-                db.collection("Users")
-                        .document( GetUserFromDB.getUserID())
-                        .collection("MyBooks")
-                        .document(bookid)
-                        .update("status","Accepted");
-
-                db.collection("userDict")
-                        .document(username).get()
-                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                String temp = documentSnapshot.getString("UID").toString();
-                                db.collection("Users")
-                                        .document(temp)
-                                        .collection("Borrowed")
-                                        .document(bookid)
-                                        .update("sit", "Accepted");
-
-                            }
-                        });
-                db.collection("Library").document(bookid).update("sit","Borrowed");
-                //在这加addmessage
-                finish();
             }
         });
-
 
         deny.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.collection("Users").document( GetUserFromDB.getUserID()).collection("Request").document(bookid).delete();
 
-                db.collection("userDict")
-                        .document(username).get()
-                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                String temp = documentSnapshot.getString("UID").toString();
-                                db.collection("Users")
-                                        .document(temp)
-                                        .collection("Borrowed")
-                                        .document(bookid)
-                                        .delete();
-                            }
-                        });
-                //在这加addmessage
-                finish();
             }
         });
 

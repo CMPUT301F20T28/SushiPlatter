@@ -165,7 +165,7 @@ public class BorrowedFragment extends Fragment {
             }
         });
 
-        // click on message button to check message
+        // click on message button to open notification center for checking message
         final ImageButton mesBtn = view.findViewById(R.id.message_center_pending);
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
