@@ -20,7 +20,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 /**
- * This class control the data view of mybook list
+ * This class control the data list view of owned book
  */
 public class CustomListMybook extends ArrayAdapter<Book> {
     private ArrayList<Book> books;
@@ -75,6 +75,24 @@ public class CustomListMybook extends ArrayAdapter<Book> {
         sta.setText(book.getStatus());
         bor.setText(book.getBorrower_name());
 
+        // change the color of the text of status
+        switch (book.getStatus()) {
+            case "Accepted":
+                sta.setTextColor(context.getResources().getColor(R.color.staAccepted));
+                break;
+            case "Available":
+                sta.setTextColor(context.getResources().getColor(R.color.staAvailable));
+                break;
+            case "Borrowed":
+                sta.setTextColor(context.getResources().getColor(R.color.staBorrowed));
+                break;
+            case "Requested":
+                sta.setTextColor(context.getResources().getColor(R.color.staRequested));
+                break;
+            case "Pending":
+                sta.setTextColor(context.getResources().getColor(R.color.staPending));
+                break;
+        }
         return view;
     }
 }

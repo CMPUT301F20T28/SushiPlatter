@@ -58,7 +58,7 @@ public class CustomListShare extends ArrayAdapter<Share> {
         TextView bookName = view.findViewById(R.id.name_text_share);
         TextView des = view.findViewById(R.id.des_text_share);
         TextView sta = view.findViewById(R.id.status_text_share);
-        TextView bor = view.findViewById(R.id.borrower_text_share);
+        TextView bor = view.findViewById(R.id.owner_text_share);
 
         StorageReference imageRef = storage.getReference().child(share.getImageId());
         imageRef.getBytes(1024 * 1024)
@@ -74,7 +74,7 @@ public class CustomListShare extends ArrayAdapter<Share> {
         des.setText(share.getDes());
         sta.setText(share.getSit());
         bor.setText(share.getOwner());
-
+        sta.setTextColor(context.getResources().getColor(R.color.staAvailable));
         return view;
     }
 }
