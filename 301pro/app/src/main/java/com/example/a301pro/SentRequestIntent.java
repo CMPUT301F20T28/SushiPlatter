@@ -82,7 +82,6 @@ public class SentRequestIntent extends AppCompatActivity {
                         Request requestInfo = new Request(bookID, RBook.getImageId(), RBook.getISBN(),
                                 RBook.getBook_name(), RBook.getDes(), "Pending",
                                 FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),new GeoPoint(53.5,-113.5));
-
                         new RequestNotification(requestInfo, CollectRef, RBook.getOwner());
                     }
                 })
