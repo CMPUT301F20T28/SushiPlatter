@@ -44,7 +44,7 @@ public class SentRequestIntent extends AppCompatActivity {
 
         final Bundle bundle = getIntent().getExtras();
         // user has selected a book to edit if bundle if not empty
-        requestedBook = (Share) bundle.getSerializable("R_book");   // get the item
+        requestedBook = (Share) bundle.getSerializable("R_BOOK");   // get the item
         db = FirebaseFirestore.getInstance();
         Button sentBtn = findViewById(R.id.sent_request);
         sentBtn.setOnClickListener(new View.OnClickListener() {
