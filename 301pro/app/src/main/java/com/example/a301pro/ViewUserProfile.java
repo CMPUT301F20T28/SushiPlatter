@@ -3,23 +3,20 @@ package com.example.a301pro;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a301pro.Utilities.GetUserFromDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,7 +38,7 @@ public class ViewUserProfile extends AppCompatActivity {
     String lastName;
     String phoneNumber;
     String email;
-    private FirebaseAuth mAuth;
+    String username;
 
     /**
      * Provide functionality viewing and editing personal profile
@@ -62,13 +59,21 @@ public class ViewUserProfile extends AppCompatActivity {
         edit = findViewById(R.id.edit_profile);
         profileQuit = findViewById(R.id.profile_quit);
 
-        DocumentReference docRef = db.collection("Users").document(getUserID());
-        mAuth = FirebaseAuth.getInstance();
+        // get the username of current user
+        username = GetUserFromDB.getUsername();
+
+        // get the username of other user, and disable profile edition
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            username = bundle.getString("USERNAME");
+            edit.setVisibility(View.GONE);
+        }
+        DocumentReference docRef = db.collection("userDict").document(username);
+
         phoneShow.setEnabled(false);
         userFirstNameShow.setEnabled(false);
         userLastNameShow.setEnabled(false);
         emailShow.setEnabled(false);
-
 
         // get user data
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -123,18 +128,22 @@ public class ViewUserProfile extends AppCompatActivity {
                     String newLastName = userLastNameShow.getText().toString();
                     final String newEmail = emailShow.getText().toString();
 
-                    //Change users' phone number
+                    // Change users' phone number
                     if (!newPhoneNumber.equals(phoneNumber)) {
                         if (newPhoneNumber.length() > 0) {
                             Map<String, Object> userInfo = new HashMap<>();
                             userInfo.put("phoneNumber", newPhoneNumber);
-                            db.collection("Users").document(mAuth.getCurrentUser().getUid())
+                            db.collection("Users")
+                                    .document(GetUserFromDB.getUserID())
+                                    .update(userInfo);
+                            db.collection("userDict")
+                                    .document(username)
                                     .update(userInfo)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Toast.makeText(ViewUserProfile.this, "Phone number successfully updated!",
-                                                    Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ViewUserProfile.this,
+                                                    "Phone number successfully updated!", Toast.LENGTH_SHORT).show();
                                             Log.d("Change Phone#", "User phone number successfully changed!");
                                         }
                                     })
@@ -159,7 +168,11 @@ public class ViewUserProfile extends AppCompatActivity {
                             Map<String, Object> userName = new HashMap<>();
                             userName.put("firstName", newFirstName.toLowerCase());
                             userName.put("lastName", newLastName.toLowerCase());
-                            db.collection("Users").document(mAuth.getCurrentUser().getUid())
+                            db.collection("Users")
+                                    .document(GetUserFromDB.getUserID())
+                                    .update(userName);
+                            db.collection("userDict")
+                                    .document(username)
                                     .update(userName)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -187,7 +200,7 @@ public class ViewUserProfile extends AppCompatActivity {
                         }
                     }
 
-                    //Change users' email
+                    // Change users' email
                     if (!newEmail.toLowerCase().equals(email.toLowerCase())) {
                         if (newEmail.length() > 0) {
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -197,27 +210,28 @@ public class ViewUserProfile extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 Map<String, Object> userEmail = new HashMap<>();
+                                                String curUID = GetUserFromDB.getUserID();
 
                                                 userEmail.put("email", newEmail.toLowerCase());
-                                                String curUID = mAuth.getCurrentUser().getUid();
-                                                db.collection("Users")
-                                                        .document(curUID)
-                                                        .update(userEmail);
-
                                                 userEmail.put("firstName", firstName.toLowerCase());
                                                 userEmail.put("lastName", lastName.toLowerCase());
                                                 userEmail.put("phoneNumber", phoneNumber);
                                                 userEmail.put("UID", curUID);
-                                                db.collection("userDict")
-                                                        .document(mAuth.getCurrentUser().getDisplayName())
+                                                db.collection("Users")
+                                                        .document(curUID)
                                                         .update(userEmail);
-                                                Toast.makeText(ViewUserProfile.this, "User's email successfully updated!",
+                                                db.collection("userDict")
+                                                        .document(username)
+                                                        .update(userEmail);
+                                                Toast.makeText(ViewUserProfile.this,
+                                                        "User's email successfully updated!",
                                                         Toast.LENGTH_SHORT).show();
                                                 Log.d("Change email#", "User's email successfully changed!");
                                             } else {
                                                 profileChangeSuccess[0] = false;
                                                 emailShow.setError("Email existed, try another one!");
-                                                Toast.makeText(ViewUserProfile.this, "Email existed, try another one!",
+                                                Toast.makeText(ViewUserProfile.this,
+                                                        "Email existed, try another one!",
                                                         Toast.LENGTH_SHORT).show();
                                                 Log.w("Change email#", "Error change user's email");
                                             }
@@ -245,13 +259,4 @@ public class ViewUserProfile extends AppCompatActivity {
             }
         });
     }
-
-    /**
-     * Get uid of the current logged in user
-     * @return uid as a string
-     */
-    protected String getUserID() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
-    }
-
 }

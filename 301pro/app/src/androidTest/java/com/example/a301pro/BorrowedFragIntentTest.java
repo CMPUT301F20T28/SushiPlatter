@@ -59,6 +59,7 @@ public class BorrowedFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_bo));
         solo.waitForFragmentById(R.id.nav_bo,1000);
+        solo.sleep(500);
     }
 
     /**
@@ -70,6 +71,7 @@ public class BorrowedFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_bo));
         solo.waitForFragmentById(R.id.nav_bo,1000);
+        solo.sleep(500);
         solo.enterText((EditText) solo.getView(R.id.search_method_pending), "food");
         solo.waitForText("food", 1, 1000);
         solo.sleep(500);
@@ -88,8 +90,10 @@ public class BorrowedFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_bo));
         solo.waitForFragmentById(R.id.nav_bo,500);
+        solo.sleep(500);
         solo.clickOnView(solo.getView(R.id.filter_pending));
         solo.waitForText("Computer", 0, 1000);
+        solo.sleep(500);
     }
 
     /**
@@ -101,6 +105,7 @@ public class BorrowedFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_bo));
         solo.waitForFragmentById(R.id.nav_bo,1000);
+        solo.sleep(500);
         solo.clickInList(1);
         solo.assertCurrentActivity("Wrong Activity", ScanISBN.class);
     }
@@ -114,9 +119,11 @@ public class BorrowedFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_bo));
         solo.waitForFragmentById(R.id.nav_bo,1000);
+        solo.sleep(500);
         solo.clickInList(1);
         solo.assertCurrentActivity("Wrong Activity", ScanISBN.class);
         solo.clickOnView(solo.getView((R.id.scanBtn)));
+        solo.sleep(500);
         solo.sendKey(KeyEvent.KEYCODE_CAMERA);
     }
 

@@ -1,25 +1,20 @@
 package com.example.a301pro;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -49,9 +44,20 @@ public class ViewRequestSender extends AppCompatActivity {
         final String allSenders = getIntent().getExtras().getString("REQUEST_SENDERS");
         String[] senderArr = splitUser(String.valueOf(allSenders));
 
-        for (int i = 0; i < senderArr.length; i++) {
-            getSenderInfo(senderArr[i]);
+        for (String s : senderArr) {
+            getSenderInfo(s);
         }
+
+        // goto user profile of the sender
+        senderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                User user = senderAdapter.getItem(position);
+                Intent intent = new Intent(getBaseContext(), ViewUserProfile.class);
+                intent.putExtra("USERNAME", user.getUserName());
+                startActivity(intent);
+            }
+        });
     }
 
     /**

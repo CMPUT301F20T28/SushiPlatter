@@ -19,7 +19,7 @@
         android:weightSum="10" >
 
         <Button
-            android:id="@+id/userProfile"
+            android:id="@+id/userhead"
             android:layout_gravity="center_vertical"
             android:layout_width="25dp"
             android:layout_height="30dp"
@@ -49,16 +49,6 @@
             android:background="#4169E1"
             style="?android:attr/borderlessButtonStyle"
             android:src="@drawable/ic_email_black_24dp" />
-
-        <Button
-            android:id="@+id/filter"
-            android:layout_gravity="center_vertical"
-            android:layout_width="25dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
-            android:background="#4169E1"
-            style="?android:attr/borderlessButtonStyle"
-            android:drawableLeft="@drawable/ic_baseline_filter_list_24" />
 
     </LinearLayout>
         <ListView
