@@ -28,6 +28,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -97,9 +98,10 @@ public class RequestFragment extends Fragment {
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("status");
                     String requestSender = (String) doc.getData().get("requestFrom");
+                    GeoPoint location = (GeoPoint) doc.getData().get("location");
 
                     pendDataList.add((new Request(bookID,imageId,ISBN,bookName,
-                            description,status,requestSender)));
+                            description,status,requestSender,location)));
                 }
                 pendAdapter.notifyDataSetChanged();
             }
@@ -128,10 +130,11 @@ public class RequestFragment extends Fragment {
                             String description = (String) doc.getData().get("des");
                             String status = (String) doc.getData().get("status");
                             String requestSender = (String) doc.getData().get("requestFrom");
+                            GeoPoint location = (GeoPoint) doc.getData().get("location");
 
                             if (description.contains(des) || bookName.contains(des)) {
-                                pendDataList.add((new Request(bookId, imageId,ISBN,
-                                        bookName, description, status, requestSender)));
+                                pendDataList.add((new Request(bookId,imageId,ISBN,bookName,
+                                        description,status,requestSender,location)));
 
                             }
                         }

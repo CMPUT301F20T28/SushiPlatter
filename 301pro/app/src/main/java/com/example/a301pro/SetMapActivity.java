@@ -1,5 +1,7 @@
 package com.example.a301pro;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
@@ -18,6 +20,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * This class set the meet up location for trading on the map
@@ -28,6 +36,8 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
     private LatLng point = new LatLng(53.5,-113.5);
     private Button setLocation;
     private Marker meetUp;
+    private String Book_id;
+    protected FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,9 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.setMap);
         mapFragment.getMapAsync(this);
 
+        Intent intent = getIntent();
+        Book_id = intent.getStringExtra("BOOKID");
+
         setLocation = findViewById(R.id.setMeeting);
         setLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,9 +63,37 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
                 //Log.d("LOCATION", meetUp.getPosition().toString());
                 //setResult(RESULT_OK, intent);
 
+                final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                final CollectionReference collectionReference = db.collection("Users")
+                        .document(getUserID())
+                        .collection("Request");
+                collectionReference.document(Book_id).update("location",meetUp.getPosition());
+
+//                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+//                        pendDataList.clear();
+//                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+//                            String bookID = doc.getId();
+//                            String imageId = (String) doc.getData().get("imageId") ;
+//                            String ISBN = (String) doc.getData().get("ISBN");
+//                            String bookName= (String) doc.getData().get("book_name");
+//                            String description = (String) doc.getData().get("des");
+//                            String status = (String) doc.getData().get("status");
+//                            String requestSender = (String) doc.getData().get("requestFrom");
+//
+//                            pendDataList.add((new Request(bookID,imageId,ISBN,bookName,
+//                                    description,status,requestSender)));
+//                        }
+//                        pendAdapter.notifyDataSetChanged();
+//                    }
+//                });
+
+
                 finish();
             }
         });
+
     }
 
     /**

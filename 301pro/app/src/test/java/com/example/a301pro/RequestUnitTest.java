@@ -16,7 +16,7 @@ public class RequestUnitTest {
     public Request MockRequest() {
         return new Request("123456", "1234567", "123456123456",
                 "testBookName", "interesting",
-                "Available", "testOwnerName");
+                "Available", "testOwnerName","(53.5,-113.5)");
     }
 
     /**

@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import com.google.firebase.firestore.GeoPoint;
 /**
  * This class allow user to send a book request in the purpose of book trading
  */
@@ -81,7 +82,7 @@ public class SentRequestIntent extends AppCompatActivity {
                         Log.d(TAG, "Book has been updated successfully!");
                         Request requestInfo = new Request(bookID, RBook.getImageId(), RBook.getISBN(),
                                 RBook.getBook_name(), RBook.getDes(), "Pending",
-                                FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                                FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),new GeoPoint(53.5,-113.5));
                         new RequestNotification(requestInfo, CollectRef, RBook.getOwner());
                     }
                 })
