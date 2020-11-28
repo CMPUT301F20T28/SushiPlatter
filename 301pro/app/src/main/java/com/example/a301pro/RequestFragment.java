@@ -165,6 +165,7 @@ public class RequestFragment extends Fragment {
                 if (!selectedBook.getStatus().equals("Requested")){
                     Intent intent = new Intent(getContext(), ViewRequestSender.class);
                     intent.putExtra("REQUEST_SENDERS", selectedBook.getRequestFrom());
+                    intent.putExtra("BOOKID",selectedBook.getBookID());
                     startActivity(intent);
                 }
             }
