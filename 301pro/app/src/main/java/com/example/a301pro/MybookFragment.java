@@ -21,9 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.a301pro.Utilities.GetUserFromDB;
 import com.githang.statusbar.StatusBarCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,7 +43,6 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
     ArrayList<Book> bookDataList;
     ArrayList<Book> searchList;
 
-    public static final String Evaluate_DIALOG = "evaluate_dialog";
     public static final int REQUEST_ADD = 0;
     public static final int REQUEST_EDIT = 1;
 
@@ -62,7 +61,7 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
         bookList = view.findViewById(R.id.my_book_list);
         bookDataList = new ArrayList<>();
         searchList = new ArrayList<>();
-        bookAdapter = new CustomListMybook(getContext(),bookDataList);
+        bookAdapter = new CustomListMybook(getContext(), bookDataList);
         bookList.setAdapter(bookAdapter);
         final Button filterBtn = view.findViewById(R.id.filter);
         final ImageButton mesBtn = view.findViewById(R.id.message_center);
@@ -71,7 +70,7 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users")
-                .document(getUserID())
+                .document(GetUserFromDB.getUserID())
                 .collection("MyBooks");
         final CollectionReference LibraryReference = db.collection("Library");
 
@@ -99,8 +98,9 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
             }
         });
 
-        final Button userInformation = view.findViewById(R.id.userProfile);
-        userInformation.setOnClickListener(new View.OnClickListener() {
+        // goto user profile
+        final Button gotoProfile = view.findViewById(R.id.userProfile);
+        gotoProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ViewUserProfile.class);
@@ -156,7 +156,7 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
                 Intent intent = new Intent(getContext(), ViewMessages.class);
                 intent.putExtra("userUID", getUserID());
                 startActivity(intent);
-                Toast.makeText(getContext(),getUserID(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), GetUserFromDB.getUserID(),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -229,11 +229,9 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(final MenuItem item) {
-                //Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-
                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Users")
-                        .document(getUserID())
+                        .document(GetUserFromDB.getUserID())
                         .collection("MyBooks");
                 bookDataList.clear();
                 collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -273,14 +271,6 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
     @Override
     public void onOkPressed(final Book book) {
         bookAdapter.remove(book);
-    }
-
-    /**
-     * Get uid of the current logged in user
-     * @return uid as a string
-     */
-    protected String getUserID() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     /**

@@ -3,20 +3,16 @@ package com.example.a301pro;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.a301pro.Utilities.GetUserFromDB;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -29,7 +25,6 @@ import com.google.zxing.integration.android.IntentResult;
 public class ScanISBN extends AppCompatActivity implements View.OnClickListener {
 
     Button scanBtn;
-    private Book newBook;
     private String ISBN;
     private String Book_id;
     protected FirebaseFirestore db;
@@ -99,7 +94,7 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                     dialog.show();
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
                     final CollectionReference collectionReference = db.collection("Users")
-                            .document(getUserID())
+                            .document(GetUserFromDB.getUserID())
                             .collection("Borrowed");
                     collectionReference.document(Book_id).update("sit","Borrowed");
 
@@ -129,13 +124,5 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    /**
-     * Get uid of the current logged in user
-     * @return uid as a string
-     */
-    protected String getUserID() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 }

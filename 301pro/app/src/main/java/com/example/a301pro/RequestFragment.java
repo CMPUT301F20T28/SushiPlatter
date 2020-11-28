@@ -21,8 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.a301pro.Utilities.GetUserFromDB;
 import com.githang.statusbar.StatusBarCompat;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -79,7 +79,7 @@ public class RequestFragment extends Fragment {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users")
-                .document(getUserID())
+                .document(GetUserFromDB.getUserID())
                 .collection("Request");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
@@ -102,6 +102,16 @@ public class RequestFragment extends Fragment {
                             status,requestSender,location)));
                 }
                 pendAdapter.notifyDataSetChanged();
+            }
+        });
+
+        // goto user profile
+        final Button gotoProfile = view.findViewById(R.id.userhead_pending);
+        gotoProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewUserProfile.class);
+                startActivity(intent);
             }
         });
 
@@ -184,7 +194,7 @@ public class RequestFragment extends Fragment {
      */
     private void showPopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.book_category, popupMenu.getMenu());
+        popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -194,13 +204,4 @@ public class RequestFragment extends Fragment {
         });
         popupMenu.show();
     }
-
-    /**
-     * Get uid of the current logged in user
-     * @return uid as a string
-     */
-    protected String getUserID() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
-    }
-
 }
