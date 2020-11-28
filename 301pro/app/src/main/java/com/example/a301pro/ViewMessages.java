@@ -36,7 +36,9 @@ public class ViewMessages extends AppCompatActivity {
 
         messageList = findViewById(R.id.messages_list);
         messageDataList = new ArrayList<>();
+
         messageAdapter = new CostumeListMessages(getBaseContext(), messageDataList);
+
         messageList.setAdapter(messageAdapter);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
