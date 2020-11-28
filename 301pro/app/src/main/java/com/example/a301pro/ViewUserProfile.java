@@ -78,13 +78,13 @@ public class ViewUserProfile extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document != null) {
 
-                        firstName = document.getString("firstName").toUpperCase();
+                        firstName = document.getString("firstName");
                         Log.i(Tag, "First name"+firstName);
 
-                        lastName = document.getString("lastName").toUpperCase();
+                        lastName = document.getString("lastName");
                         Log.i(Tag, "Last name"+lastName);
 
-                        email = document.getString("email").toUpperCase();
+                        email = document.getString("email");
                         Log.i(Tag, "email"+document.getString("email"));
 
                         phoneNumber = document.getString("phoneNumber");

@@ -23,6 +23,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+/**
+ * This class get the list of all request senders and their general information
+ */
 public class ViewRequestSender extends AppCompatActivity {
     ListView senderList;
     ArrayAdapter<User> senderAdapter;
@@ -79,18 +82,5 @@ public class ViewRequestSender extends AppCompatActivity {
                 }
             }
         });
-//        documentRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-//                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-//                    String firstName = (String) doc.getString("firstName") ;
-//                    String lastName = (String) doc.getData().get("lastName") ;
-//                    String phone = (String) doc.getData().get("phoneNumber");
-//                    String email = (String) doc.getData().get("email");
-//                    senderDataList.add(new User(username, email, null, firstName, lastName, phone, null));
-//                }
-//                senderAdapter.notifyDataSetChanged();
-//            }
-//        });
     }
 }

@@ -14,12 +14,14 @@
         android:textColor="@color/menuBackground"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_marginRight="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="5dp">
 
         <TextView
             android:id="@+id/requestSenderName"
