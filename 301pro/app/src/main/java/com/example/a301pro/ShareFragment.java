@@ -91,7 +91,7 @@ public class ShareFragment extends Fragment {
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
-//11
+//1
                     if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())&& status.equals("Available")) {
                         shareDataList.add((new Share(bookId, imageId, ISBN, bookName,
                                 description, status, owner)));
