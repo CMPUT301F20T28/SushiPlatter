@@ -148,7 +148,7 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
             }
         });
 
-        // click on message button to check message
+        // click on message button to open notification center for checking message
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
