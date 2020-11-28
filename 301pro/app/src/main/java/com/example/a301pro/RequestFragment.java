@@ -60,8 +60,8 @@ public class RequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.pending_fragment, container, false);
-        StatusBarCompat.setStatusBarColor(getActivity(), getResources().getColor(R.color.menuBackground),
-                false);
+        StatusBarCompat.setStatusBarColor(getActivity(),
+                getResources().getColor(R.color.menuBackground), false);
         pendList = view.findViewById(R.id.pending_list);
         pendDataList = new ArrayList<>();
         pendAdapter = new CustomListPendingRequest(getContext(), pendDataList);
@@ -141,8 +141,8 @@ public class RequestFragment extends Fragment {
                             GeoPoint location = doc.getGeoPoint("location");
 
                             if (description.contains(des) || bookName.contains(des)) {
-                                pendDataList.add((new Request(bookId,imageId,ISBN,bookName,
-                                        description,status,requestSender,location)));
+                                pendDataList.add((new Request(bookId, imageId, ISBN, bookName,
+                                        description, status, requestSender, location)));
 
                             }
                         }
@@ -181,7 +181,7 @@ public class RequestFragment extends Fragment {
             }
         });
 
-        pendAdapter = new CustomListPendingRequest(getContext(),pendDataList);
+        pendAdapter = new CustomListPendingRequest(getContext(), pendDataList);
         pendList.setAdapter(pendAdapter);
 
         return view;

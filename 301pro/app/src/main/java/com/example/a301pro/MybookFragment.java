@@ -56,8 +56,8 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_book_fragment, container, false);
-        StatusBarCompat.setStatusBarColor(getActivity(), getResources().getColor(R.color.menuBackground),
-                false);
+        StatusBarCompat.setStatusBarColor(getActivity(),
+                getResources().getColor(R.color.menuBackground), false);
         bookList = view.findViewById(R.id.my_book_list);
         bookDataList = new ArrayList<>();
         searchList = new ArrayList<>();

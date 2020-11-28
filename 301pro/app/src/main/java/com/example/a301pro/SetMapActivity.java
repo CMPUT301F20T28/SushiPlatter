@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.a301pro.Utilities.GetUserFromDB;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -82,7 +83,7 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
 
                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Users")
-                        .document(getUserID())
+                        .document(GetUserFromDB.getUserID())
                         .collection("Request");
 //                collectionReference.document(Book_id).update("location",meetUp.getPosition());
 
