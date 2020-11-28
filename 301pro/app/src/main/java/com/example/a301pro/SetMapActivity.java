@@ -24,6 +24,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -51,8 +52,17 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.setMap);
         mapFragment.getMapAsync(this);
 
+        //get bookID
         Intent intent = getIntent();
         Book_id = intent.getStringExtra("BOOKID");
+
+        //transform LatLng to GeoPoint format
+//        LatLng test = meetUp.getPosition();
+//        double lat = test.latitude;
+//        double lng = test.longitude;
+//
+//        final GeoPoint point1 = new GeoPoint(lat,lng);
+
 
         setLocation = findViewById(R.id.setMeeting);
         setLocation.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +77,14 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
                 final CollectionReference collectionReference = db.collection("Users")
                         .document(getUserID())
                         .collection("Request");
-                collectionReference.document(Book_id).update("location",meetUp.getPosition());
+//                collectionReference.document(Book_id).update("location",meetUp.getPosition());
+
+                LatLng test = meetUp.getPosition();
+                double lat = test.latitude;
+                double lng = test.longitude;
+
+                final GeoPoint point1 = new GeoPoint(lat,lng);
+                collectionReference.document(Book_id).update("location",point1);
 
 //                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
 //                    @Override

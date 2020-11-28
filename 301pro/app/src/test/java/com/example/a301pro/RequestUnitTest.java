@@ -1,5 +1,7 @@
 package com.example.a301pro;
 
+import com.google.firebase.firestore.GeoPoint;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +18,7 @@ public class RequestUnitTest {
     public Request MockRequest() {
         return new Request("123456", "1234567", "123456123456",
                 "testBookName", "interesting",
-                "Available", "testOwnerName","(53.5,-113.5)");
+                "Available", "testOwnerName",new GeoPoint(53.5,-113.5));
     }
 
     /**
