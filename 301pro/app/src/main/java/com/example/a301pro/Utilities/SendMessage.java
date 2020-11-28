@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
@@ -30,7 +31,7 @@ public class SendMessage {
     String TAG = "send a message";
 
 
-    public SendMessage(final String senderUserName, String receiverUserName, final String message){
+    public SendMessage(final String senderUserName, final String receiverUserName, final String message){
         db = FirebaseFirestore.getInstance();
         String receiverUID;
         CollectionReference collectionReference = db.collection("userDict");
@@ -43,7 +44,7 @@ public class SendMessage {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         String UID = (String) document.getData().get("UID");
-                        addMessageToDB(UID ,senderUserName , message);
+                        addMessageToDB(UID ,senderUserName , message, receiverUserName);
                     }
                 } else {
                 }
@@ -51,7 +52,7 @@ public class SendMessage {
         });
     }
 
-    public void addMessageToDB(String UID, String senderUserName, String message){
+    public void addMessageToDB(String UID, String senderUserName, String message, String receiverUserName){
         final CollectionReference CollectRef = db.collection("Users");
         Map<String, Object> messagaMap = new HashMap<>();
         DateFormat df = DateFormat.getTimeInstance();
@@ -61,6 +62,9 @@ public class SendMessage {
         messagaMap.put("sender", senderUserName);
         messagaMap.put("message", message);
         messagaMap.put("time", mstTime);
+        messagaMap.put("timeStamp", FieldValue.serverTimestamp());
+        messagaMap.put("receiver", receiverUserName);
+
         CollectRef
                 .document(UID)
                 .collection("Messages")
