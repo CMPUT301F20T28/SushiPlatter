@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 
-public class CostumeListMessages extends ArrayAdapter<User> {
+public class CostumeListMessages extends ArrayAdapter<Message> {
     private ArrayList<Message> messages;
     private Context context;
 
