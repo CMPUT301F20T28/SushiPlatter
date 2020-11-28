@@ -15,8 +15,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class SendMessage {
     private String senderUserName;
@@ -50,13 +53,19 @@ public class SendMessage {
 
     public void addMessageToDB(String UID, String senderUserName, String message){
         final CollectionReference CollectRef = db.collection("Users");
-        Map<String, Object> messgae = new HashMap<>();
-        messgae.put("sender", senderUserName);
+        Map<String, Object> messagaMap = new HashMap<>();
+        DateFormat df = DateFormat.getTimeInstance();
+        df.setTimeZone(TimeZone.getTimeZone("mst"));
+        String mstTime = df.format(new Date());
+
+        messagaMap.put("sender", senderUserName);
+        messagaMap.put("message", message);
+        messagaMap.put("time", mstTime);
         CollectRef
                 .document(UID)
                 .collection("Messages")
-                .document(message)
-                .set(messgae)
+                .document(mstTime)
+                .set(messagaMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
