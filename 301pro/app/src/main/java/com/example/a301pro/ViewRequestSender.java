@@ -58,6 +58,7 @@ public class ViewRequestSender extends AppCompatActivity {
                 intent.putExtra("USERNAME", user.getUserName());
                 intent.putExtra("BOOKID",Bookid);
                 startActivity(intent);
+                finish();
             }
         });
     }
