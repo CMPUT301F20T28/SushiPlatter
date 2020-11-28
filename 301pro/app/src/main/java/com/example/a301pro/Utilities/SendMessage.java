@@ -1,9 +1,12 @@
 package com.example.a301pro.Utilities;
 
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.example.a301pro.Login;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,11 +19,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class SendMessage {
     private String senderUserName;
@@ -54,22 +59,23 @@ public class SendMessage {
 
     public void addMessageToDB(String UID, String senderUserName, String message, String receiverUserName){
         final CollectionReference CollectRef = db.collection("Users");
-        Map<String, Object> messagaMap = new HashMap<>();
-        DateFormat df = DateFormat.getTimeInstance();
-        df.setTimeZone(TimeZone.getTimeZone("mst"));
-        String mstTime = df.format(new Date());
+        Map<String, Object> messageMap = new HashMap<>();
 
-        messagaMap.put("sender", senderUserName);
-        messagaMap.put("message", message);
-        messagaMap.put("time", mstTime);
-        messagaMap.put("timeStamp", FieldValue.serverTimestamp());
-        messagaMap.put("receiver", receiverUserName);
+        Timestamp ts=new Timestamp(System.currentTimeMillis());
+        String mstTime = ts.toString();
+        String timeStamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
+
+        messageMap.put("sender", senderUserName);
+        messageMap.put("message", message);
+        messageMap.put("time", mstTime);
+        messageMap.put("timeStamp", timeStamp);
+        messageMap.put("receiver", receiverUserName);
 
         CollectRef
                 .document(UID)
                 .collection("Messages")
-                .document(mstTime)
-                .set(messagaMap)
+                .document(timeStamp)
+                .set(messageMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
