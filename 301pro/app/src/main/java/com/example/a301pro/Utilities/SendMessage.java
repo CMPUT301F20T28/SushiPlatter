@@ -46,6 +46,7 @@ public class SendMessage {
                         String UID = (String) document.getData().get("UID");
                         addMessageToDB(UID ,senderUserName , message, receiverUserName);
                     }
+                } else {
                 }
             }
         });
@@ -84,4 +85,6 @@ public class SendMessage {
                     }
                 });
     }
+
+
 }
