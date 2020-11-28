@@ -1,5 +1,6 @@
 package com.example.a301pro;
 
+import com.example.a301pro.Utilities.GetUserFromDB;
 import com.example.a301pro.Utilities.RequestNotification;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,7 +67,7 @@ public class SentRequestIntent extends AppCompatActivity {
      */
     public void sendDataToDb(final Share RBook) {
         final CollectionReference CollectRef = db.collection("Users");
-        final String userID = getUserID();
+        final String userID = GetUserFromDB.getUserID();
         final String bookID = RBook.getBookID();
         RBook.setSit("Requested");
         CollectRef
@@ -92,13 +93,5 @@ public class SentRequestIntent extends AppCompatActivity {
                         Log.d(TAG, "Book could not be updated!" + e.toString());
                     }
                 });
-    }
-
-    /**
-     * Get uid of the current logged in user
-     * @return uid as a string
-     */
-    protected String getUserID() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 }

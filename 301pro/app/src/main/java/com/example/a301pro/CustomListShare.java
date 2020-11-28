@@ -74,6 +74,7 @@ public class CustomListShare extends ArrayAdapter<Share> {
         des.setText(share.getDes());
         sta.setText(share.getSit());
         bor.setText(share.getOwner());
+
         sta.setTextColor(context.getResources().getColor(R.color.staAvailable));
         return view;
     }

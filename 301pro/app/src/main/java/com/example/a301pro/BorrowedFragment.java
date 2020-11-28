@@ -21,8 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.a301pro.Utilities.GetUserFromDB;
 import com.githang.statusbar.StatusBarCompat;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -80,7 +80,7 @@ public class BorrowedFragment extends Fragment {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users")
-                .document(getUserID()).collection("Borrowed");
+                .document(GetUserFromDB.getUserID()).collection("Borrowed");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
 
@@ -101,6 +101,16 @@ public class BorrowedFragment extends Fragment {
                             status,owner)));
                 }
                 pendAdapter.notifyDataSetChanged();
+            }
+        });
+
+        // goto user profile
+        final Button gotoProfile = view.findViewById(R.id.userhead_pending);
+        gotoProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewUserProfile.class);
+                startActivity(intent);
             }
         });
 
@@ -144,7 +154,6 @@ public class BorrowedFragment extends Fragment {
         });
 
 
-
         pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -184,13 +193,4 @@ public class BorrowedFragment extends Fragment {
         });
         popupMenu.show();
     }
-
-    /**
-     * Get uid of the current logged in user
-     * @return uid as a string
-     */
-    protected String getUserID() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
-    }
-
 }

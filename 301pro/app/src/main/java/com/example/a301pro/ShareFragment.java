@@ -67,13 +67,6 @@ public class ShareFragment extends Fragment {
         shareDataList = new ArrayList<>();
         shareAdapter = new CustomListShare(getContext(), shareDataList);
         shareList.setAdapter(shareAdapter);
-        final Button filter_btn = view.findViewById(R.id.filter);
-        filter_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupMenu(filter_btn);
-            }
-        });
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Library");
@@ -103,6 +96,16 @@ public class ShareFragment extends Fragment {
                     }
                 }
                 shareAdapter.notifyDataSetChanged();
+            }
+        });
+
+        // goto user profile
+        final Button gotoProfile = view.findViewById(R.id.userhead);
+        gotoProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewUserProfile.class);
+                startActivity(intent);
             }
         });
 
@@ -147,7 +150,7 @@ public class ShareFragment extends Fragment {
             }
         });
 
-        final Button userInformation = view.findViewById(R.id.userProfile);
+        final Button userInformation = view.findViewById(R.id.userhead);
         userInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,24 +185,6 @@ public class ShareFragment extends Fragment {
 
         shareAdapter = new CustomListShare(getContext(),shareDataList);
         shareList.setAdapter(shareAdapter);
-
         return view;
-    }
-
-    /**
-     * Popup the menu for picking status
-     * @param view view
-     */
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.book_category, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-        popupMenu.show();
     }
 }

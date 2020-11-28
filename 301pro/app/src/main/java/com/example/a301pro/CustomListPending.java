@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.a301pro.Utilities.SetStatusTextColor;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -68,7 +69,7 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getContext(),"111111111111",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(),SetMapActivity.class);
+                Intent intent = new Intent(getContext(), SetMapActivity.class);
                 intent.putExtra("BOOKID",pend.getBookID());
                 context.startActivity(intent);
 //                ((Activity)(context)).startActivityForResult(intent,MAP_SET);
@@ -112,23 +113,8 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
         own.setText(pend.getO_name());
 
         // change the color of the text of status
-        switch (pend.getStatus()) {
-            case "Accepted":
-                sta.setTextColor(context.getResources().getColor(R.color.staAccepted));
-                break;
-            case "Available":
-                sta.setTextColor(context.getResources().getColor(R.color.staAvailable));
-                break;
-            case "Borrowed":
-                sta.setTextColor(context.getResources().getColor(R.color.staBorrowed));
-                break;
-            case "Requested":
-                sta.setTextColor(context.getResources().getColor(R.color.staRequested));
-                break;
-            case "Pending":
-                sta.setTextColor(context.getResources().getColor(R.color.staPending));
-                break;
-        }
+        SetStatusTextColor.setTextColor(view, sta, pend.getStatus());
+
         return view;
     }
 }
