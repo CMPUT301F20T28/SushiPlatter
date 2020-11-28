@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/book" >
@@ -33,7 +32,9 @@
             android:drawableLeft="@drawable/user"
             android:gravity="center"
             android:hint="First Name"
-            android:inputType="textPersonName|text"></EditText>
+            android:inputType="textPersonName|text">
+
+        </EditText>
 
         <EditText
             android:id="@+id/last_name"
@@ -45,7 +46,9 @@
             android:drawableLeft="@drawable/user"
             android:gravity="center"
             android:hint="Last Name"
-            android:inputType="textPersonName"></EditText>
+            android:inputType="textPersonName">
+
+        </EditText>
     </LinearLayout>
 
     <EditText

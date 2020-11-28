@@ -26,6 +26,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.a301pro.Utilities.AddBookToLibrary;
+import com.example.a301pro.Utilities.GetUserFromDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,7 +34,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -90,7 +90,7 @@ public class AddEditIntent extends AppCompatActivity {
 
         final Bundle bundle = getIntent().getExtras();
         // user has selected a book to edit if bundle if not empty
-        if(bundle != null) {
+        if (bundle != null) {
             myBook = (Book) bundle.getSerializable("BOOK");   // get the item
             setTextBox(myBook);
             imgid = myBook.getImageID();
@@ -131,7 +131,7 @@ public class AddEditIntent extends AppCompatActivity {
             itot();
         }
 
-        DocumentReference docRef = db.collection("Users").document(getUserID());
+        DocumentReference docRef = db.collection("Users").document(GetUserFromDB.getUserID());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -159,12 +159,12 @@ public class AddEditIntent extends AppCompatActivity {
                 if (myBook != null) {
                     old_book_id = myBook.getBook_id();
                 }
-                String myBookID = generateBookID(getUserID(), myISBN);
+                String myBookID = generateBookID(GetUserFromDB.getUserID(), myISBN);
 
                 if (jg) {
                     Bitmap bm = ((BitmapDrawable) ((ImageButton) img).getDrawable()).getBitmap();
                     handleUpload(bm);
-                    imgid = myBookID+".jpeg";
+                    imgid = myBookID + ".jpeg";
                 }
                 myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus,
                         myBookID, null, userName);
@@ -227,7 +227,7 @@ public class AddEditIntent extends AppCompatActivity {
     public void removeOldBook(String old_book_id){
         final CollectionReference MybookRef = db.collection("Users");
         final CollectionReference LibaryRef = db.collection("Library");
-        String userID = getUserID();
+        String userID = GetUserFromDB.getUserID();
         MybookRef.document(userID)
                 .collection("MyBooks")
                 .document(old_book_id)
@@ -298,7 +298,7 @@ public class AddEditIntent extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
 
-        String myBookID = generateBookID(getUserID(),ISBN.getText().toString());
+        String myBookID = generateBookID(GetUserFromDB.getUserID(),ISBN.getText().toString());
         final StorageReference reference = FirebaseStorage.getInstance().getReference()
                 .child(myBookID+".jpeg");
         reference.putBytes(baos.toByteArray())
@@ -345,7 +345,7 @@ public class AddEditIntent extends AppCompatActivity {
      */
     public void sendDataToDb(final Book myBook) {
         final CollectionReference CollectRef = db.collection("Users");
-        String userID = getUserID();
+        String userID = GetUserFromDB.getUserID();
         final String bookID = myBook.getBook_id();
         CollectRef
                 .document(userID)
@@ -371,14 +371,6 @@ public class AddEditIntent extends AppCompatActivity {
                         Log.d(TAG, "Book could not be updated!" + e.toString());
                     }
                 });
-    }
-
-    /**
-     * Get uid of the current logged in user
-     * @return uid as a string
-     */
-    protected String getUserID() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     /**

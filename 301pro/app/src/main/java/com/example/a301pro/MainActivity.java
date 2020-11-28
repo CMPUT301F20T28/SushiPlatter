@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.a301pro.Utilities.GetUserFromDB;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,13 +39,12 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new MybookFragment()).commit();
-        //StatusBarCompat.setStatusBarColor(this,R.color.menuBackground);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
-        final TextView un = (TextView) headerView.findViewById(R.id.un);
-        final String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        final TextView un = headerView.findViewById(R.id.un);
+        final String userName = GetUserFromDB.getUsername();
         un.setText(userName);
 
         // allow user go to the profile page by clicking the head icon

@@ -114,7 +114,7 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
 
     /**
      * connect the google map and set a marker on the map
-     * @param googleMap
+     * @param googleMap connect to google map
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -137,7 +137,5 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
             }
         });
     }
-    protected String getUserID() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
-    }
+
 }

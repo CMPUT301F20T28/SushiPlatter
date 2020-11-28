@@ -58,6 +58,7 @@ public class ShareFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_share));
         solo.waitForFragmentById(R.id.nav_share,1000);
+        solo.sleep(500);
     }
 
     /**
@@ -83,8 +84,10 @@ public class ShareFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_share));
         solo.waitForFragmentById(R.id.nav_mine,1000);
+        solo.sleep(500);
         solo.clickOnView(solo.getView(R.id.filter));
         solo.waitForText("Computer", 0, 1000);
+        solo.sleep(500);
     }
 
     /**
@@ -96,8 +99,10 @@ public class ShareFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_share));
         solo.waitForFragmentById(R.id.nav_share,1000);
+        solo.sleep(500);
         solo.clickInList(1);
         solo.waitForFragmentById(R.id.sent_request,1000);
+        solo.sleep(500);
     }
 
     /**
@@ -109,10 +114,13 @@ public class ShareFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_share));
         solo.waitForFragmentById(R.id.nav_share,1000);
+        solo.sleep(500);
         solo.clickInList(1);
         solo.waitForFragmentById(R.id.sent_request,1000);
+        solo.sleep(500);
         solo.clickOnView(solo.getView(R.id.back_sent_request));
         solo.waitForFragmentById(R.id.nav_share,1000);
+        solo.sleep(500);
     }
 
     /**

@@ -149,7 +149,6 @@ public class ProfileTest {
         solo.enterText((EditText) solo.getView(R.id.text_username), testUsername);
         solo.enterText((EditText) solo.getView(R.id.text_password), testPassword);
         solo.clickOnButton("Login");
-        solo.clickOnButton("Login");
         solo.waitForActivity("MainActivity", 10000);
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);
         deleteUser();

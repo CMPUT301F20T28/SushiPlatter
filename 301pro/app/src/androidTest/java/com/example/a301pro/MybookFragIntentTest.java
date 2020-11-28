@@ -59,6 +59,7 @@ public class MybookFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_mine));
         solo.waitForFragmentById(R.id.nav_mine,1000);
+        solo.sleep(500);
     }
 
     /**
@@ -68,6 +69,7 @@ public class MybookFragIntentTest {
     public void testAddBook() {
         login();
         solo.clickOnView(solo.getView(R.id.add_book_button));
+        solo.sleep(500);
         solo.assertCurrentActivity("Wrong Activity", AddEditIntent.class);
     }
 
@@ -80,6 +82,7 @@ public class MybookFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_mine));
         solo.waitForFragmentById(R.id.nav_mine,1000);
+        solo.sleep(500);
         solo.enterText((EditText) solo.getView(R.id.search_method), "cat");
         solo.waitForText("cat", 1, 1000);
         solo.sleep(500);
@@ -98,11 +101,13 @@ public class MybookFragIntentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_mine));
         solo.waitForFragmentById(R.id.nav_mine,1000);
+        solo.sleep(500);
         solo.clickOnView(solo.getView(R.id.filter));
         solo.waitForText("Available", 0, 1000);
         solo.waitForText("Borrowed", 0, 1000);
         solo.waitForText("Accepted", 0, 1000);
         solo.waitForText("Requested", 0, 1000);
+        solo.sleep(500);
     }
 
     /**
