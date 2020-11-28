@@ -22,6 +22,7 @@ import com.google.firebase.database.core.utilities.Utilities;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,6 +106,29 @@ public class ViewUserProfile extends AppCompatActivity {
                         .document(bookid)
                         .update("status","Accepted");
 
+                db.collection("Users").document(GetUserFromDB.getUserID())
+                        .collection("Request")
+                        .document(bookid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        final GeoPoint geoPoint = documentSnapshot.getGeoPoint("location");
+
+                        db.collection("userDict")
+                                .document(username).get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        String temp = documentSnapshot.getString("UID").toString();
+                                        db.collection("Users")
+                                                .document(temp)
+                                                .collection("Borrowed")
+                                                .document(bookid)
+                                                .update("location", geoPoint);
+                                    }
+                                });
+                    }
+                });
+
                 db.collection("userDict")
                         .document(username).get()
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -120,6 +144,7 @@ public class ViewUserProfile extends AppCompatActivity {
                             }
                         });
                 db.collection("Library").document(bookid).update("sit","Borrowed");
+
                 //在这加addmessage
                 finish();
             }

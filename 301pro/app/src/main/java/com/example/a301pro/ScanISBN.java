@@ -13,7 +13,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.a301pro.Utilities.GetUserFromDB;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -27,6 +29,8 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
     Button scanBtn;
     private String ISBN;
     private String Book_id;
+    private String Name;
+    private String person;
     protected FirebaseFirestore db;
     public static final String TAG = "SCAN_ISBN";
     /**
@@ -41,8 +45,12 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         Intent intent =getIntent();
+
         Book_id = intent.getStringExtra("BOOK_ID");
         ISBN = intent.getStringExtra("ISBN_CODE");
+        Name = intent.getStringExtra("NAME");
+        person = intent.getStringExtra("PERSON");
+
         scanBtn = findViewById(R.id.scanBtn);
         scanBtn.setOnClickListener(this);
     }
@@ -80,42 +88,132 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
         if (result != null) {
             if (result.getContents() != null) {
                 if (result.getContents().equals(ISBN)) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("You have sucessfully borrowed the book");
-                    builder.setTitle("Scanning Result");
-                    builder.setNegativeButton("finish", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    });
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    final CollectionReference collectionReference = db.collection("Users")
-                            .document(GetUserFromDB.getUserID())
-                            .collection("Borrowed");
-                    collectionReference.document(Book_id).update("sit","Borrowed");
+                    if(person.equals("Borrower")) {
 
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage("You have sucessfully borrowed the book");
+                        builder.setTitle("Scanning Result");
+                        builder.setNegativeButton("finish", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        final CollectionReference collectionReference = db.collection("Users")
+                                .document(GetUserFromDB.getUserID())
+                                .collection("Borrowed");
+                        collectionReference.document(Book_id).update("sit", "Borrowed");
+
+                        db.collection("userDict")
+                                .document(Name).get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        String temp = documentSnapshot.getString("UID").toString();
+
+                                        db.collection("Users")
+                                                .document(temp)
+                                                .collection("MyBooks")
+                                                .document(Book_id)
+                                                .update("status","Borrowed");
+
+                                        db.collection("Users")
+                                                .document(temp)
+                                                .collection("Request")
+                                                .document(Book_id)
+                                                .update("status", "Borrowed");
+                                    }
+                                });
+
+                    }
+                    if (person.equals("Owner")){
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage("You have sucessfully get the book back");
+                        builder.setTitle("Scanning Result");
+                        builder.setNegativeButton("finish", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        final CollectionReference collectionReference = db.collection("Users")
+                                .document(GetUserFromDB.getUserID())
+                                .collection("Request");
+                        collectionReference.document(Book_id).delete();
+
+                        db.collection("Users")
+                                .document(GetUserFromDB.getUserID())
+                                .collection("MyBooks")
+                                .document(Book_id).update("status","Available");
+
+                        db.collection("Library").document(Book_id).update("sit","Available");
+
+                        db.collection("userDict")
+                                .document(Name).get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        String temp = documentSnapshot.getString("UID").toString();
+                                        db.collection("Users")
+                                                .document(temp)
+                                                .collection("Borrowed")
+                                                .document(Book_id)
+                                                .delete();
+                                    }
+                                });
+
+                    }
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("Failure borrowed the book" + ISBN);
-                    builder.setTitle("Scanning Result");
-                    builder.setPositiveButton("Scan Again", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            scanCode();
-                        }
-                    }).setNegativeButton("finish", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    });
+                    if (person.equals("Borrower")) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage("Failure borrowed the book");
+                        builder.setTitle("Scanning Result");
+                        builder.setPositiveButton("Scan Again", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                scanCode();
+                            }
+                        }).setNegativeButton("finish", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+
+                    if (person.equals("Owner")){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage("Failure get the book back"+ISBN);
+                        builder.setTitle("Scanning Result");
+                        builder.setPositiveButton("Scan Again", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                scanCode();
+                            }
+                        }).setNegativeButton("finish", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
                 }
             } else {
                 Toast.makeText(this, "No result", Toast.LENGTH_SHORT).show();

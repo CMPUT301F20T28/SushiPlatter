@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -70,12 +71,15 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getContext(),"111111111111",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(),SetMapActivity.class);
-                intent.putExtra("BOOKID",pend.getBookID());
-                intent.putExtra("BORROWER",pend.getRequestFrom());
-                context.startActivity(intent);
+                if (pend.getStatus().equals("Accecpted")) {
+                    Intent intent = new Intent(getContext(), SetMapActivity.class);
+                    intent.putExtra("BOOKID", pend.getBookID());
+                    intent.putExtra("BORROWER", pend.getRequestFrom());
+                    context.startActivity(intent);
 //                ((Activity)(context)).startActivityForResult(intent,MAP_SET);
-
+                }else{
+                    Toast.makeText(getContext(),"You have not accepted by the owner",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -89,11 +93,15 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
 
                 String isbn = pend.getISBN();
                 String book_id = pend.getBookID();
-                if (pend.getStatus().equals("Available")){
+                if (pend.getStatus().equals("Borrowed")){
                     Intent intent = new Intent(getContext(), ScanISBN.class);
                     intent.putExtra("ISBN_CODE", isbn);
                     intent.putExtra("BOOK_ID", book_id);
+                    intent.putExtra("NAME",pend.getRequestFrom());
+                    intent.putExtra("PERSON","Owner");
                     context.startActivity(intent);
+                }else{
+                    Toast.makeText(getContext(),"You have not accepted by the owner",Toast.LENGTH_SHORT).show();
                 }
 
             }
