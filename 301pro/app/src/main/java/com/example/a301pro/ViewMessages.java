@@ -7,6 +7,8 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.a301pro.Utilities.UpdateMessageStatus;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -56,8 +58,11 @@ public class ViewMessages extends AppCompatActivity {
                     String message = (String) doc.getData().get("message");
                     String timeMST = (String) doc.getData().get("time");
                     String timeStamp = (String) doc.getData().get("timeStamp");
+                    String messageID = timeStamp;
                     String receiver = (String) doc.getData().get("receiver");
-                    messageDataList.add((new Message(timeStamp, timeMST, message, sender,receiver)));
+                    String readStatus = (String) doc.getData().get("readStatus");
+                    messageDataList.add((new Message(timeStamp, timeMST, message, sender,receiver, readStatus)));
+                    new UpdateMessageStatus(receiver, messageID, "read");
                 }
                 messageAdapter.notifyDataSetChanged();
             }

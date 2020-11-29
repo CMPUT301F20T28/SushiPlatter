@@ -5,13 +5,15 @@ public class Message {
     private String message;
     private String sender;
     private String receiver;
+    private String readStatus;
 
-    public Message(String timeStamp, String timeMST, String message, String sender, String receiver) {
+    public Message(String timeStamp, String timeMST, String message, String sender, String receiver, String readStatus) {
         this.timeStamp = timeStamp;
         this.timeMST = timeMST;
         this.message = message;
         this.sender = sender;
         this.receiver = receiver;
+        this.readStatus = readStatus;
     }
 
     public String getTimeStamp() {
@@ -52,5 +54,14 @@ public class Message {
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
+    }
+
+
+    public String getReadStatus() {
+        return readStatus;
+    }
+
+    public void setReadStatus(String readStatus) {
+        this.readStatus = readStatus;
     }
 }
