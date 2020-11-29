@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +43,7 @@ public class ViewUserProfile extends AppCompatActivity {
     String phoneNumber;
     String email;
     String username;
+    String bookid;
 
     /**
      * Provide functionality viewing and editing personal profile
@@ -72,6 +74,7 @@ public class ViewUserProfile extends AppCompatActivity {
         if (bundle != null) {
             edit.setVisibility(View.GONE);
             username = bundle.getString("USERNAME");
+            bookid = bundle.getString("BOOKID");
             // determine if it is the user or owner
             if (bundle.getString("OWNER") != null) {
                 username = bundle.getString("OWNER");
@@ -80,7 +83,7 @@ public class ViewUserProfile extends AppCompatActivity {
                 deny.setVisibility(View.GONE);
                 deny.setEnabled(false);
             }
-        }else{
+        } else {
             lent.setVisibility(View.GONE);
             lent.setEnabled(false);
             deny.setVisibility(View.GONE);
@@ -96,14 +99,82 @@ public class ViewUserProfile extends AppCompatActivity {
         lent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db.collection("Users")
+                        .document( GetUserFromDB.getUserID())
+                        .collection("Request")
+                        .document(bookid)
+                        .update("status","Accepted");
 
+                db.collection("Users")
+                        .document( GetUserFromDB.getUserID())
+                        .collection("MyBooks")
+                        .document(bookid)
+                        .update("status","Accepted");
+
+                db.collection("Users").document(GetUserFromDB.getUserID())
+                        .collection("Request")
+                        .document(bookid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        final GeoPoint geoPoint = documentSnapshot.getGeoPoint("location");
+
+                        db.collection("userDict")
+                                .document(username).get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        String temp = documentSnapshot.getString("UID").toString();
+                                        db.collection("Users")
+                                                .document(temp)
+                                                .collection("Borrowed")
+                                                .document(bookid)
+                                                .update("location", geoPoint);
+                                    }
+                                });
+                    }
+                });
+
+                db.collection("userDict")
+                        .document(username).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                String temp = documentSnapshot.getString("UID").toString();
+                                db.collection("Users")
+                                        .document(temp)
+                                        .collection("Borrowed")
+                                        .document(bookid)
+                                        .update("sit", "Accepted");
+
+                            }
+                        });
+                db.collection("Library").document(bookid).update("sit","Borrowed");
+
+                //在这加addmessage
+                finish();
             }
         });
 
         deny.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db.collection("Users").document( GetUserFromDB.getUserID()).collection("Request").document(bookid).delete();
 
+                db.collection("userDict")
+                        .document(username).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                String temp = documentSnapshot.getString("UID").toString();
+                                db.collection("Users")
+                                        .document(temp)
+                                        .collection("Borrowed")
+                                        .document(bookid)
+                                        .delete();
+                            }
+                        });
+                //在这加addmessage
+                finish();
             }
         });
 
