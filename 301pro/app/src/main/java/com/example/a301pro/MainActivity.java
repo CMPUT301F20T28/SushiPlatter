@@ -16,7 +16,6 @@ import com.example.a301pro.Fragments.BorrowedFragment;
 import com.example.a301pro.Fragments.MybookFragment;
 import com.example.a301pro.Fragments.RequestFragment;
 import com.example.a301pro.Fragments.ShareFragment;
-import com.example.a301pro.Functionality.Login;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.example.a301pro.View.ViewUserProfile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * This class builds the basic layout, and controls the functions of each divided fragments
  */
 public class MainActivity extends AppCompatActivity {
+
     /**
      * controller of all fragments
      * @param savedInstanceState data of previous instance

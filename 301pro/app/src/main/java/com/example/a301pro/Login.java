@@ -1,4 +1,4 @@
-package com.example.a301pro.Functionality;
+package com.example.a301pro;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,9 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.a301pro.MainActivity;
-import com.example.a301pro.R;
-import com.example.a301pro.Register;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

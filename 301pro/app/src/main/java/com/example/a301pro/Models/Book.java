@@ -3,7 +3,7 @@ package com.example.a301pro.Models;
 import java.io.Serializable;
 
 /**
- * This class initializes the property of a book as well as gets the data of a book
+ * This model initializes the property of a book as well as gets the data of a book
  */
 public class Book implements Serializable {
     private String imageID;
@@ -17,7 +17,7 @@ public class Book implements Serializable {
     private String owner;
 
     /**
-     * This constructor initializes the property of a book
+     * This constructor initializes the property of a owned book
      * @param imageID image id of the book
      * @param bookName name of the book
      * @param author author of the book

@@ -2,6 +2,7 @@ package com.example.a301pro;
 
 import com.example.a301pro.Models.Request;
 import com.example.a301pro.Models.Share;
+import com.example.a301pro.Models.User;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.example.a301pro.Utilities.RequestNotification;
 import android.os.Bundle;

@@ -110,8 +110,7 @@ public class AddEditIntent extends AppCompatActivity {
                             img.setImageBitmap(bitmap);
                         }
                     });
-        }
-        else{
+        } else {
             imgid ="default.png";
             status.setText(String.valueOf(BookStatusEnum.Available));
             StorageReference imageRef = storage.getReference().child("default.png");
@@ -165,6 +164,7 @@ public class AddEditIntent extends AppCompatActivity {
                 if (myBook != null) {
                     old_book_id = myBook.getBook_id();
                 }
+
                 String myBookID = generateBookID(GetUserFromDB.getUserID(), myISBN);
 
                 if (jg) {
@@ -191,7 +191,6 @@ public class AddEditIntent extends AppCompatActivity {
                 if (old_book_id != null && !old_book_id.equals(myBookID)) {
                     removeOldBook(old_book_id);
                 }
-
 
                 // validation of book data, book name, author name, and ISBN are required.
                 // send data to update if valid, otherwise to display error message
@@ -238,6 +237,7 @@ public class AddEditIntent extends AppCompatActivity {
             }
         });
 
+        // Remove book's image
         img.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -422,6 +422,9 @@ public class AddEditIntent extends AppCompatActivity {
         status.setText(myBook.getStatus());
     }
 
+    /**
+     * Pop up dialog for confirming image removable
+     */
     public void removeBookImg() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure to delete the image?");

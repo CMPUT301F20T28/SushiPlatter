@@ -1,4 +1,8 @@
 package com.example.a301pro.Models;
+
+/**
+ * This model initializes the property of a message notification
+ */
 public class Message {
     private String timeStamp;
     private String timeMST;
@@ -8,6 +12,16 @@ public class Message {
     private String readStatus;
     private String messageNotificationStatus;
 
+    /**
+     * This constructor initializes the property of a message
+     * @param timeStamp
+     * @param timeMST
+     * @param message
+     * @param sender
+     * @param receiver
+     * @param readStatus
+     * @param messageNotificationStatus
+     */
     public Message(String timeStamp, String timeMST, String message, String sender, String receiver, String readStatus, String messageNotificationStatus) {
         this.timeStamp = timeStamp;
         this.timeMST = timeMST;

@@ -7,7 +7,6 @@ import android.widget.ListView;
 import androidx.annotation.IdRes;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.a301pro.Functionality.Login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
