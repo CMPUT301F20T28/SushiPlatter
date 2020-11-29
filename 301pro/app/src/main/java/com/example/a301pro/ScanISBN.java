@@ -157,6 +157,11 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                                 .collection("MyBooks")
                                 .document(Book_id).update("status","Available");
 
+                        db.collection("Users")
+                                .document(GetUserFromDB.getUserID())
+                                .collection("MyBooks")
+                                .document(Book_id).update("borrower_name",null);
+
                         db.collection("Library").document(Book_id).update("sit","Available");
 
                         db.collection("userDict")
