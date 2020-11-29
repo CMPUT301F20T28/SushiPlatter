@@ -38,7 +38,7 @@ public class CostumeListMessages extends ArrayAdapter<Message> {
         TextView timeStamp = view.findViewById(R.id.messageTime);
         TextView messageDetail = view.findViewById(R.id.messageDetail);
 
-        timeStamp.setText(message.getTimeStamp());
+        timeStamp.setText(message.getTimeMST());
         messageDetail.setText(message.getMessage());
 
         return view;
