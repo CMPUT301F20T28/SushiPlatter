@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.View;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a301pro.Adapters.CostumeListMessages;
+import com.example.a301pro.Models.Message;
+import com.example.a301pro.R;
 import com.example.a301pro.Utilities.UpdateMessageStatus;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;

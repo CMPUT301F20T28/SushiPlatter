@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.a301pro.R;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.example.a301pro.Utilities.SendMessage;
 import com.google.android.gms.tasks.OnCompleteListener;

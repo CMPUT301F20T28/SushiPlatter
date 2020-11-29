@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.a301pro.Models.Borrowed;
+import com.example.a301pro.R;
+import com.example.a301pro.Functionality.ScanISBN;
 import com.example.a301pro.Utilities.SetStatusTextColor;
+import com.example.a301pro.View.ViewMapActivity;
+import com.example.a301pro.View.ViewUserProfile;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;

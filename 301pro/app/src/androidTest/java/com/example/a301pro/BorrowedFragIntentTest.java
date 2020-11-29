@@ -7,6 +7,8 @@ import android.widget.EditText;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.a301pro.Functionality.Login;
+import com.example.a301pro.Functionality.ScanISBN;
 import com.robotium.solo.Solo;
 
 import org.junit.After;

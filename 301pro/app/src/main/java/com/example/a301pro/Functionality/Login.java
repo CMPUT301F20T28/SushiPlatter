@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.Functionality;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a301pro.MainActivity;
+import com.example.a301pro.R;
+import com.example.a301pro.Register;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -142,7 +145,7 @@ public class Login extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(Login.this,
                                     "Login Successful.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getBaseContext(),MainActivity.class);
+                            Intent intent = new Intent(getBaseContext(), MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {

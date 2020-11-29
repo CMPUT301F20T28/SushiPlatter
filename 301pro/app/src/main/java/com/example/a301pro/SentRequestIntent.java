@@ -1,5 +1,7 @@
 package com.example.a301pro;
 
+import com.example.a301pro.Models.Request;
+import com.example.a301pro.Models.Share;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.example.a301pro.Utilities.RequestNotification;
 import android.os.Bundle;
@@ -8,14 +10,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 

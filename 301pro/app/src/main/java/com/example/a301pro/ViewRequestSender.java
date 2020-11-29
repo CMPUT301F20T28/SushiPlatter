@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.example.a301pro.Utilities.SendMessage;
+import com.example.a301pro.View.ViewUserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;

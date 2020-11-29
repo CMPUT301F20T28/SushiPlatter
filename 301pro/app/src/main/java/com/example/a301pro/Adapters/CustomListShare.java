@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.a301pro.R;
+import com.example.a301pro.Models.Share;
+import com.example.a301pro.View.ViewUserProfile;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;

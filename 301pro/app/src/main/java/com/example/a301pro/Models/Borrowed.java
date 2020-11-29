@@ -1,41 +1,51 @@
-package com.example.a301pro;
+package com.example.a301pro.Models;
 
-import java.io.Serializable;
+import com.google.firebase.firestore.GeoPoint;
 
 /**
- * This class initializes the property of a shareable book as well as gets the data of a book
+ * This class initializes the property of a borrowed book as well as gets the data of a book
  */
-public class Share implements Serializable {
+public class Borrowed {
     private String bookID;
     private String imageId;
     private String ISBN;
     private String bookName;
     private String des;
-    private String sit;
-    private String owner;
+    private String oName;
+    private String status;
+    private GeoPoint location;
     /**
-     * This constructor initializes the property of a shareable book
+     * This constructor initializes the property of a borrowed book
      * @param imageId image id of the book
      * @param bookName name of the book
      * @param des description of the book
-     * @param sit status of the book
+     * @param status status of the book
      * @param bookID id of the book
-     * @param owner owner of the book
+     * @param oName owner of the book
      */
-    public Share(String bookID, String imageId, String ISBN, String bookName, String des,
-                 String sit, String owner) {
+    public Borrowed(String bookID, String imageId, String ISBN, String bookName, String des,
+                    String status, String oName, GeoPoint location) {
         this.bookID = bookID;
-        this.imageId =imageId;
+        this.imageId = imageId;
         this.ISBN = ISBN;
         this.bookName = bookName;
         this.des = des;
-        this.sit = sit;
-        this.owner = owner;
+        this.status = status;
+        this.oName = oName;
+        this.location = location;
+    }
+
+    public GeoPoint getLocation() {
+        return location;
+    }
+
+    public void setLocation(GeoPoint location) {
+        this.location = location;
     }
 
     /**
      * This allows the outside to get the ISBN code of a book
-     * @return ISBN of a book
+     * @return ISBN code of a book。
      */
     public String getISBN() {
         return ISBN;
@@ -43,26 +53,10 @@ public class Share implements Serializable {
 
     /**
      * This set the ISBN code of a book
-     * @param ISBN ISBN to be set
+     * @param ISBN ISBN code to be set
      */
     public void setISBN(String ISBN) {
         this.ISBN = ISBN;
-    }
-
-    /**
-     * This allows the outside to get the name of a book
-     * @return name of a book
-     */
-    public String getBookName() {
-        return bookName;
-    }
-
-    /**
-     * This set the name of a book
-     * @param bookName name of a book to be set
-     */
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
     }
 
     /**
@@ -72,7 +66,6 @@ public class Share implements Serializable {
     public String getBookID() {
         return bookID;
     }
-
     /**
      * This set the image id of a book
      * @param bookID bookid to be set
@@ -80,7 +73,6 @@ public class Share implements Serializable {
     public void setBookID(String bookID) {
         this.bookID = bookID;
     }
-
     /**
      * This allows the outside to get the image id of a book
      * @return image id of a book
@@ -88,7 +80,6 @@ public class Share implements Serializable {
     public String getImageId() {
         return imageId;
     }
-
     /**
      * This set the image id of a book
      * @param imageId image id to be set
@@ -96,7 +87,6 @@ public class Share implements Serializable {
     public void setImageId(String imageId) {
         this.imageId = imageId;
     }
-
     /**
      * This allows the outside to get the image id of a book
      * @return image id of a book
@@ -104,7 +94,6 @@ public class Share implements Serializable {
     public String getBook_name() {
         return bookName;
     }
-
     /**
      * This allows the outside to get the description of a book
      * @return description of a book
@@ -112,31 +101,20 @@ public class Share implements Serializable {
     public String getDes() {
         return des;
     }
-
     /**
      * This allows the outside to get the owner's name of a book
      * @return owner's name of a book
      */
-    public String getSit() {
-        return sit;
+    public String getO_name() {
+        return oName;
     }
-
     /**
      * This allows the outside to get the status of a book
      * @return status of a book
      */
-    public String getOwner() {
-        return owner;
+    public String getStatus() {
+        return status;
     }
-
-    /**
-     * This set the description of a book
-     * @param bookName description to be set
-     */
-    public void setBook_name(String bookName) {
-        this.bookName = bookName;
-    }
-
     /**
      * This set the description of a book
      * @param des description to be set
@@ -144,20 +122,26 @@ public class Share implements Serializable {
     public void setDes(String des) {
         this.des = des;
     }
-
     /**
-     * This set the status of a book
-     * @param sit status to be set
+     * This set the description of a book
+     * @param oName description to be set
      */
-    public void setSit(String sit) {
-        this.sit = sit;
+    public void setOwner(String oName) {
+        this.oName = oName;
     }
 
     /**
-     * This set the name of a book
-     * @param owner name of a book to be set
+     * This set the status of a book
+     * @param status status to be set
      */
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    /**
+     * This set the name of a book
+     * @param bookName name of a book to be set
+     */
+    public void setBook_name(String bookName) {
+        this.bookName = bookName;
     }
 }

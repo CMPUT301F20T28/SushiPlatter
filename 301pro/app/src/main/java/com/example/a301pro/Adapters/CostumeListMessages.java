@@ -1,19 +1,17 @@
-package com.example.a301pro;
+package com.example.a301pro.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.a301pro.Utilities.GetUserFromDB;
+import com.example.a301pro.Models.Message;
+import com.example.a301pro.R;
 
 import java.util.ArrayList;
 
