@@ -162,7 +162,6 @@ public class RequestFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Request selectedBook = pendAdapter.getItem(position);
-                //Toast.makeText(getContext(),selectedBook.getStatus(),Toast.LENGTH_SHORT).show();
 
                 if (selectedBook.getStatus().equals("Pending")){
                     Intent intent = new Intent(getContext(), ViewRequestSender.class);
