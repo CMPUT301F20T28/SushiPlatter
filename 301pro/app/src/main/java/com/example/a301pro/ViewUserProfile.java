@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.a301pro.Utilities.GetUserFromDB;
+import com.example.a301pro.Utilities.SendMessage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -100,6 +101,7 @@ public class ViewUserProfile extends AppCompatActivity {
         lent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 db.collection("Users")
                         .document( GetUserFromDB.getUserID())
                         .collection("Request")
@@ -135,6 +137,7 @@ public class ViewUserProfile extends AppCompatActivity {
                     }
                 });
 
+
                 db.collection("userDict")
                         .document(username).get()
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -146,12 +149,18 @@ public class ViewUserProfile extends AppCompatActivity {
                                         .collection("Borrowed")
                                         .document(bookid)
                                         .update("sit", "Accepted");
+                                db.collection("Users")
+                                        .document(temp)
+                                        .collection("Borrowed")
+                                        .document(bookid)
+                                        .update("borrower_name", username);
 
                             }
                         });
                 db.collection("Library").document(bookid).update("sit","Borrowed");
 
-                //在这加addmessage
+
+                new SendMessage(GetUserFromDB.getUsername(), username, GetUserFromDB.getUsername().toString() + " has accepted your application");
                 finish();
             }
         });
@@ -159,6 +168,7 @@ public class ViewUserProfile extends AppCompatActivity {
         deny.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 db.collection("Users").document( GetUserFromDB.getUserID()).collection("Request").document(bookid).delete();
 
                 db.collection("userDict")
@@ -174,7 +184,8 @@ public class ViewUserProfile extends AppCompatActivity {
                                         .delete();
                             }
                         });
-                //在这加addmessage
+
+                new SendMessage(GetUserFromDB.getUsername(), username, GetUserFromDB.getUsername().toString() + " has denied your application");
                 finish();
             }
         });
