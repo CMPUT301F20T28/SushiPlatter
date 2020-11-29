@@ -24,9 +24,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/amaranth"
-            android:gravity="center|center_horizontal|center_vertical"
+            android:gravity="center_vertical"
             android:text="message"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:textSize="18dp" />
     </LinearLayout>
 
 </LinearLayout>
