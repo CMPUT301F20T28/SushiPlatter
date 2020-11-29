@@ -3,7 +3,7 @@ package com.example.a301pro.Models;
 import com.google.firebase.firestore.GeoPoint;
 
 /**
- * This class initializes the property of a borrowed book as well as gets the data of a book
+ * This model initializes the property of a borrowed book as well as gets the data of a book
  */
 public class Borrowed {
     private String bookID;
@@ -14,6 +14,7 @@ public class Borrowed {
     private String oName;
     private String status;
     private GeoPoint location;
+
     /**
      * This constructor initializes the property of a borrowed book
      * @param imageId image id of the book

@@ -1,6 +1,7 @@
 package com.example.a301pro;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -67,6 +69,7 @@ public class AddEditIntent extends AppCompatActivity {
     private String imgid;
     Button camera;
     private String userName;
+    private boolean removeImg = false;
 
     /**
      * User event listener of all features
@@ -107,8 +110,7 @@ public class AddEditIntent extends AppCompatActivity {
                             img.setImageBitmap(bitmap);
                         }
                     });
-        }
-        else{
+        } else {
             imgid ="default.png";
             status.setText(String.valueOf(BookStatusEnum.Available));
             StorageReference imageRef = storage.getReference().child("default.png");
@@ -162,6 +164,7 @@ public class AddEditIntent extends AppCompatActivity {
                 if (myBook != null) {
                     old_book_id = myBook.getBook_id();
                 }
+
                 String myBookID = generateBookID(GetUserFromDB.getUserID(), myISBN);
 
                 if (jg) {
@@ -169,6 +172,18 @@ public class AddEditIntent extends AppCompatActivity {
                     handleUpload(bm);
                     imgid = myBookID + ".jpeg";
                 }
+
+                if (removeImg) {
+                    imgid = "default.png";
+
+                    if (!myBook.getImageID().equals(imgid)) {
+                        FirebaseStorage.getInstance()
+                                .getReference()
+                                .child(myBook.getImageID())
+                                .delete();
+                    }
+                }
+
                 myBook = new Book(imgid, myBookName, myBookAuthor, myISBN, myDes, myStatus,
                         myBookID, null, userName);
 
@@ -176,6 +191,7 @@ public class AddEditIntent extends AppCompatActivity {
                 if (old_book_id != null && !old_book_id.equals(myBookID)) {
                     removeOldBook(old_book_id);
                 }
+
                 // validation of book data, book name, author name, and ISBN are required.
                 // send data to update if valid, otherwise to display error message
                 if (!(TextUtils.isEmpty(myBookName)) &&
@@ -221,6 +237,14 @@ public class AddEditIntent extends AppCompatActivity {
             }
         });
 
+        // Remove book's image
+        img.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                removeBookImg();
+                return false;
+            }
+        });
     }
 
     /**
@@ -396,5 +420,32 @@ public class AddEditIntent extends AppCompatActivity {
         ISBN.setText(myBook.getISBN());
         description.setText(myBook.getDescription());
         status.setText(myBook.getStatus());
+    }
+
+    /**
+     * Pop up dialog for confirming image removable
+     */
+    public void removeBookImg() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure to delete the image?");
+        builder.setNegativeButton("Cancel", null);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                removeImg = true;
+                StorageReference imageRef = FirebaseStorage.getInstance().getReference().child("default.png");
+                imageRef.getBytes(1024 * 1024)
+                        .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                img.setImageBitmap(bitmap);
+                            }
+                        });
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

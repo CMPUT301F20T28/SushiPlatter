@@ -5,7 +5,6 @@ import android.widget.EditText;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.a301pro.Functionality.Login;
 import com.example.a301pro.View.ViewUserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

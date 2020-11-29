@@ -1,10 +1,9 @@
 package com.example.a301pro.Models;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.GeoPoint;
 
 /**
- * This class initializes the property of a borrowed book as well as gets the data of a book
+ * This model initializes the property of a requested book as well as gets the data of a book
  */
 public class Request {
     private String bookID;
@@ -16,11 +15,8 @@ public class Request {
     private String status;
     private GeoPoint location;
 
-
-
-
     /**
-     * This constructor initializes the property of a borrowed book
+     * This constructor initializes the property of a requested book
      * @param imageId image id of the book
      * @param bookName name of the book
      * @param des description of the book
@@ -40,15 +36,21 @@ public class Request {
         this.location = location;
     }
 
-
+    /**
+     * This allows the outside to get the location for trading
+     * @return
+     */
     public GeoPoint getLocation() {
         return location;
     }
 
+    /**
+     * This set the location for trading
+     * @param location
+     */
     public void setLocation(GeoPoint location) {
         this.location = location;
     }
-
 
     /**
      * This allows the outside to get the ISBN code of a book

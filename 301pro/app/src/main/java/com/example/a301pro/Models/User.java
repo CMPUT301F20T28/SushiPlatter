@@ -1,9 +1,9 @@
-package com.example.a301pro;
+package com.example.a301pro.Models;
 
 /**
- * This class initializes the property of a user as well as gets the data of a user
+ * This model initializes the property of a user as well as gets the data of a user
  */
-class User {
+public class User {
     private String userName;
     private String email;
     private String password;

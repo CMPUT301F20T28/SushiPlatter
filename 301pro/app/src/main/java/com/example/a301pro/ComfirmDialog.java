@@ -67,13 +67,13 @@ public class ComfirmDialog extends DialogFragment
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "Data has been deleted successfully!");
+                                            Log.d(TAG, "Book deleted");
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.d(TAG, "Data could not be deleted!" + e.toString());
+                                            Log.d(TAG, "Book could not be deleted!" + e.toString());
                                         }
                                     });
 
@@ -83,18 +83,18 @@ public class ComfirmDialog extends DialogFragment
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "Data in library has been deleted successfully!");
+                                            Log.d(TAG, "Book in library has been deleted successfully!");
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.d(TAG, "Data in library could not be deleted!" + e.toString());
+                                            Log.d(TAG, "Book in library could not be deleted!" + e.toString());
                                         }
                                     });
                         }
                         else{
-                            Toast.makeText(getContext(), "Fail. Only the Available book can be deleted",
+                            Toast.makeText(getContext(), "Fail, only the Available book can be deleted!",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

@@ -1,5 +1,7 @@
 package com.example.a301pro;
 
+import com.example.a301pro.Models.User;
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 

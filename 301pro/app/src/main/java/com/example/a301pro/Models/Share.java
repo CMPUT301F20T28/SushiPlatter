@@ -3,7 +3,7 @@ package com.example.a301pro.Models;
 import java.io.Serializable;
 
 /**
- * This class initializes the property of a shareable book as well as gets the data of a book
+ * This model initializes the property of a shareable book as well as gets the data of a book
  */
 public class Share implements Serializable {
     private String bookID;
@@ -13,6 +13,7 @@ public class Share implements Serializable {
     private String des;
     private String sit;
     private String owner;
+
     /**
      * This constructor initializes the property of a shareable book
      * @param imageId image id of the book

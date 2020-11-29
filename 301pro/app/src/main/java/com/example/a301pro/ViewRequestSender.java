@@ -11,6 +11,8 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a301pro.Adapters.CustomListRequestSender;
+import com.example.a301pro.Models.User;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.example.a301pro.Utilities.SendMessage;
 import com.example.a301pro.View.ViewUserProfile;

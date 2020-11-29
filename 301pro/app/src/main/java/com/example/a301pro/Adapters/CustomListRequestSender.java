@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.a301pro.R;
+import com.example.a301pro.Models.User;
 
 import java.util.ArrayList;
 
