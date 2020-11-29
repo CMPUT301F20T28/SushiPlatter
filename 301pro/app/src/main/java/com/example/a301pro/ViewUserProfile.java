@@ -50,7 +50,7 @@ public class ViewUserProfile extends AppCompatActivity {
     /**
      * Provide functionality viewing and editing personal profile
      * @param savedInstanceState data of previous instance
-     * @return layout of the fragment.
+     * @return layout of the fragment
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
