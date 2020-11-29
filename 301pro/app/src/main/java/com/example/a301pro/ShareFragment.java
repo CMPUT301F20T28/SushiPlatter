@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.a301pro.Utilities.GetUserFromDB;
+import com.example.a301pro.Utilities.UpdateMessageNotificationStatus;
 import com.githang.statusbar.StatusBarCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -168,18 +169,24 @@ public class ShareFragment extends Fragment {
         db.collection("Users").document(GetUserFromDB.getUserID()).collection("Messages").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                int unRead = 0;
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    String readStatus = (String) doc.getData().get("readStatus");
-
-                    if (readStatus.equals("new")){
-                        try {
+                    try {
+                        String readStatus = (String) doc.getData().get("readStatus");
+                        String message = (String) doc.getData().get("message");
+                        String messageID = (String) doc.getData().get("timeStamp");
+                        String receiver = (String) doc.getData().get("receiver");
+                        String messageNotificationStatus = (String) doc.getData().get("messageNotificationStatus");
+                        if(readStatus.equals("new")){
                             mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
-                            Toast.makeText(getActivity(), "You have received a new message!", Toast.LENGTH_LONG).show();
-                        }catch (IllegalStateException e){
-
-                        };
+                            if (messageNotificationStatus.equals("not_sent")){
+                                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                                new UpdateMessageNotificationStatus(receiver, messageID, "sent");
+                            }
+                        }
+                    }catch (Exception e){
                         return;
-                    }
+                    };
                 }
             }
         });

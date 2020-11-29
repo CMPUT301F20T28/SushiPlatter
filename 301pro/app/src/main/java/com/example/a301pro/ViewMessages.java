@@ -64,7 +64,9 @@ public class ViewMessages extends AppCompatActivity {
                     String messageID = timeStamp;
                     String receiver = (String) doc.getData().get("receiver");
                     String readStatus = (String) doc.getData().get("readStatus");
-                    messageDataList.add((new Message(timeStamp, timeMST, message, sender,receiver, readStatus)));
+                    String messageNotificationStatus = (String) doc.getData().get("messageNotificationStatus");
+
+                    messageDataList.add((new Message(timeStamp, timeMST, message, sender,receiver, readStatus, messageNotificationStatus)));
                 }
                 messageAdapter.notifyDataSetChanged();
             }
