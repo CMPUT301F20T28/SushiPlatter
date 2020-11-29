@@ -3,7 +3,6 @@ package com.example.a301pro;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.core.utilities.Utilities;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -74,11 +72,18 @@ public class ViewUserProfile extends AppCompatActivity {
         // get the username of other user, and disable profile edition
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            edit.setVisibility(View.GONE);
             username = bundle.getString("USERNAME");
             bookid = bundle.getString("BOOKID");
-            edit.setVisibility(View.GONE);
-
-        }else{
+            // determine if it is the user or owner
+            if (bundle.getString("OWNER") != null) {
+                username = bundle.getString("OWNER");
+                lent.setVisibility(View.GONE);
+                lent.setEnabled(false);
+                deny.setVisibility(View.GONE);
+                deny.setEnabled(false);
+            }
+        } else {
             lent.setVisibility(View.GONE);
             lent.setEnabled(false);
             deny.setVisibility(View.GONE);
@@ -149,7 +154,6 @@ public class ViewUserProfile extends AppCompatActivity {
                 finish();
             }
         });
-
 
         deny.setOnClickListener(new View.OnClickListener() {
             @Override

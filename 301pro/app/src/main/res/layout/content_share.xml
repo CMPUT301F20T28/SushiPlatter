@@ -36,6 +36,7 @@
         android:layout_height="128dp"
         android:layout_marginHorizontal="10dp"
         android:layout_weight="1.9"
+        android:text="Des"
         android:textSize="14sp" />
 
     <LinearLayout
@@ -57,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:focusable="false"
             android:hint="Owner Name"
             android:textSize="15sp">
 

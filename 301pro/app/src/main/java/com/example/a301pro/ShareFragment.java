@@ -74,7 +74,7 @@ public class ShareFragment extends Fragment {
         final CollectionReference collectionReference = db.collection("Library");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
-
+        final ImageButton mesBtn = view.findViewById(R.id.message_center);
         final EditText search = view.findViewById(R.id.search_method);
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -91,7 +91,7 @@ public class ShareFragment extends Fragment {
                     String description = (String) doc.getData().get("des");
                     String status = (String) doc.getData().get("sit");
                     String owner = (String) doc.getData().get("owner");
-//1
+
                     if (!owner.equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName())&& status.equals("Available")) {
                         shareDataList.add((new Share(bookId, imageId, ISBN, bookName,
                                 description, status, owner)));
@@ -164,8 +164,7 @@ public class ShareFragment extends Fragment {
             }
         });
 
-
-        final ImageButton mesBtn = view.findViewById(R.id.message_center);
+        // click on message button to open notification center for checking message
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,5 +184,4 @@ public class ShareFragment extends Fragment {
         shareList.setAdapter(shareAdapter);
         return view;
     }
-
 }
