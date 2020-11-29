@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.Functionality;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
 

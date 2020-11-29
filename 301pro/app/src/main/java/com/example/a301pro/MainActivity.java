@@ -12,7 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.a301pro.Fragments.BorrowedFragment;
+import com.example.a301pro.Fragments.MybookFragment;
+import com.example.a301pro.Fragments.RequestFragment;
+import com.example.a301pro.Fragments.ShareFragment;
+import com.example.a301pro.Functionality.Login;
 import com.example.a301pro.Utilities.GetUserFromDB;
+import com.example.a301pro.View.ViewUserProfile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;

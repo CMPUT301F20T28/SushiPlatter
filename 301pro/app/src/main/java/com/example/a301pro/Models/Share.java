@@ -1,69 +1,68 @@
-package com.example.a301pro;
+package com.example.a301pro.Models;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.firestore.GeoPoint;
+import java.io.Serializable;
 
 /**
- * This class initializes the property of a borrowed book as well as gets the data of a book
+ * This class initializes the property of a shareable book as well as gets the data of a book
  */
-public class Request {
+public class Share implements Serializable {
     private String bookID;
     private String imageId;
-    private String bookName;
     private String ISBN;
+    private String bookName;
     private String des;
-    private String requestFrom;
-    private String status;
-    private GeoPoint location;
-
-
-
-
+    private String sit;
+    private String owner;
     /**
-     * This constructor initializes the property of a borrowed book
+     * This constructor initializes the property of a shareable book
      * @param imageId image id of the book
      * @param bookName name of the book
      * @param des description of the book
-     * @param status status of the book
+     * @param sit status of the book
      * @param bookID id of the book
-     * @param requestFrom name of the request sender
+     * @param owner owner of the book
      */
-    public Request(String bookID, String imageId, String ISBN, String bookName, String des,
-                   String status, String requestFrom, GeoPoint location) {
+    public Share(String bookID, String imageId, String ISBN, String bookName, String des,
+                 String sit, String owner) {
         this.bookID = bookID;
-        this.imageId = imageId;
+        this.imageId =imageId;
         this.ISBN = ISBN;
         this.bookName = bookName;
         this.des = des;
-        this.status = status;
-        this.requestFrom = requestFrom;
-        this.location = location;
+        this.sit = sit;
+        this.owner = owner;
     }
-
-
-    public GeoPoint getLocation() {
-        return location;
-    }
-
-    public void setLocation(GeoPoint location) {
-        this.location = location;
-    }
-
 
     /**
      * This allows the outside to get the ISBN code of a book
-     * @return ISBN code of a book
+     * @return ISBN of a book
      */
     public String getISBN() {
         return ISBN;
     }
 
     /**
-     * This set the ISBN of a book
+     * This set the ISBN code of a book
      * @param ISBN ISBN to be set
      */
     public void setISBN(String ISBN) {
         this.ISBN = ISBN;
+    }
+
+    /**
+     * This allows the outside to get the name of a book
+     * @return name of a book
+     */
+    public String getBookName() {
+        return bookName;
+    }
+
+    /**
+     * This set the name of a book
+     * @param bookName name of a book to be set
+     */
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
     /**
@@ -118,16 +117,24 @@ public class Request {
      * This allows the outside to get the owner's name of a book
      * @return owner's name of a book
      */
-    public String getRequestFrom() {
-        return requestFrom;
+    public String getSit() {
+        return sit;
     }
 
     /**
      * This allows the outside to get the status of a book
      * @return status of a book
      */
-    public String getStatus() {
-        return status;
+    public String getOwner() {
+        return owner;
+    }
+
+    /**
+     * This set the description of a book
+     * @param bookName description to be set
+     */
+    public void setBook_name(String bookName) {
+        this.bookName = bookName;
     }
 
     /**
@@ -139,26 +146,18 @@ public class Request {
     }
 
     /**
-     * This set the description of a book
-     * @param requestFrom description to be set
-     */
-    public void setRequestFrom(String requestFrom) {
-        this.requestFrom = requestFrom;
-    }
-
-    /**
      * This set the status of a book
-     * @param status status to be set
+     * @param sit status to be set
      */
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSit(String sit) {
+        this.sit = sit;
     }
 
     /**
      * This set the name of a book
-     * @param bookName name of a book to be set
+     * @param owner name of a book to be set
      */
-    public void setBook_name(String bookName) {
-        this.bookName = bookName;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

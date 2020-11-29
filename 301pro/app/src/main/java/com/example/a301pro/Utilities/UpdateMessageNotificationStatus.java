@@ -1,7 +1,9 @@
 package com.example.a301pro.Utilities;
 
 import android.util.Log;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -11,21 +13,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-public class SendMessage {
-    private String senderUserName;
+public class UpdateMessageNotificationStatus {
     private String receiverUserName;
-    private String message;
+    private String messageID;
+    private String status;
 
     protected FirebaseFirestore db;
-    String TAG = "send a message";
+    String TAG = "update message notification status";
 
 
-    public SendMessage(final String senderUserName, final String receiverUserName, final String message){
+    public UpdateMessageNotificationStatus(final String receiverUserName, final String messageID, final String status){
         db = FirebaseFirestore.getInstance();
         String receiverUID;
         CollectionReference collectionReference = db.collection("userDict");
@@ -38,7 +35,7 @@ public class SendMessage {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         String UID = (String) document.getData().get("UID");
-                        addMessageToDB(UID ,senderUserName , message, receiverUserName);
+                        addMessageStatusToDB(receiverUserName , messageID, status, UID);
                     }
                 } else {
                 }
@@ -46,42 +43,28 @@ public class SendMessage {
         });
     }
 
-    public void addMessageToDB(String UID, String senderUserName, String message, String receiverUserName){
+    public void addMessageStatusToDB(String receiverUserName, String messageID, String status, String UID){
         final CollectionReference CollectRef = db.collection("Users");
-        Map<String, Object> messageMap = new HashMap<>();
-
-        Timestamp ts = new Timestamp(System.currentTimeMillis());
-        String mstTime = ts.toString();
-        String timeStamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
-
-        messageMap.put("sender", senderUserName);
-        messageMap.put("message", message);
-        messageMap.put("time", mstTime);
-        messageMap.put("timeStamp", timeStamp);
-        messageMap.put("receiver", receiverUserName);
-        messageMap.put("readStatus", "new");
-        messageMap.put("messageNotificationStatus", "not_sent");
 
         CollectRef
                 .document(UID)
                 .collection("Messages")
-                .document(timeStamp)
-                .set(messageMap)
+                .document(messageID)
+                .update("messageNotificationStatus", status)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // These are a method which gets executed when the task is succeeded
-                        Log.d(TAG, "Message has been added successfully!");
+                        Log.d(TAG, "Message notification  status has been updates successfully!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // These are a method which gets executed if there’s any problem
-                        Log.d(TAG, "Message could not be added!" + e.toString());
+                        Log.d(TAG, "Message notification status could not be updated!" + e.toString());
                     }
                 });
     }
-
-
 }
+

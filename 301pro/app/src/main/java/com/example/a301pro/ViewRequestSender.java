@@ -5,12 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a301pro.Utilities.GetUserFromDB;
+import com.example.a301pro.Utilities.SendMessage;
+import com.example.a301pro.View.ViewUserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,11 +48,38 @@ public class ViewRequestSender extends AppCompatActivity {
 
         final String allSenders = getIntent().getExtras().getString("REQUEST_SENDERS");
         final String Bookid = getIntent().getExtras().getString("BOOKID");
-        String[] senderArr = splitUser(String.valueOf(allSenders));
+        final String[] senderArr = splitUser(String.valueOf(allSenders));
 
         for (String s : senderArr) {
             getSenderInfo(s);
         }
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Button denyall = findViewById(R.id.denyall);
+        denyall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.collection("Users").document(GetUserFromDB.getUserID()).collection("Request").document(Bookid).delete();
+                for (String s : senderArr) {
+                    db.collection("userDict")
+                            .document(s).get()
+                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    String temp = documentSnapshot.getString("UID").toString();
+                                    db.collection("Users")
+                                            .document(temp)
+                                            .collection("Borrowed")
+                                            .document(Bookid)
+                                            .delete();
+                                }
+                            });
+                    new SendMessage(GetUserFromDB.getUsername(), s, GetUserFromDB.getUsername().toString() + " has denied your borrow request");
+
+                }
+                finish();
+            }
+        });
 
         // goto user profile of the sender
         senderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

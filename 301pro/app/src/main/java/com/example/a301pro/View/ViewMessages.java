@@ -1,12 +1,20 @@
-package com.example.a301pro;
+package com.example.a301pro.View;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.a301pro.Adapters.CostumeListMessages;
+import com.example.a301pro.Models.Message;
+import com.example.a301pro.R;
+import com.example.a301pro.Utilities.UpdateMessageStatus;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -56,10 +64,33 @@ public class ViewMessages extends AppCompatActivity {
                     String message = (String) doc.getData().get("message");
                     String timeMST = (String) doc.getData().get("time");
                     String timeStamp = (String) doc.getData().get("timeStamp");
+                    String messageID = timeStamp;
                     String receiver = (String) doc.getData().get("receiver");
-                    messageDataList.add((new Message(timeStamp, timeMST, message, sender,receiver)));
+                    String readStatus = (String) doc.getData().get("readStatus");
+                    String messageNotificationStatus = (String) doc.getData().get("messageNotificationStatus");
+
+                    messageDataList.add((new Message(timeStamp, timeMST, message, sender,receiver, readStatus, messageNotificationStatus)));
                 }
                 messageAdapter.notifyDataSetChanged();
+            }
+        });
+
+        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Message message = messageAdapter.getItem(position);
+
+                try{
+                    String receiver = message.getReceiver();
+                    String messageID = message.getTimeStamp();
+                    String readStatus = message.getReadStatus();
+                    if (readStatus.equals("new")){
+                        new UpdateMessageStatus(receiver, messageID, "read");
+                        Toast.makeText(ViewMessages.this, "Message read!", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+
+                }
             }
         });
     }

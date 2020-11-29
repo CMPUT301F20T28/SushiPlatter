@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.a301pro.R;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.example.a301pro.Utilities.SendMessage;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,7 +38,6 @@ public class ViewUserProfile extends AppCompatActivity {
     Button edit;
     Button profileQuit;
     Button lent;
-    Button deny;
     String Tag = "ViewUserProfile";
     String firstName;
     String lastName;
@@ -66,7 +66,6 @@ public class ViewUserProfile extends AppCompatActivity {
         edit = findViewById(R.id.edit_profile);
         profileQuit = findViewById(R.id.profile_quit);
         lent = findViewById(R.id.lent);
-        deny = findViewById(R.id.deny);
 
 
         // get the username of current user
@@ -82,14 +81,10 @@ public class ViewUserProfile extends AppCompatActivity {
                 username = bundle.getString("OWNER");
                 lent.setVisibility(View.GONE);
                 lent.setEnabled(false);
-                deny.setVisibility(View.GONE);
-                deny.setEnabled(false);
             }
         } else {
             lent.setVisibility(View.GONE);
             lent.setEnabled(false);
-            deny.setVisibility(View.GONE);
-            deny.setEnabled(false);
         }
         DocumentReference docRef = db.collection("userDict").document(username);
 
@@ -114,6 +109,12 @@ public class ViewUserProfile extends AppCompatActivity {
                         .document(bookid)
                         .update("status","Accepted");
 
+                db.collection("Users")
+                        .document( GetUserFromDB.getUserID())
+                        .collection("MyBooks")
+                        .document(bookid)
+                        .update("borrower_name",username);
+
                 db.collection("Users").document(GetUserFromDB.getUserID())
                         .collection("Request")
                         .document(bookid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -137,6 +138,10 @@ public class ViewUserProfile extends AppCompatActivity {
                     }
                 });
 
+                db.collection("Users").document(GetUserFromDB.getUserID())
+                        .collection("Request")
+                        .document(bookid)
+                        .update("requestFrom",username);
 
                 db.collection("userDict")
                         .document(username).get()
@@ -165,30 +170,7 @@ public class ViewUserProfile extends AppCompatActivity {
             }
         });
 
-        deny.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                db.collection("Users").document( GetUserFromDB.getUserID()).collection("Request").document(bookid).delete();
-
-                db.collection("userDict")
-                        .document(username).get()
-                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                String temp = documentSnapshot.getString("UID").toString();
-                                db.collection("Users")
-                                        .document(temp)
-                                        .collection("Borrowed")
-                                        .document(bookid)
-                                        .delete();
-                            }
-                        });
-
-                new SendMessage(GetUserFromDB.getUsername(), username, GetUserFromDB.getUsername().toString() + " has denied your borrow request");
-                finish();
-            }
-        });
 
         // get user data
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

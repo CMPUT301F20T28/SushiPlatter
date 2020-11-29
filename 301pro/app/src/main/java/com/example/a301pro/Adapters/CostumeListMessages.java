@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.a301pro.Models.Message;
+import com.example.a301pro.R;
 
 import java.util.ArrayList;
 
@@ -37,6 +40,15 @@ public class CostumeListMessages extends ArrayAdapter<Message> {
 
         TextView timeStamp = view.findViewById(R.id.messageTime);
         TextView messageDetail = view.findViewById(R.id.messageDetail);
+        TextView MessageStatus = view.findViewById(R.id.new_message);
+
+        if (message.getReadStatus().equals("new")){
+            MessageStatus.setVisibility(View.VISIBLE);
+        }
+
+        else{
+            MessageStatus.setVisibility(View.GONE);
+        }
 
         timeStamp.setText(message.getTimeMST());
         messageDetail.setText(message.getMessage());
