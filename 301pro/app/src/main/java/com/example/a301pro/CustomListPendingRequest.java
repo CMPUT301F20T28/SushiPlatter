@@ -71,7 +71,7 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getContext(),"111111111111",Toast.LENGTH_SHORT).show();
-                if (pend.getStatus().equals("Accecpted")) {
+                if (pend.getStatus().equals("Accepted")) {
                     Intent intent = new Intent(getContext(), SetMapActivity.class);
                     intent.putExtra("BOOKID", pend.getBookID());
                     intent.putExtra("BORROWER", pend.getRequestFrom());
