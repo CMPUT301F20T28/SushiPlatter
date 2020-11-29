@@ -77,10 +77,17 @@ public class ViewMessages extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Message message = messageAdapter.getItem(position);
 
-                String receiver = message.getReceiver();
-                String messageID = message.getTimeStamp();
-                new UpdateMessageStatus(receiver, messageID, "read");
-                Toast.makeText(ViewMessages.this, "Message read!", Toast.LENGTH_SHORT).show();
+                try{
+                    String receiver = message.getReceiver();
+                    String messageID = message.getTimeStamp();
+                    String readStatus = message.getReadStatus();
+                    if (readStatus.equals("new")){
+                        new UpdateMessageStatus(receiver, messageID, "read");
+                        Toast.makeText(ViewMessages.this, "Message read!", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+
+                }
             }
         });
     }

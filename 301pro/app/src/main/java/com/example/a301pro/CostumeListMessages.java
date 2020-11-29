@@ -44,16 +44,13 @@ public class CostumeListMessages extends ArrayAdapter<Message> {
         TextView messageDetail = view.findViewById(R.id.messageDetail);
         TextView MessageStatus = view.findViewById(R.id.new_message);
 
-        ImageButton mesBtn = view.findViewById(R.id.message_center_pending);
-
         if (message.getReadStatus().equals("new")){
-            MessageStatus.setText("NEW");
+            MessageStatus.setVisibility(View.VISIBLE);
         }
 
         else{
             MessageStatus.setVisibility(View.GONE);
         }
-
 
         timeStamp.setText(message.getTimeMST());
         messageDetail.setText(message.getMessage());
