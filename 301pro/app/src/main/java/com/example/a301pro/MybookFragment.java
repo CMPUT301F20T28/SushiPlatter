@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.a301pro.Utilities.FilterMenu;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.githang.statusbar.StatusBarCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -165,8 +166,8 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
         // click on filter button to filter out item
         filterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                showPopupMenu(filterBtn);
+            public void onClick(View view) {
+                FilterMenu.mybookFilter(view, bookDataList, bookAdapter);
             }
         });
 
@@ -203,10 +204,6 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
         return view;
     }
 
-    private void changelist(String de) {
-        searchList.clear();
-    }
-
     /**
      * Receive result from AddEditIntent
      * @param requestCode request for AddEditIntent
@@ -222,69 +219,12 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
     }
 
     /**
-     * Popup the menu for picking status
-     * @param view view
-     */
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(final MenuItem item) {
-                //Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-
-                final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                final CollectionReference collectionReference = db.collection("Users")
-                        .document(GetUserFromDB.getUserID())
-                        .collection("MyBooks");
-                bookDataList.clear();
-                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots,
-                                        @Nullable FirebaseFirestoreException error) {
-                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                            String imageID = (String) doc.getData().get("imageID");
-                            String bookName= (String) doc.getData().get("book_name");
-                            String author = (String) doc.getData().get("author");
-                            String ISBN =  (String) doc.getData().get("isbn");
-                            String description = (String) doc.getData().get("description");
-                            String status = (String) doc.getData().get("status");
-                            String bookid = doc.getId();
-                            String borrower = (String) doc.getData().get("borrower_name");
-                            String owner = (String) doc.getData().get("owner");
-                            if (status.equals(item.getTitle())) {
-                                bookDataList.add((new Book(imageID, bookName, author, ISBN,
-                                        description, status, bookid, borrower, owner)));
-                            }
-                        }
-                        bookAdapter.notifyDataSetChanged();
-                    }
-                });
-
-                return false;
-            }
-        });
-
-        popupMenu.show();
-    }
-
-    /**
      * Update book data to list view
      * @param book book data
      */
     @Override
     public void onOkPressed(final Book book) {
         bookAdapter.remove(book);
-    }
-
-    /**
-     * Generate a unique id for a book
-     * @param uid unique userId from the database
-     * @param isbn isbn code for the book
-     * @return unique id of the book, which is uid followed by isbn
-     */
-    protected String generateBookID(String uid, String isbn) {
-        return uid + "-" + isbn;
     }
 
 }

@@ -5,21 +5,21 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_My_book"
-            android:title="My Book" />
+            android:id="@+id/nav_mybooks"
+            android:title="My Books" />
         <item
             android:id="@+id/nav_shared"
             android:title="Library" />
         <item
-            android:id="@+id/nav_Requested"
-            android:title="Requested" />
+            android:id="@+id/nav_borrowed"
+            android:title="Borrowed" />
 
         <item
-            android:id="@+id/nav_Requests"
+            android:id="@+id/nav_requests"
             android:title="Requests" />
 
         <item
-            android:id="@+id/nav_Messages"
+            android:id="@+id/nav_messages"
             android:title="Messages" />
 
     </group>

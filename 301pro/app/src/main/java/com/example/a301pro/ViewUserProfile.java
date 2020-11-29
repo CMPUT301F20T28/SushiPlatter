@@ -55,6 +55,7 @@ public class ViewUserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.personal_profile);
         AppCompatAcitiviy:getSupportActionBar().hide();
+
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         userFirstNameShow = findViewById(R.id.user_first_name_display);

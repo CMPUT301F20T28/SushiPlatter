@@ -81,11 +81,9 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
             @Override
             public void onClick(View v) {
                 if (pend.getStatus().equals("Accepted")) {
-                    //Toast.makeText(getContext(),"111111111111",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), ViewMapActivity.class);
                     intent.putExtra("BOOKID", pend.getBookID());
                     context.startActivity(intent);
-//                ((Activity)(context)).startActivityForResult(intent,MAP_SET);
                 }else{
                     Toast.makeText(getContext(),"The book do not be accepted by the owner",Toast.LENGTH_SHORT).show();
                 }
@@ -96,10 +94,6 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getContext(),"222222222222",Toast.LENGTH_SHORT).show();
-                //Intent intent =new Intent(getContext(),ScanISBN.class);
-                //context.startActivity(intent);
-
                 String isbn = pend.getISBN();
                 String book_id = pend.getBookID();
                 String owner = pend.getO_name();
@@ -126,6 +120,7 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
                         img.setImageBitmap(bitmap);
                     }
                 });
+
         book_name.setText(pend.getBook_name());
         des.setText(pend.getDes());
         sta.setText(pend.getStatus());

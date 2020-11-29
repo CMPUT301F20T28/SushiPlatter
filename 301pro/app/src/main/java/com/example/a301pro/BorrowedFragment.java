@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.a301pro.Utilities.FilterMenu;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.githang.statusbar.StatusBarCompat;
 import com.google.firebase.firestore.CollectionReference;
@@ -75,8 +76,8 @@ public class BorrowedFragment extends Fragment {
         // click on filter button to filter out item
         filterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                showPopupMenu(filterBtn);
+            public void onClick(View view) {
+                FilterMenu.borrowedFilter(view, pendDataList, pendAdapter);
             }
         });
 
@@ -180,22 +181,5 @@ public class BorrowedFragment extends Fragment {
         pendAdapter = new CustomListPending(getContext(),pendDataList);
         pendList.setAdapter(pendAdapter);
         return view;
-    }
-
-    /**
-     * Popup the menu for filtering book by category
-     * @param view view
-     */
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.book_category, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-        popupMenu.show();
     }
 }
