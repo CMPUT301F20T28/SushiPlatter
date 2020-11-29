@@ -25,7 +25,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.a301pro.Models.Book;
+import com.example.a301pro.Models.Share;
 import com.example.a301pro.Utilities.AddBookToLibrary;
+import com.example.a301pro.Utilities.BookStatusEnum;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.Functionality;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a301pro.Functionality.CaptureAct;
+import com.example.a301pro.R;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;

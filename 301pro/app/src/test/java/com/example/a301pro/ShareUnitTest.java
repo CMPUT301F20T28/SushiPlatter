@@ -1,5 +1,7 @@
 package com.example.a301pro;
 
+import com.example.a301pro.Models.Share;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

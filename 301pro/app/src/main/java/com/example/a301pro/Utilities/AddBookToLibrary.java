@@ -4,12 +4,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.a301pro.AddEditIntent;
-import com.example.a301pro.Book;
-import com.example.a301pro.Share;
+import com.example.a301pro.Models.Share;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 

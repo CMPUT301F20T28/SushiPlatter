@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.Utilities;
 
 /**
  * Enum of the status of book

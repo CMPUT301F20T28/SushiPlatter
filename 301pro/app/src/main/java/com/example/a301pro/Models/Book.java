@@ -1,4 +1,4 @@
-package com.example.a301pro;
+package com.example.a301pro.Models;
 
 import java.io.Serializable;
 

@@ -1,19 +1,24 @@
-package com.example.a301pro;
+package com.example.a301pro.Models;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.GeoPoint;
 
 /**
  * This class initializes the property of a borrowed book as well as gets the data of a book
  */
-public class Borrowed {
+public class Request {
     private String bookID;
     private String imageId;
-    private String ISBN;
     private String bookName;
+    private String ISBN;
     private String des;
-    private String oName;
+    private String requestFrom;
     private String status;
     private GeoPoint location;
+
+
+
+
     /**
      * This constructor initializes the property of a borrowed book
      * @param imageId image id of the book
@@ -21,19 +26,20 @@ public class Borrowed {
      * @param des description of the book
      * @param status status of the book
      * @param bookID id of the book
-     * @param oName owner of the book
+     * @param requestFrom name of the request sender
      */
-    public Borrowed(String bookID, String imageId, String ISBN, String bookName, String des,
-                    String status, String oName, GeoPoint location) {
+    public Request(String bookID, String imageId, String ISBN, String bookName, String des,
+                   String status, String requestFrom, GeoPoint location) {
         this.bookID = bookID;
         this.imageId = imageId;
         this.ISBN = ISBN;
         this.bookName = bookName;
         this.des = des;
         this.status = status;
-        this.oName = oName;
+        this.requestFrom = requestFrom;
         this.location = location;
     }
+
 
     public GeoPoint getLocation() {
         return location;
@@ -43,17 +49,18 @@ public class Borrowed {
         this.location = location;
     }
 
+
     /**
      * This allows the outside to get the ISBN code of a book
-     * @return ISBN code of a book。
+     * @return ISBN code of a book
      */
     public String getISBN() {
         return ISBN;
     }
 
     /**
-     * This set the ISBN code of a book
-     * @param ISBN ISBN code to be set
+     * This set the ISBN of a book
+     * @param ISBN ISBN to be set
      */
     public void setISBN(String ISBN) {
         this.ISBN = ISBN;
@@ -66,6 +73,7 @@ public class Borrowed {
     public String getBookID() {
         return bookID;
     }
+
     /**
      * This set the image id of a book
      * @param bookID bookid to be set
@@ -73,6 +81,7 @@ public class Borrowed {
     public void setBookID(String bookID) {
         this.bookID = bookID;
     }
+
     /**
      * This allows the outside to get the image id of a book
      * @return image id of a book
@@ -80,6 +89,7 @@ public class Borrowed {
     public String getImageId() {
         return imageId;
     }
+
     /**
      * This set the image id of a book
      * @param imageId image id to be set
@@ -87,6 +97,7 @@ public class Borrowed {
     public void setImageId(String imageId) {
         this.imageId = imageId;
     }
+
     /**
      * This allows the outside to get the image id of a book
      * @return image id of a book
@@ -94,6 +105,7 @@ public class Borrowed {
     public String getBook_name() {
         return bookName;
     }
+
     /**
      * This allows the outside to get the description of a book
      * @return description of a book
@@ -101,13 +113,15 @@ public class Borrowed {
     public String getDes() {
         return des;
     }
+
     /**
      * This allows the outside to get the owner's name of a book
      * @return owner's name of a book
      */
-    public String getO_name() {
-        return oName;
+    public String getRequestFrom() {
+        return requestFrom;
     }
+
     /**
      * This allows the outside to get the status of a book
      * @return status of a book
@@ -115,6 +129,7 @@ public class Borrowed {
     public String getStatus() {
         return status;
     }
+
     /**
      * This set the description of a book
      * @param des description to be set
@@ -122,12 +137,13 @@ public class Borrowed {
     public void setDes(String des) {
         this.des = des;
     }
+
     /**
      * This set the description of a book
-     * @param oName description to be set
+     * @param requestFrom description to be set
      */
-    public void setOwner(String oName) {
-        this.oName = oName;
+    public void setRequestFrom(String requestFrom) {
+        this.requestFrom = requestFrom;
     }
 
     /**
@@ -137,6 +153,7 @@ public class Borrowed {
     public void setStatus(String status) {
         this.status = status;
     }
+
     /**
      * This set the name of a book
      * @param bookName name of a book to be set

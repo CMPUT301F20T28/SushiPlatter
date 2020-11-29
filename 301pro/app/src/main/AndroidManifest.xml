@@ -21,12 +21,12 @@
         </meta-data>
 
         <activity android:name=".SetMapActivity" />
-        <activity android:name=".ViewMapActivity" />
-        <activity android:name=".ViewMessages" />
+        <activity android:name=".View.ViewMapActivity" />
+        <activity android:name=".View.ViewMessages" />
 
         <activity android:name=".ViewRequestSender"/>
         <activity android:name=".MessageCenterIntent"/>
-        <activity android:name=".ViewUserProfile" />
+        <activity android:name=".View.ViewUserProfile" />
         <activity
             android:name=".AddEditIntent"
             android:parentActivityName=".MainActivity" />
@@ -34,15 +34,15 @@
             android:name=".SentRequestIntent"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ScanISBN"
+            android:name=".Functionality.ScanISBN"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Register"
-            android:parentActivityName=".Login" />
+            android:parentActivityName=".Functionality.Login" />
         <activity
             android:name=".MainActivity"
-            android:parentActivityName=".Login" />
-        <activity android:name=".Login">
+            android:parentActivityName=".Functionality.Login" />
+        <activity android:name=".Functionality.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CaptureAct"
+            android:name=".Functionality.CaptureAct"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:windowSoftInputMode="stateAlwaysHidden" />

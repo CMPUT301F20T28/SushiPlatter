@@ -8,7 +8,7 @@ import android.widget.PopupMenu;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.a301pro.Book;
+import com.example.a301pro.Models.Book;
 import com.example.a301pro.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;

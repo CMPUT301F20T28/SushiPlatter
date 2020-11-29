@@ -1,11 +1,10 @@
-package com.example.a301pro;
+package com.example.a301pro.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,16 +13,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.a301pro.Utilities.FilterMenu;
+import com.example.a301pro.Adapters.CustomListPendingRequest;
+import com.example.a301pro.R;
+import com.example.a301pro.Models.Request;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.example.a301pro.Utilities.UpdateMessageNotificationStatus;
+import com.example.a301pro.View.ViewMessages;
+import com.example.a301pro.ViewRequestSender;
+import com.example.a301pro.View.ViewUserProfile;
 import com.githang.statusbar.StatusBarCompat;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -197,7 +200,6 @@ public class RequestFragment extends Fragment {
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
                 Intent intent = new Intent(getContext(), ViewMessages.class);
                 intent.putExtra("userUID", GetUserFromDB.getUserID());
                 startActivity(intent);
