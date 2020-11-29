@@ -69,15 +69,6 @@ public class RequestFragment extends Fragment {
         pendList.setAdapter(pendAdapter);
 
         final EditText search = view.findViewById(R.id.search_method_pending);
-        final Button filterBtn = view.findViewById(R.id.filter_pending);
-        // click on filter button to filter out item
-        filterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FilterMenu.requestFilter(view, pendDataList, pendAdapter);
-            }
-        });
-
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users")
                 .document(GetUserFromDB.getUserID())
