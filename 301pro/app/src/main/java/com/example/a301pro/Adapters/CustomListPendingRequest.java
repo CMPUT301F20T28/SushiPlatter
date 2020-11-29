@@ -105,7 +105,7 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
                     intent.putExtra("PERSON","Owner");
                     context.startActivity(intent);
                 }else{
-                    Toast.makeText(getContext(),"Please scan after accepting the request",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"The book has not been borrowed by user",Toast.LENGTH_SHORT).show();
                 }
 
             }

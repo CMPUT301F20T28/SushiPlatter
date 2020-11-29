@@ -172,7 +172,10 @@ public class RequestFragment extends Fragment {
         final ImageButton mesBtn = view.findViewById(R.id.message_center_pending);
 
         // Check if user received a new message
-        db.collection("Users").document(GetUserFromDB.getUserID()).collection("Messages").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("Users")
+                .document(GetUserFromDB.getUserID())
+                .collection("Messages")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 int unRead = 0;
