@@ -21,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+
+import com.example.a301pro.Utilities.CheckMessageStatus;
 import com.example.a301pro.Utilities.FilterMenu;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.githang.statusbar.StatusBarCompat;
@@ -149,17 +151,36 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
             }
         });
 
+
+
+        // Check if user received a new message
+        db.collection("Users").document(GetUserFromDB.getUserID()).collection("Messages").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                int unRead = 0;
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    String readStatus = (String) doc.getData().get("readStatus");
+
+                    if (readStatus.equals("new")){
+                        try {
+                        mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                        Toast.makeText(getActivity(), "You have received a new message!", Toast.LENGTH_LONG).show();
+                        }catch (IllegalStateException e){
+
+                        };
+                        return;
+                    }
+                }
+            }
+        });
+
         // click on message button to open notification center for checking message
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
-
                 Intent intent = new Intent(getContext(), ViewMessages.class);
                 intent.putExtra("userUID", GetUserFromDB.getUserID());
-
                 startActivity(intent);
-                Toast.makeText(getContext(), GetUserFromDB.getUserID(),Toast.LENGTH_SHORT).show();
             }
         });
 

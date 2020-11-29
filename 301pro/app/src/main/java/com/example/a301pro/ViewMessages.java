@@ -1,8 +1,11 @@
 package com.example.a301pro;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,9 +65,20 @@ public class ViewMessages extends AppCompatActivity {
                     String receiver = (String) doc.getData().get("receiver");
                     String readStatus = (String) doc.getData().get("readStatus");
                     messageDataList.add((new Message(timeStamp, timeMST, message, sender,receiver, readStatus)));
-                    new UpdateMessageStatus(receiver, messageID, "read");
                 }
                 messageAdapter.notifyDataSetChanged();
+            }
+        });
+
+        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Message message = messageAdapter.getItem(position);
+
+                String receiver = message.getReceiver();
+                String messageID = message.getTimeStamp();
+                new UpdateMessageStatus(receiver, messageID, "read");
+                Toast.makeText(ViewMessages.this, "Message read!", Toast.LENGTH_SHORT).show();
             }
         });
     }
