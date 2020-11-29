@@ -101,7 +101,7 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
                     intent.putExtra("PERSON","Owner");
                     context.startActivity(intent);
                 }else{
-                    Toast.makeText(getContext(),"You have not accepted by the owner",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Please scan after accepting the request",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -116,6 +116,7 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
                         img.setImageBitmap(bitmap);
                     }
                 });
+
         book_name.setText(pend.getBook_name());
         des.setText(pend.getDes());
         sta.setText(pend.getStatus());

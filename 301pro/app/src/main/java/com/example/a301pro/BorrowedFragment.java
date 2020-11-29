@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.a301pro.Utilities.FilterMenu;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.githang.statusbar.StatusBarCompat;
 import com.google.firebase.firestore.CollectionReference;
@@ -57,7 +58,6 @@ public class BorrowedFragment extends Fragment {
      * @param savedInstanceState data of previous instance
      * @return layout of the fragment
      */
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,15 +71,6 @@ public class BorrowedFragment extends Fragment {
         pendList.setAdapter(pendAdapter);
 
         final EditText search = view.findViewById(R.id.search_method_pending);
-        final Button filterBtn = view.findViewById(R.id.filter_pending);
-        // click on filter button to filter out item
-        filterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupMenu(filterBtn);
-            }
-        });
-
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users")
                 .document(GetUserFromDB.getUserID()).collection("Borrowed");
@@ -157,15 +148,6 @@ public class BorrowedFragment extends Fragment {
             }
         });
 
-
-        pendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(),"11111111111123",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
         // click on message button to open notification center for checking message
         final ImageButton mesBtn = view.findViewById(R.id.message_center_pending);
 
@@ -202,22 +184,5 @@ public class BorrowedFragment extends Fragment {
         pendAdapter = new CustomListPending(getContext(),pendDataList);
         pendList.setAdapter(pendAdapter);
         return view;
-    }
-
-    /**
-     * Popup the menu for filtering book by category
-     * @param view view
-     */
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.book_category, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-        popupMenu.show();
     }
 }

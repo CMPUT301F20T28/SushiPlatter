@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background">
+    android:background="@drawable/gradient_background" >
 
     <TextView
         android:id="@+id/title_profile"
@@ -13,7 +13,7 @@
         android:gravity="center"
         android:text="Profile"
         android:textColor="#FFFFFFFF"
-        android:textSize="30sp">
+        android:textSize="30sp" >
 
     </TextView>
 
@@ -33,20 +33,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_self_login"
-        android:layout_margin="30dp"
-        android:orientation="horizontal"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginVertical="20dp"
+        android:orientation="vertical"
         android:weightSum="3">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/user_first_name_display"
@@ -98,7 +94,6 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
-    </LinearLayout>
 
     <Button
         android:id="@+id/edit_profile"
@@ -111,56 +106,37 @@
         android:gravity="center"
         android:text="Edit Profile"
         android:textColor="#FFFFFFFF"
-        android:textSize="14sp">
+        android:textSize="14sp" >
 
     </Button>
-    <LinearLayout
+
+    <Button
+        android:id="@+id/lent"
+        android:text="Lent the Book"
+        android:textColor="#FFFFFFFF"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@id/edit_profile"
-        android:orientation="horizontal"
-        android:id="@+id/choose"
-        android:weightSum="2"
-        >
-        <Button
-            android:id="@+id/lent"
-            android:text="Lent the Book"
-            android:textColor="#FFFFFFFF"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="5dp"
-            android:textSize="17sp"
-            android:background="@drawable/positive_button">
-        </Button>
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
+        android:textSize="17sp"
+        android:background="@drawable/positive_button" >
+    </Button>
 
-        <Button
-            android:id="@+id/deny"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/colorAccent"
-            android:text="Deny the Request"
-            android:textSize="16sp"
-            android:background="@drawable/negative_button">
-        </Button>
 
-    </LinearLayout>
+
     <Button
         android:id="@+id/profile_quit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/choose"
+        android:layout_below="@id/lent"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/negative_button"
         android:gravity="center"
         android:text="Back"
         android:textColor="@color/colorAccent"
-        android:textSize="14sp">
+        android:textSize="14sp" >
 
     </Button>
 

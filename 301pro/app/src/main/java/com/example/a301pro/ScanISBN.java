@@ -72,7 +72,7 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
         integrator.setCaptureActivity(CaptureAct.class);
         integrator.setOrientationLocked(false);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-        integrator.setPrompt("Scaning Code");
+        integrator.setPrompt("Scanning Code");
         integrator.initiateScan();
     }
 
@@ -92,7 +92,7 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                     if(person.equals("Borrower")) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("You have sucessfully borrowed the book");
+                        builder.setMessage("You have successfully borrowed the book");
                         builder.setTitle("Scanning Result");
                         builder.setNegativeButton("finish", new DialogInterface.OnClickListener() {
                             @Override
@@ -135,7 +135,7 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                     if (person.equals("Owner")){
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("You have sucessfully get the book back");
+                        builder.setMessage("You have successfully get the book back");
                         builder.setTitle("Scanning Result");
                         builder.setNegativeButton("finish", new DialogInterface.OnClickListener() {
                             @Override
