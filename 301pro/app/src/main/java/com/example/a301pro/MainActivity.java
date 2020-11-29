@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), ViewMessages.class);
                     intent.putExtra("userUID", GetUserFromDB.getUserID());
                     startActivity(intent);
+
                 }
                 return true;
             }
