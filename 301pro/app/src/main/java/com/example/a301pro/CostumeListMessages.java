@@ -1,14 +1,19 @@
 package com.example.a301pro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.a301pro.Utilities.GetUserFromDB;
 
 import java.util.ArrayList;
 
@@ -37,6 +42,18 @@ public class CostumeListMessages extends ArrayAdapter<Message> {
 
         TextView timeStamp = view.findViewById(R.id.messageTime);
         TextView messageDetail = view.findViewById(R.id.messageDetail);
+        TextView MessageStatus = view.findViewById(R.id.new_message);
+
+        ImageButton mesBtn = view.findViewById(R.id.message_center_pending);
+
+        if (message.getReadStatus().equals("new")){
+            MessageStatus.setText("NEW");
+        }
+
+        else{
+            MessageStatus.setVisibility(View.GONE);
+        }
+
 
         timeStamp.setText(message.getTimeMST());
         messageDetail.setText(message.getMessage());
