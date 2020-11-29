@@ -2,6 +2,8 @@ package com.example.a301pro;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a301pro.Fragments.BorrowedFragment;
 import com.example.a301pro.Fragments.MybookFragment;
@@ -18,6 +21,7 @@ import com.example.a301pro.Fragments.RequestFragment;
 import com.example.a301pro.Fragments.ShareFragment;
 import com.example.a301pro.Functionality.Login;
 import com.example.a301pro.Utilities.GetUserFromDB;
+import com.example.a301pro.View.ViewMessages;
 import com.example.a301pro.View.ViewUserProfile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -49,6 +53,32 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.nav_mybooks) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new MybookFragment()).commit();
+                } else if (id == R.id.nav_shared) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new ShareFragment()).commit();
+                } else if (id == R.id.nav_borrowed) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new BorrowedFragment()).commit();
+                } else if (id == R.id.nav_requests) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new RequestFragment()).commit();
+                } else if(id == R.id.nav_messages){
+                    Intent intent = new Intent(getApplicationContext(), ViewMessages.class);
+                    intent.putExtra("userUID", GetUserFromDB.getUserID());
+                    startActivity(intent);
+                }
+                return true;
+            }
+        });
+
         final TextView un = headerView.findViewById(R.id.un);
         final String userName = GetUserFromDB.getUsername();
         un.setText(userName);
@@ -75,14 +105,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button nav_MyBook = findViewById(R.id.nav_mybooks);
-        Button nav_message = findViewById(R.id.nav_messages);
-        Button nav_shared = findViewById(R.id.nav_shared);
-        Button nav_requested = findViewById(R.id.nav_borrowed);
-        Button nav_requests = findViewById(R.id.nav_requests);
 
     }
-
 
     /**
      * Controller of the fragment navigation bar
@@ -114,4 +138,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+
+
+
+
 }
