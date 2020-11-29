@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.a301pro.Utilities.GetUserFromDB;
+import com.example.a301pro.Utilities.SendMessage;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -94,6 +95,7 @@ public class SetMapActivity extends FragmentActivity implements OnMapReadyCallba
                 final GeoPoint point1 = new GeoPoint(lat,lng);
 
                 collectionReference.document(Book_id).update("location",point1);
+                new SendMessage(GetUserFromDB.getUsername(), borrower, GetUserFromDB.getUsername().toString() + " has updated the location where you can pick up the book!");
 
                 DocumentReference collectionReference2 = db.collection("userDict").document(borrower);
                 collectionReference2.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
