@@ -137,6 +137,10 @@ public class ViewUserProfile extends AppCompatActivity {
                     }
                 });
 
+                db.collection("Users").document(GetUserFromDB.getUserID())
+                        .collection("Request")
+                        .document(bookid)
+                        .update("requestFrom",username);
 
                 db.collection("userDict")
                         .document(username).get()
