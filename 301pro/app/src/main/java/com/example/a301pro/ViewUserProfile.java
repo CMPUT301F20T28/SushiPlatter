@@ -159,7 +159,7 @@ public class ViewUserProfile extends AppCompatActivity {
                 db.collection("Library").document(bookid).update("sit","Borrowed");
 
 
-                new SendMessage(GetUserFromDB.getUsername(), username, GetUserFromDB.getUsername().toString() + " has accepted your application");
+                new SendMessage(GetUserFromDB.getUsername(), username, GetUserFromDB.getUsername().toString() + " has accepted your borrow request");
                 finish();
             }
         });
@@ -184,7 +184,7 @@ public class ViewUserProfile extends AppCompatActivity {
                             }
                         });
 
-                new SendMessage(GetUserFromDB.getUsername(), username, GetUserFromDB.getUsername().toString() + " has denied your application");
+                new SendMessage(GetUserFromDB.getUsername(), username, GetUserFromDB.getUsername().toString() + " has denied your borrow request");
                 finish();
             }
         });
