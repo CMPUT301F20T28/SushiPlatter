@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.a301pro.Utilities.FilterMenu;
 import com.example.a301pro.Utilities.GetUserFromDB;
 import com.githang.statusbar.StatusBarCompat;
 import com.google.firebase.firestore.CollectionReference;
@@ -68,15 +69,6 @@ public class RequestFragment extends Fragment {
         pendList.setAdapter(pendAdapter);
 
         final EditText search = view.findViewById(R.id.search_method_pending);
-        final Button filterBtn = view.findViewById(R.id.filter_pending);
-        // click on filter button to filter out item
-        filterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupMenu(filterBtn);
-            }
-        });
-
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users")
                 .document(GetUserFromDB.getUserID())
@@ -188,22 +180,5 @@ public class RequestFragment extends Fragment {
         pendList.setAdapter(pendAdapter);
 
         return view;
-    }
-
-    /**
-     * Popup the menu for filtering book by category
-     * @param view view
-     */
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-        popupMenu.show();
     }
 }

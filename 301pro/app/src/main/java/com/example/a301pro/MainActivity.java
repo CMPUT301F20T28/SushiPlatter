@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        AppCompatAcitiviy:getSupportActionBar().hide();
+        AppCompatAcitiviy : getSupportActionBar().hide();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -69,14 +69,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button nav_MyBook = findViewById(R.id.nav_My_book);
-        Button nav_message = findViewById(R.id.nav_Messages);
+        Button nav_MyBook = findViewById(R.id.nav_mybooks);
+        Button nav_message = findViewById(R.id.nav_messages);
         Button nav_shared = findViewById(R.id.nav_shared);
-        Button nav_requested = findViewById(R.id.nav_Requested);
-        Button nav_requests = findViewById(R.id.nav_Requests);
+        Button nav_requested = findViewById(R.id.nav_borrowed);
+        Button nav_requests = findViewById(R.id.nav_requests);
 
     }
-
 
 
     /**

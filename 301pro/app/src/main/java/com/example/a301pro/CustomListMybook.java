@@ -55,12 +55,12 @@ public class CustomListMybook extends ArrayAdapter<Book> {
         }
 
         Book book = books.get(position);
-
         final ImageView imageView = view.findViewById(R.id.book_image);
         TextView book_name = view.findViewById(R.id.name_text);
         TextView des = view.findViewById(R.id.des_text);
         TextView sta = view.findViewById(R.id.status_text);
         TextView bor = view.findViewById(R.id.borrower_text);
+
         StorageReference imageRef = storage.getReference().child(book.getImageID());
         imageRef.getBytes(1024 * 1024)
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
