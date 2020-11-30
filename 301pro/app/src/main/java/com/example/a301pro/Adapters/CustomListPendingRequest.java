@@ -97,12 +97,13 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
 
                 String isbn = pend.getISBN();
                 String book_id = pend.getBookID();
-                if (pend.getStatus().equals("Borrowed")){
+                if (pend.getStatus().equals("Borrowed")||pend.getStatus().equals("Accepted")){
                     Intent intent = new Intent(getContext(), ScanISBN.class);
                     intent.putExtra("ISBN_CODE", isbn);
                     intent.putExtra("BOOK_ID", book_id);
                     intent.putExtra("NAME",pend.getRequestFrom());
                     intent.putExtra("PERSON","Owner");
+                    intent.putExtra("STATUS",sta.getText().toString());
                     context.startActivity(intent);
                 }else{
                     Toast.makeText(getContext(),"The book has not been borrowed by user",Toast.LENGTH_SHORT).show();

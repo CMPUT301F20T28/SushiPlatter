@@ -19,7 +19,6 @@
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key">
         </meta-data>
-
         <activity android:name=".SetMapActivity" />
         <activity android:name=".View.ViewMapActivity" />
         <activity android:name=".View.ViewMessages" />

@@ -77,6 +77,7 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ViewUserProfile.class);
                 intent.putExtra("OWNER", own.getText().toString());
+                intent.putExtra("STATUS",sta.getText().toString());
                 context.startActivity(intent);
             }
         });
@@ -102,12 +103,13 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
                 String isbn = pend.getISBN();
                 String book_id = pend.getBookID();
                 String owner = pend.getO_name();
-                if (pend.getStatus().equals("Accepted")){
+                if (pend.getStatus().equals("Accepted")||pend.getStatus().equals("Borrowed")){
                     Intent intent = new Intent(getContext(), ScanISBN.class);
                     intent.putExtra("ISBN_CODE", isbn);
                     intent.putExtra("BOOK_ID", book_id);
                     intent.putExtra("NAME",owner);
                     intent.putExtra("PERSON","Borrower");
+                    intent.putExtra("STATUS",sta.getText().toString());
                     context.startActivity(intent);
                 }else{
                     Toast.makeText(getContext(),"The book has not be accepted by the owner",Toast.LENGTH_SHORT).show();
