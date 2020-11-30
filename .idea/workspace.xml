@@ -22,6 +22,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/301pro" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -35,5 +36,11 @@
       <updated>1604632037221</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1173" y="798" key="FileChooserDialogImpl" timestamp="1606546117780">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1173" y="798" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1606546117780" />
   </component>
 </project>

@@ -166,5 +166,29 @@ public class BorrowedUnitTest {
         assertEquals("1234567", mockBorrowed.getBookID());
         assertNotEquals("123456", mockBorrowed.getBookID());
     }
+
+    /**
+     * Test if it can get a book location
+     */
+    @Test
+    public void testGetLocation(){
+        Borrowed mockBorrowed = MockBorrowed();
+        assertEquals(new GeoPoint(53.5,-113.5), mockBorrowed.getLocation());
+        assertNotEquals(new GeoPoint(55.5,-115.5), mockBorrowed.getLocation());
+    }
+
+    /**
+     * Test if it can set a book location
+     */
+    @Test
+    public void testSetLocation(){
+        Borrowed mockBorrowed = MockBorrowed();
+        assertEquals(new GeoPoint(53.5,-113.5), mockBorrowed.getLocation());
+        assertNotEquals(new GeoPoint(55.5,-115.5), mockBorrowed.getLocation());
+
+        mockBorrowed.setLocation(new GeoPoint(50,-100));
+        assertEquals(new GeoPoint(50,-100), mockBorrowed.getLocation());
+        assertNotEquals(new GeoPoint(53.5,-113.5), mockBorrowed.getLocation());
+    }
 }
 
