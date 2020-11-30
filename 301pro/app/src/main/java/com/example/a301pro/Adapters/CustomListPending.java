@@ -109,6 +109,7 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
                     intent.putExtra("BOOK_ID", book_id);
                     intent.putExtra("NAME",owner);
                     intent.putExtra("PERSON","Borrower");
+                    intent.putExtra("STATUS",sta.getText().toString());
                     context.startActivity(intent);
                 }else{
                     Toast.makeText(getContext(),"The book has not be accepted by the owner",Toast.LENGTH_SHORT).show();

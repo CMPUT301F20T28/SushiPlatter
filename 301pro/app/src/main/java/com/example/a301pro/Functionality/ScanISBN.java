@@ -9,13 +9,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.a301pro.Functionality.CaptureAct;
 import com.example.a301pro.R;
 import com.example.a301pro.Utilities.GetUserFromDB;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -93,7 +96,7 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
             if (result.getContents() != null) {
                 if (result.getContents().equals(ISBN)) {
 
-                    if(person.equals("Borrower") && sta.equals("Accepted")) {
+                    if(person.equals("Borrower")&& sta.equals("Accepted")) {
 
                         final FirebaseFirestore db = FirebaseFirestore.getInstance();
                         db.collection("userDict")
@@ -107,45 +110,30 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                                                 .document(temp)
                                                 .collection("MyBooks")
                                                 .document(Book_id)
-                                                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                String sss = documentSnapshot.getString("status");
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                String sss = task.getResult().getString("status");
                                                 if (sss.equals("Borrowed")){
+
                                                     db.collection("Users")
                                                             .document(GetUserFromDB.getUserID())
                                                             .collection("Borrowed")
                                                             .document(Book_id)
-                                                            .update("status", "Borrowed");
+                                                            .update("sit", "Borrowed");
 
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                                                    builder.setMessage("You have successfully borrowed the book");
-                                                    builder.setTitle("Scanning Result");
-                                                    builder.setNegativeButton("finish", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            finish();
-                                                        }
-                                                    });
+                                                    Toast.makeText(getBaseContext(),"You Have successfully get the book",Toast.LENGTH_SHORT).show();
+                                                    finish();
 
-                                                    AlertDialog dialog = builder.create();
-                                                    dialog.show();
                                                 }else{
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                                                    builder.setMessage("The owner do not comfirm the lent");
-                                                    builder.setTitle("Scanning Result");
-                                                    builder.setNegativeButton("finish", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            finish();
-                                                        }
-                                                    });
 
-                                                    AlertDialog dialog = builder.create();
-                                                    dialog.show();
+                                                    Toast.makeText(getBaseContext(),"The owner do not comfirm the lent",Toast.LENGTH_SHORT).show();
+                                                    finish();
+
                                                 }
                                             }
                                         });
+
                                     }
                                 });
 
@@ -183,7 +171,7 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                         final CollectionReference collectionReference = db.collection("Users")
                                 .document(GetUserFromDB.getUserID())
                                 .collection("Borrowed");
-                        collectionReference.document(Book_id).update("status","Available");
+                        collectionReference.document(Book_id).update("sit","Available");
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
                         builder.setMessage("You have successfully return the book");
                         builder.setTitle("Scanning Result");
@@ -199,7 +187,7 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                     }
 
                     if (person.equals("Owner")&&sta.equals("Borrowed")){
-
+                        final FirebaseFirestore db = FirebaseFirestore.getInstance();
                         db.collection("userDict")
                                 .document(Name).get()
                                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -211,11 +199,12 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                                                 .document(temp)
                                                 .collection("Borrowed")
                                                 .document(Book_id)
-                                                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                String sss = documentSnapshot.getString("sit");
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                String sss = task.getResult().getString("sit");
                                                 if (sss.equals("Available")){
+
                                                     db.collection("Users")
                                                             .document(temp)
                                                             .collection("Borrowed")
@@ -234,32 +223,13 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                                                     db.collection("Library")
                                                             .document(Book_id)
                                                             .update("sit","Available");
+                                                Toast.makeText(getBaseContext(),"You have successfully close the trade",Toast.LENGTH_SHORT).show();
+                                                finish();
 
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                                                    builder.setMessage("You have successfully close the trade");
-                                                    builder.setTitle("Scanning Result");
-                                                    builder.setNegativeButton("finish", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            finish();
-                                                        }
-                                                    });
-
-                                                    AlertDialog dialog = builder.create();
-                                                    dialog.show();
                                                 }else{
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                                                    builder.setMessage("The Borrower do not return the book");
-                                                    builder.setTitle("Scanning Result");
-                                                    builder.setNegativeButton("finish", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            finish();
-                                                        }
-                                                    });
 
-                                                    AlertDialog dialog = builder.create();
-                                                    dialog.show();
+                                                    Toast.makeText(getBaseContext(),"The Borrower do not return the book",Toast.LENGTH_SHORT).show();
+                                                    finish();
                                                 }
                                             }
                                         });
@@ -269,7 +239,7 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
                 } else {
                     if (person.equals("Borrower")) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("Failure borrowed the book");
+                        builder.setMessage("Failure Scan");
                         builder.setTitle("Scanning Result");
                         builder.setPositiveButton("Scan Again", new DialogInterface.OnClickListener() {
                             @Override
@@ -289,7 +259,7 @@ public class ScanISBN extends AppCompatActivity implements View.OnClickListener 
 
                     if (person.equals("Owner")){
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("Failure get the book back"+ISBN);
+                        builder.setMessage("Failure Scan");
                         builder.setTitle("Scanning Result");
                         builder.setPositiveButton("Scan Again", new DialogInterface.OnClickListener() {
                             @Override
