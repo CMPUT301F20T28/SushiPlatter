@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.a301pro.Functionality.AddScan;
 import com.example.a301pro.Models.Book;
 import com.example.a301pro.Models.Share;
 import com.example.a301pro.Utilities.AddBookToLibrary;
@@ -65,11 +66,13 @@ public class AddEditIntent extends AppCompatActivity {
     private Book myBook;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_TO_TEXT = 2;
+    private static final int REQUEST_SCANISBN = 11;
     private boolean jg = false;
     private String imgid;
     Button camera;
     private String userName;
     private boolean removeImg = false;
+    private Button scaningISBN;
 
     /**
      * User event listener of all features
@@ -93,6 +96,7 @@ public class AddEditIntent extends AppCompatActivity {
         Button backBtn = findViewById(R.id.add_edit_quit);
         camera = findViewById(R.id.scan_description);
         db = FirebaseFirestore.getInstance();
+        scaningISBN = findViewById(R.id.ssISBN);
 
         final Bundle bundle = getIntent().getExtras();
         // user has selected a book to edit if bundle if not empty
@@ -123,6 +127,14 @@ public class AddEditIntent extends AppCompatActivity {
                         }
                     });
         }
+
+        scaningISBN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddScan.class);
+                startActivityForResult(intent,REQUEST_SCANISBN);
+            }
+        });
 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -312,6 +324,10 @@ public class AddEditIntent extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap bb = (Bitmap) extras.get("data");
             getTextFromImage(bb);
+        }
+        if (requestCode == REQUEST_SCANISBN && resultCode == RESULT_OK) {
+            String result11 = data.getStringExtra("RESULT");
+            ISBN.setText(result11);
         }
     }
 
