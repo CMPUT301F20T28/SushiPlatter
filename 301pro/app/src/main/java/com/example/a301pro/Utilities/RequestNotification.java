@@ -14,11 +14,20 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * This is tool class for showing notification to user
+ */
 public class RequestNotification {
     Request requestInfo;
     protected FirebaseFirestore db;
     public static final String TAG = "Request Notification";
 
+    /**
+     * This controls and popup notification to user when there are trading request
+     * @param requestInfo request information
+     * @param CollectRef collection reference for request in firebase
+     * @param bookOwner book owner data
+     */
     public RequestNotification(final Request requestInfo, final CollectionReference CollectRef, final String bookOwner){
 
         final String bookID = requestInfo.getBookID();

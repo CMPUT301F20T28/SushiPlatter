@@ -15,19 +15,31 @@ import com.example.a301pro.R;
 
 import java.util.ArrayList;
 
-
+/**
+ * This class control the data list view of message
+ */
 public class CostumeListMessages extends ArrayAdapter<Message> {
     private ArrayList<Message> messages;
     private Context context;
 
-
+    /**
+     * context of view
+     * @param context context of view
+     * @param messages a list of messages to display
+     */
     public CostumeListMessages(@NonNull Context context, ArrayList<Message> messages) {
         super(context,0, messages);
         this.messages = messages;
         this.context = context;
     }
 
-
+    /**
+     * Update view of the fragment
+     * @param position index of the message
+     * @param convertView convert the view
+     * @param parent parent view
+     * @return updated view
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //to create the view that we want as a item, and later we will add this to the Adapter
         View view = convertView;

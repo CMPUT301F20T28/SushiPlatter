@@ -16,15 +16,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This controls to send message to user for notification
+ */
 public class SendMessage {
     private String senderUserName;
     private String receiverUserName;
     private String message;
-
     protected FirebaseFirestore db;
     String TAG = "send a message";
 
-
+    /**
+     * Provide functionality to send message notification
+     * @param senderUserName username of message sender
+     * @param receiverUserName username of the user to receive message
+     * @param message message to receive
+     */
     public SendMessage(final String senderUserName, final String receiverUserName, final String message){
         db = FirebaseFirestore.getInstance();
         String receiverUID;
@@ -40,12 +47,18 @@ public class SendMessage {
                         String UID = (String) document.getData().get("UID");
                         addMessageToDB(UID ,senderUserName , message, receiverUserName);
                     }
-                } else {
                 }
             }
         });
     }
 
+    /**
+     * Add message to database under corresponding user
+     * @param UID user id
+     * @param senderUserName username of the sender
+     * @param message message as a string
+     * @param receiverUserName username of the receive
+     */
     public void addMessageToDB(String UID, String senderUserName, String message, String receiverUserName){
         final CollectionReference CollectRef = db.collection("Users");
         Map<String, Object> messageMap = new HashMap<>();

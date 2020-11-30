@@ -19,7 +19,7 @@ import com.google.firebase.firestore.CollectionReference;
 /**
  * This class show the alert window when user tries to delete a book, to prevent accidental deletion
  */
-public class ComfirmDialog extends DialogFragment
+public class ConfirmDialog extends DialogFragment
 {
     private Book book;
     private CollectionReference collectRef;
@@ -27,11 +27,11 @@ public class ComfirmDialog extends DialogFragment
     final String TAG = "Delete";
 
     /**
-     * constructor of ComfirmDialog
+     * constructor of ConfirmDialog
      * @param book book data passed from AddEditIntent
      * @param collectionReference corresponding collection reference in the database
      */
-    public ComfirmDialog(Book book, CollectionReference collectionReference,
+    public ConfirmDialog(Book book, CollectionReference collectionReference,
                          CollectionReference LibraryReference) {
         this.book = book;
         this.collectRef = collectionReference;

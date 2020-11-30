@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background" >
@@ -23,7 +24,7 @@
         android:layout_below="@id/title_add_edit"
         android:layout_centerInParent="true"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_image1">
+        app:srcCompat="@drawable/ic_image1">
     </ImageButton>
 
     <EditText
@@ -31,12 +32,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/add_edit_image"
+        android:layout_centerInParent="true"
         android:layout_marginHorizontal="20dp"
-        android:paddingHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:hint="Book Name"
         android:background="@color/componentBackground"
-        android:layout_centerInParent="true" >
+        android:hint="Book Name"
+        android:inputType="text"
+        android:paddingHorizontal="10dp">
+
     </EditText>
 
     <EditText
@@ -44,12 +47,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/book_name_editText"
+        android:layout_centerInParent="true"
         android:layout_marginHorizontal="20dp"
-        android:paddingHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:hint="Author Name"
         android:background="@color/componentBackground"
-        android:layout_centerInParent="true" >
+        android:hint="Author Name"
+        android:inputType="text"
+        android:paddingHorizontal="10dp">
+
     </EditText>
 
     <EditText

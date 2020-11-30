@@ -25,7 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 /**
-
+ * This class allows user to view all the incoming messages about trading, and marked them as read
  */
 public class ViewMessages extends AppCompatActivity {
     ListView messageList;
@@ -33,20 +33,18 @@ public class ViewMessages extends AppCompatActivity {
     ArrayList<Message> messageDataList;
 
     /**
-     *
+     * User event listener of viewing message
+     * @param savedInstanceState data
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_messages);
-        AppCompatAcitiviy:
-        getSupportActionBar().hide();
+        AppCompatAcitiviy: getSupportActionBar().hide();
 
         messageList = findViewById(R.id.messages_list);
         messageDataList = new ArrayList<>();
-
         messageAdapter = new CostumeListMessages(getBaseContext(), messageDataList);
-
         messageList.setAdapter(messageAdapter);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -76,6 +74,13 @@ public class ViewMessages extends AppCompatActivity {
         });
 
         messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * Allows user to read new messages, and the read messages will be labeled as read
+             * @param parent view of the list of message
+             * @param view message layout
+             * @param position index of the selected new message
+             * @param id id of the selected new message
+             */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Message message = messageAdapter.getItem(position);

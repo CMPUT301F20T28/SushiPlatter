@@ -13,6 +13,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * This tool controls the status of the message such as read and unread
+ */
 public class UpdateMessageStatus {
     private String receiverUserName;
     private String messageID;
@@ -21,7 +24,12 @@ public class UpdateMessageStatus {
     protected FirebaseFirestore db;
     String TAG = "update message status";
 
-
+    /**
+     * Provide functionality to update the status of message
+     * @param receiverUserName username of the user to receive message
+     * @param messageID id of the message
+     * @param status status of the message
+     */
     public UpdateMessageStatus(final String receiverUserName, final String messageID, final String status){
         db = FirebaseFirestore.getInstance();
         String receiverUID;

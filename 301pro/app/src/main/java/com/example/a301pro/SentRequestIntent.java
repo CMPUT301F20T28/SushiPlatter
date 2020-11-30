@@ -21,6 +21,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.firebase.firestore.GeoPoint;
+
 /**
  * This class allow user to send a book request in the purpose of book trading
  */

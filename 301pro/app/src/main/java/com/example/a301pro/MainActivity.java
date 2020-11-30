@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            /**
+             * Controller of the side menu
+             * @param item item of the side menu
+             * @return boolean determinate selected fragment
+             */
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -115,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener navListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+        /**
+         * Set up fragment controller
+         * @param menuItem horizontal navigation bar
+         * @return boolean determinate selected fragment
+         */
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             Fragment selectedFragment = null;
@@ -139,8 +150,4 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
-
-
-
-
 }

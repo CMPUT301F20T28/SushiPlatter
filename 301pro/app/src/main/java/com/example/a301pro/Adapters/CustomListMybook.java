@@ -33,7 +33,7 @@ public class CustomListMybook extends ArrayAdapter<Book> {
     /**
      * Constructor
      * @param context context of view
-     * @param books list of owned book
+     * @param books a list of owned books to display
      */
     public CustomListMybook(@NonNull Context context, ArrayList<Book> books) {
         super(context,0, books);
