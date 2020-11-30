@@ -103,7 +103,7 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
                 String isbn = pend.getISBN();
                 String book_id = pend.getBookID();
                 String owner = pend.getO_name();
-                if (pend.getStatus().equals("Accepted")){
+                if (pend.getStatus().equals("Accepted")||pend.getStatus().equals("Borrowed")){
                     Intent intent = new Intent(getContext(), ScanISBN.class);
                     intent.putExtra("ISBN_CODE", isbn);
                     intent.putExtra("BOOK_ID", book_id);
