@@ -166,4 +166,28 @@ public class RequestUnitTest {
         assertEquals("1234567", mockRequest.getBookID());
         assertNotEquals("123456", mockRequest.getBookID());
     }
+
+    /**
+     * Test if it can get a book's location
+     */
+    @Test
+    public void testGetLocation(){
+        Request mockRequest = MockRequest();
+        assertEquals(new GeoPoint(53.5,-113.5), mockRequest.getLocation());
+        assertNotEquals(new GeoPoint(55.5,-115.5), mockRequest.getLocation());
+    }
+
+    /**
+     * Test if it can set a book's location
+     */
+    @Test
+    public void testSetLocation() {
+        Request mockRequest = MockRequest();
+        assertEquals(new GeoPoint(53.5, -113.5), mockRequest.getLocation());
+        assertNotEquals(new GeoPoint(55.5, -115.5), mockRequest.getLocation());
+
+        mockRequest.setLocation(new GeoPoint(50, -100));
+        assertEquals(new GeoPoint(50, -100), mockRequest.getLocation());
+        assertNotEquals(new GeoPoint(53.5, -113.5), mockRequest.getLocation());
+    }
 }
