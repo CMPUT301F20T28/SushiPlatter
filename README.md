@@ -14,6 +14,13 @@ CMPUT 301 F20 TEAM PROJECT
 <p>You can find an interesting book from the share libary.</p>
 <p>You can borrow an available book from other user and return it later.</p>
 
+
+***
+## *Demo Video* ▶
+<p>https://drive.google.com/file/d/1_b0u2OgGa0xPmr0kpmXaeC-OYblSsZmS/view?usp=sharing</p>
+
+
+
 ***
 ## *Documentation* 
 For user's guidance of 301pro, please visit 📜
@@ -24,7 +31,7 @@ For more details, please visit our [Wiki](https://github.com/CMPUT301F20T28/Sush
 
 #
 
-### Read the app [JavaDoc](https://huuujl.github.io/CMPUT301F20T28.github.io/) onlline 📂
+### Read the app [JavaDoc](https://huuujl.github.io/CMPUT301F20T28.github.io/) online 📂
 
 Instructions for building Javadoc in Android Studio
 1. Select *Tools* in the top menu of Android Studio
