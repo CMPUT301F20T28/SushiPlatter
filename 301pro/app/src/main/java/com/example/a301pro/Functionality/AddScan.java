@@ -13,10 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.a301pro.Functionality.CaptureAct;
 import com.example.a301pro.R;
-import com.example.a301pro.Utilities.GetUserFromDB;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -24,10 +20,6 @@ import com.google.zxing.integration.android.IntentResult;
 public class AddScan extends AppCompatActivity implements View.OnClickListener {
 
     Button scanBtn;
-    private String ISBN;
-    private String Book_id;
-    private String Name;
-    private String person;
     protected FirebaseFirestore db;
     public static final String TAG = "SCAN_ISBN";
     /**
@@ -41,7 +33,6 @@ public class AddScan extends AppCompatActivity implements View.OnClickListener {
         AppCompatAcitiviy:getSupportActionBar().hide();
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        Intent intent =getIntent();
 
         scanBtn = findViewById(R.id.scanBtn);
         scanBtn.setOnClickListener(this);

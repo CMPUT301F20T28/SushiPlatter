@@ -103,6 +103,7 @@ public class CustomListPendingRequest extends ArrayAdapter<Request> {
                     intent.putExtra("BOOK_ID", book_id);
                     intent.putExtra("NAME",pend.getRequestFrom());
                     intent.putExtra("PERSON","Owner");
+                    intent.putExtra("STATUS",sta.getText().toString());
                     context.startActivity(intent);
                 }else{
                     Toast.makeText(getContext(),"The book has not been borrowed by user",Toast.LENGTH_SHORT).show();

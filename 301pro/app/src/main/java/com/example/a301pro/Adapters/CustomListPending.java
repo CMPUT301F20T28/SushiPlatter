@@ -77,6 +77,7 @@ public class CustomListPending extends ArrayAdapter<Borrowed> {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ViewUserProfile.class);
                 intent.putExtra("OWNER", own.getText().toString());
+                intent.putExtra("STATUS",sta.getText().toString());
                 context.startActivity(intent);
             }
         });

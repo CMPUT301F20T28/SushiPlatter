@@ -224,6 +224,7 @@ public class MybookFragment extends Fragment implements ConfirmDialog.OnFragment
         bookList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Book book = bookAdapter.getItem(position);
                 ConfirmDialog dialog = new ConfirmDialog(book, collectionReference, LibraryReference);
                 dialog.show(getFragmentManager(),"show mes");
