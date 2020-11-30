@@ -6,6 +6,8 @@ import android.widget.EditText;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.a301pro.View.ViewMessages;
+import com.example.a301pro.View.ViewUserProfile;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -71,23 +73,40 @@ public class ShareFragIntentTest {
         solo.clickOnView(solo.getView(R.id.nav_share));
         solo.waitForFragmentById(R.id.nav_share,1000);
         solo.enterText((EditText) solo.getView(R.id.search_method), "a");
-        solo.waitForText("a", 1, 1000);
+        solo.searchText("a", 0, true);
         solo.sleep(500);
     }
 
     /**
-     * Test for menu pop up
+     * test for opening profile
      */
     @Test
-    public void testFilter() {
+    public void testOpenProfile() {
         login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.nav_share));
-        solo.waitForFragmentById(R.id.nav_mine,1000);
-        solo.sleep(500);
-        solo.clickOnView(solo.getView(R.id.filter));
-        solo.waitForText("Computer", 0, 1000);
-        solo.sleep(500);
+        solo.waitForFragmentById(R.id.nav_share,10000);
+        solo.sleep(1000);
+        solo.clickOnView(solo.getView(R.id.userhead));
+        solo.sleep(1000);
+        solo.assertCurrentActivity("Wrong Activity", ViewUserProfile.class);
+        solo.sleep(1000);
+    }
+
+    /**
+     * test for opening message center
+     */
+    @Test
+    public void testOpenMessageCenter() {
+        login();
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.clickOnView(solo.getView(R.id.nav_share));
+        solo.waitForFragmentById(R.id.nav_share,10000);
+        solo.sleep(1000);
+        solo.clickOnView(solo.getView(R.id.message_center));
+        solo.sleep(1000);
+        solo.assertCurrentActivity("Wrong Activity", ViewMessages.class);
+        solo.sleep(1000);
     }
 
     /**
@@ -101,7 +120,7 @@ public class ShareFragIntentTest {
         solo.waitForFragmentById(R.id.nav_share,1000);
         solo.sleep(500);
         solo.clickInList(1);
-        solo.waitForFragmentById(R.id.sent_request,1000);
+        solo.assertCurrentActivity("Wrong Activity", SentRequestIntent.class);
         solo.sleep(500);
     }
 
@@ -127,9 +146,10 @@ public class ShareFragIntentTest {
      * login tool for some tests
      */
     public void login() {
-        String loginInfo = "mockuser";
-        solo.enterText((EditText) solo.getView(R.id.text_username), loginInfo);
-        solo.enterText((EditText) solo.getView(R.id.text_password), loginInfo);
+        String username = "mockuser";
+        String password = "mockuser123";
+        solo.enterText((EditText) solo.getView(R.id.text_username), username);
+        solo.enterText((EditText) solo.getView(R.id.text_password), password);
         solo.clickOnButton("Login");
         solo.waitForActivity("MainActivity", 10000);
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);

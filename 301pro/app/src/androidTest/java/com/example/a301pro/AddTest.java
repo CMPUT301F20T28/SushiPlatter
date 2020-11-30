@@ -1,19 +1,29 @@
 package com.example.a301pro;
 
+
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.rule.ActivityTestRule;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Assert;
@@ -37,11 +47,15 @@ import static org.hamcrest.Matchers.anything;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Intent test for adding or editing a book
+ * Intent testing for adding/editing function
  */
 public class AddTest {
     private Solo solo;
+    final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /**
+     * Set up test rule
+     */
     @Rule
     public ActivityTestRule<Register> rule =
             new ActivityTestRule<>(Register.class, true, true);
@@ -52,37 +66,83 @@ public class AddTest {
     @Before
     public void setUp() throws Exception {
         solo = new Solo(getInstrumentation(), rule.getActivity());
+
     }
 
     /**
      * Closes the activity after each test
      * @throws Exception fail message
-     */
-    @After
+     */    @After
     public void tearDown() throws Exception {
+        getUID();
         solo.finishOpenedActivities();
     }
 
     /**
-     * Delete the user in the purpose of next testing
+     * get the user id
      */
-    public void deleteUser() {
-        String testUsername = "intent_testing";
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = currUser.getUid();
-        db.collection("Users").document(uid).delete();
-        db.collection("userDict").document(testUsername).delete();
-        currUser.delete();
+    public void getUID() {
+
+        String testUsername = "username";
+
+        CollectionReference collectionReference = db.collection("userDict");
+        DocumentReference docRef = collectionReference.document(testUsername);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        final String UID = (String) document.getData().get("UID");
+                        deleteUser(UID);
+                    }
+
+                }
+            }
+        });
+
     }
 
     /**
-     * get match items as a list
-     * @param listViewId list view of items
-     * @return number of matched items
+     * delete the user for the purpose of next test
+     * @param UID user id
+     */
+    public void deleteUser(String UID){
+        String testFirstName = "firstName";
+        String testLastName = "lastName";
+        String testUsername = "username";
+        final String testEmail = "firstname@uablerta.ca";
+        String testPhone = "1234567890";
+
+        db.collection("userDict").document(testUsername)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                });
+        db.collection("Users").document(UID)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                });
+        final FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+        currUser.delete();
+        FirebaseAuth authenticatedUser = FirebaseAuth.getInstance();
+        authenticatedUser.signOut();
+
+    }
+
+    /**
+     * find a match user
+     * @param listViewId id of the list view
+     * @return number of matches
      */
     public static int getCountFromList(@IdRes int listViewId) {
         final int[] count = {0};
+
         Matcher matcher = new TypeSafeMatcher<View>() {
             @Override
             protected boolean matchesSafely(View item) {
@@ -103,18 +163,21 @@ public class AddTest {
     }
 
     /**
-     * test to add book without updating the book image
+     * test add book without adding am image
      * @throws Exception fail message
      */
     @Test
     public void testAddWithoutImages() throws Exception {
+
         solo.assertCurrentActivity("Wrong Activity", Register.class);
-        String testFirstName = "intent_testing";
-        String testLastName = "intent_testing";
-        String testUsername = "intent_testing";
-        String testEmail = "intent@testing.ca";
+
+        String testFirstName = "firstName";
+        String testLastName = "lastName";
+        String testUsername = "username";
+        final String testEmail = "firstname@uablerta.ca";
         String testPhone = "1234567890";
-        String testPassword = "intent_testing";
+        final String testPassword = "88888888";
+
 
         solo.enterText((EditText) solo.getView(R.id.first_name), testFirstName);
         solo.enterText((EditText) solo.getView(R.id.last_name), testLastName);
@@ -128,14 +191,17 @@ public class AddTest {
 
         solo.waitForActivity(Login.class);
         solo.assertCurrentActivity("Wrong activity", Login.class);
+        solo.sleep(1000);
 
         solo.enterText((EditText) solo.getView(R.id.text_username), testUsername);
         solo.enterText((EditText) solo.getView(R.id.text_password), testPassword);
         solo.clickOnButton("Login");
-        solo.waitForActivity("MainActivity", 10000);
+        solo.waitForActivity("MainActivity", 1000);
         solo.assertCurrentActivity("Wrong activity", MainActivity.class);
+        solo.sleep(1000);
 
         solo.clickOnView(solo.getView(R.id.add_book_button));
+
         solo.waitForActivity(AddEditIntent.class);
         solo.assertCurrentActivity("Wrong Activity", AddEditIntent.class);
 
@@ -144,7 +210,7 @@ public class AddTest {
         solo.enterText((EditText) solo.getView(R.id.author_editText), "Test Book Author");
         solo.enterText((EditText) solo.getView(R.id.ISBN_editText), "1234567891011");
         solo.enterText((EditText) solo.getView(R.id.description), "Test Book Description");
-        solo.sleep(500);
+
         onView(withId(book_confirm)).perform(click());
 
         solo.waitForActivity(MainActivity.class);
@@ -173,7 +239,7 @@ public class AddTest {
         solo.enterText((EditText) solo.getView(R.id.author_editText), "Edit Book Author");
         solo.enterText((EditText) solo.getView(R.id.ISBN_editText), "1234567891213");
         solo.enterText((EditText) solo.getView(R.id.description), "Edit Book Description");
-        solo.sleep(500);
+
         onView(withId(book_confirm)).perform(click());
 
         solo.waitForActivity(MainActivity.class);
@@ -193,7 +259,7 @@ public class AddTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         assertTrue(solo.waitForText("Edit Book Description"));
         assertTrue(solo.waitForText("Edit Book Name"));
-        solo.sleep(500);
+
         // test cancel in alert dialog
         onData(anything()).inAdapterView(withId(R.id.my_book_list)).atPosition(0).perform(longClick());
         onView(withText("Are you sure to delete\"Edit Book Name\"?"))
@@ -201,7 +267,7 @@ public class AddTest {
                 .check(matches(isDisplayed()));
         onView(withId(android.R.id.button2)).perform(click());
         Assert.assertEquals(getCountFromList(R.id.my_book_list), 1);
-        solo.sleep(500);
+
         // test delete book function
         onData(anything()).inAdapterView(withId(R.id.my_book_list)).atPosition(0).perform(longClick());
         onView(withText("Are you sure to delete\"Edit Book Name\"?"))
@@ -209,7 +275,6 @@ public class AddTest {
                 .check(matches(isDisplayed()));
         onView(withId(android.R.id.button1)).perform(click());
         Assert.assertEquals(getCountFromList(R.id.my_book_list), 0);
-        solo.sleep(500);
-        deleteUser();
+
     }
 }
