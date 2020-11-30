@@ -28,7 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class allows user to view the personal information as well as change the contact information
+ * This class allows users to view the personal information of themselves and others,
+ * as well as change the contact information of themselves
  */
 public class ViewUserProfile extends AppCompatActivity {
     EditText phoneShow;

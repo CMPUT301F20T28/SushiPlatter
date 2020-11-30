@@ -36,9 +36,11 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * This class allows user to view the location on map
+ */
 public class ViewMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
-//    private LatLng point;
     private Button setLocation;
     private String Book_id;
     protected FirebaseFirestore db;
@@ -47,7 +49,10 @@ public class ViewMapActivity extends FragmentActivity implements OnMapReadyCallb
     private double lat;
     private double lng;
 
-
+    /**
+     * Control the map activity
+     * @param savedInstanceState data
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +60,6 @@ public class ViewMapActivity extends FragmentActivity implements OnMapReadyCallb
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-//        point = getIntent().getParcelableExtra("point");
         Intent intent = getIntent();
         Book_id = intent.getStringExtra("BOOKID");
         setLocation = findViewById(R.id.setMeeting);
@@ -67,6 +71,10 @@ public class ViewMapActivity extends FragmentActivity implements OnMapReadyCallb
 
     }
 
+    /**
+     * User event listener of map activity
+     * @param map connect to google map
+     */
     @Override
     public void onMapReady(final GoogleMap map){
 

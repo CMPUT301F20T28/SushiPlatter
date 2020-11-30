@@ -10,9 +10,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * This tool will add all available books to the share library
+ */
 public class AddBookToLibrary {
     private Share sharedBook;
-
     private int imageId;
     private String book_name;
     private String author;
@@ -25,11 +27,20 @@ public class AddBookToLibrary {
 
     protected FirebaseFirestore db;
 
+    /**
+     * Add all sharable books to the share libary
+     * @param sharedBook sharable book
+     * @param book_id book id of the sharable book
+     */
     public AddBookToLibrary(Share sharedBook, String book_id){
         AddBookToDB(sharedBook, book_id);
     }
 
-
+    /**
+     * Add all sharable books to the database
+     * @param sharedBook sharable book
+     * @param book_id book id of the sharable book
+     */
     public void AddBookToDB(Share sharedBook, String book_id) {
         db = FirebaseFirestore.getInstance();
         final CollectionReference CollectRef = db.collection("Library");

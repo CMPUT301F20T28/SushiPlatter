@@ -264,8 +264,7 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * Intent to camera
-     * get the image taken by the camera to be the book image
+     * Intent to camera to take photo for the book
      */
     public void takingPhoto() {
         img.setOnClickListener(new View.OnClickListener() {
@@ -280,8 +279,7 @@ public class AddEditIntent extends AppCompatActivity {
     }
 
     /**
-     * Intent to camera
-     * get the image of image to text
+     * Intent to camera to get text from image
      */
     public void itot() {
         camera.setOnClickListener(new View.OnClickListener() {

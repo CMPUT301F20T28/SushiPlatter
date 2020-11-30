@@ -10,8 +10,16 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * This tool provides functionality of determining if message is read by user
+ */
 public class CheckMessageStatus {
 
+    /**
+     * Check the unread message of the user
+     * @param UID user id
+     * @return unread messages
+     */
     public int CheckMessageStatus(String UID) {
         final int[] unRead = {0};
         final FirebaseFirestore db = FirebaseFirestore.getInstance();

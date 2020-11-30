@@ -176,29 +176,29 @@ public class RequestFragment extends Fragment {
                 .document(GetUserFromDB.getUserID())
                 .collection("Messages")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                int unRead = 0;
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    try {
-                        String readStatus = (String) doc.getData().get("readStatus");
-                        String message = (String) doc.getData().get("message");
-                        String messageID = (String) doc.getData().get("timeStamp");
-                        String receiver = (String) doc.getData().get("receiver");
-                        String messageNotificationStatus = (String) doc.getData().get("messageNotificationStatus");
-                        if(readStatus.equals("new")){
-                            mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
-                            if (messageNotificationStatus.equals("not_sent")){
-                                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-                                new UpdateMessageNotificationStatus(receiver, messageID, "sent");
-                            }
+                    @Override
+                    public void onEvent(@NonNull QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                        int unRead = 0;
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                            try {
+                                String readStatus = (String) doc.getData().get("readStatus");
+                                String message = (String) doc.getData().get("message");
+                                String messageID = (String) doc.getData().get("timeStamp");
+                                String receiver = (String) doc.getData().get("receiver");
+                                String messageNotificationStatus = (String) doc.getData().get("messageNotificationStatus");
+                                if(readStatus.equals("new")){
+                                    mesBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_announcement_24));
+                                    if (messageNotificationStatus.equals("not_sent")){
+                                        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                                        new UpdateMessageNotificationStatus(receiver, messageID, "sent");
+                                    }
+                                }
+                            }catch (Exception e){
+                                return;
+                            };
                         }
-                    }catch (Exception e){
-                        return;
-                    };
-                }
-            }
-        });
+                    }
+                });
 
         mesBtn.setOnClickListener(new View.OnClickListener() {
             @Override

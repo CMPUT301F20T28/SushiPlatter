@@ -21,8 +21,8 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.a301pro.AddEditIntent;
+import com.example.a301pro.ConfirmDialog;
 import com.example.a301pro.Models.Book;
-import com.example.a301pro.ComfirmDialog;
 import com.example.a301pro.Adapters.CustomListMybook;
 import com.example.a301pro.R;
 import com.example.a301pro.Utilities.FilterMenu;
@@ -45,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * This fragment class allows user to add/edit/delete a book, as well as view all the owned book.
  */
-public class MybookFragment extends Fragment implements ComfirmDialog.OnFragmentInteractionListenerComfirm {
+public class MybookFragment extends Fragment implements ConfirmDialog.OnFragmentInteractionListenerComfirm {
     ListView bookList;
     ArrayAdapter<Book> bookAdapter;
     ArrayList<Book> bookDataList;
@@ -225,7 +225,7 @@ public class MybookFragment extends Fragment implements ComfirmDialog.OnFragment
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Book book = bookAdapter.getItem(position);
-                ComfirmDialog dialog = new ComfirmDialog(book, collectionReference, LibraryReference);
+                ConfirmDialog dialog = new ConfirmDialog(book, collectionReference, LibraryReference);
                 dialog.show(getFragmentManager(),"show mes");
                 return true;
             }

@@ -38,7 +38,7 @@ public class Request {
 
     /**
      * This allows the outside to get the location for trading
-     * @return
+     * @return location for trading
      */
     public GeoPoint getLocation() {
         return location;
@@ -46,7 +46,7 @@ public class Request {
 
     /**
      * This set the location for trading
-     * @param location
+     * @param location location for trading to be set
      */
     public void setLocation(GeoPoint location) {
         this.location = location;
