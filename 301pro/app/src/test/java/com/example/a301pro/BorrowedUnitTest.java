@@ -168,7 +168,7 @@ public class BorrowedUnitTest {
     }
 
     /**
-     * Test if it can get a book's location
+     * Test if it can get a book location
      */
     @Test
     public void testGetLocation(){
@@ -178,7 +178,7 @@ public class BorrowedUnitTest {
     }
 
     /**
-     * Test if it can set a book's location
+     * Test if it can set a book location
      */
     @Test
     public void testSetLocation(){
