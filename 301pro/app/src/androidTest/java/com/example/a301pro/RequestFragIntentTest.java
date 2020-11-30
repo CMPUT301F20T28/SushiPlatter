@@ -1,13 +1,11 @@
 package com.example.a301pro;
 
 import android.app.Activity;
-import android.view.KeyEvent;
 import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.a301pro.Functionality.ScanISBN;
 import com.example.a301pro.View.ViewMessages;
 import com.example.a301pro.View.ViewUserProfile;
 import com.robotium.solo.Solo;
@@ -20,11 +18,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-
 /**
- * Intent testing for Borrow fragment
+ * Intent testing for Request fragment
  */
-public class BorrowedFragIntentTest {
+public class RequestFragIntentTest {
     private Solo solo;
 
     /**
@@ -61,14 +58,14 @@ public class BorrowedFragIntentTest {
     }
 
     /**
-     * Test for switching to the Borrow fragment
+     * Test for switching to the Request fragment
      */
     @Test
     public void testBottomNavigation() {
         login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.nav_bo));
-        assertTrue(solo.waitForView(R.id.nav_bo));
+        solo.clickOnView(solo.getView(R.id.nav_request));
+        assertTrue(solo.waitForView(R.id.nav_request));
         solo.sleep(1000);
     }
 
@@ -79,8 +76,8 @@ public class BorrowedFragIntentTest {
     public void testSearch() {
         login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.nav_bo));
-        solo.waitForFragmentById(R.id.nav_bo,10000);
+        solo.clickOnView(solo.getView(R.id.nav_request));
+        solo.waitForFragmentById(R.id.nav_request,10000);
         solo.sleep(1000);
         // lease than 2 matches, only 1 in search bar
         solo.enterText((EditText) solo.getView(R.id.search_method_pending), "ciiiity#$%#");
@@ -94,8 +91,8 @@ public class BorrowedFragIntentTest {
     public void testOpenProfile() {
         login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.nav_bo));
-        solo.waitForFragmentById(R.id.nav_bo,10000);
+        solo.clickOnView(solo.getView(R.id.nav_request));
+        solo.waitForFragmentById(R.id.nav_request,10000);
         solo.sleep(1000);
         solo.clickOnView(solo.getView(R.id.userhead_pending));
         solo.sleep(1000);
@@ -110,8 +107,8 @@ public class BorrowedFragIntentTest {
     public void testOpenMessageCenter() {
         login();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.nav_bo));
-        solo.waitForFragmentById(R.id.nav_bo,10000);
+        solo.clickOnView(solo.getView(R.id.nav_request));
+        solo.waitForFragmentById(R.id.nav_request,10000);
         solo.sleep(1000);
         solo.clickOnView(solo.getView(R.id.message_center_pending));
         solo.sleep(1000);
