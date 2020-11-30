@@ -48,7 +48,7 @@ public class AddScan extends AppCompatActivity implements View.OnClickListener {
     }
 
     /**
-     * scan code
+     * scan code.
      */
     private void scanCode() {
         IntentIntegrator integrator = new IntentIntegrator(this);
