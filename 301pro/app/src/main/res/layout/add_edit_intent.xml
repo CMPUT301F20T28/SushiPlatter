@@ -72,6 +72,17 @@
 
     </EditText>
 
+    <Button
+        android:id="@+id/ssISBN"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@color/componentBackground"
+        android:layout_alignRight="@id/ISBN_editText"
+        android:layout_alignBottom="@id/ISBN_editText"
+        android:drawableBottom="@drawable/ic_menu_camera"
+        >
+    </Button>
+
     <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"

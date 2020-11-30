@@ -23,7 +23,7 @@
         <activity android:name=".SetMapActivity" />
         <activity android:name=".View.ViewMapActivity" />
         <activity android:name=".View.ViewMessages" />
-
+        <activity android:name=".Functionality.AddScan"/>
         <activity android:name=".ViewRequestSender"/>
         <activity android:name=".MessageCenterIntent"/>
         <activity android:name=".View.ViewUserProfile" />
