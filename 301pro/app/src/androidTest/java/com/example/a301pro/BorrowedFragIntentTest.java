@@ -82,20 +82,6 @@ public class BorrowedFragIntentTest {
         solo.waitForText("", 0, 1000);
     }
 
-    /**
-     * Test for menu pop up
-     */
-    @Test
-    public void testFilter() {
-        login();
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.nav_bo));
-        solo.waitForFragmentById(R.id.nav_bo,500);
-        solo.sleep(500);
-        solo.clickOnView(solo.getView(R.id.filter_pending));
-        solo.waitForText("Computer", 0, 1000);
-        solo.sleep(500);
-    }
 
     /**
      * Test for switching to book scanning page
